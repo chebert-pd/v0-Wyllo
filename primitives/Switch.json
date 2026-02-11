@@ -1,0 +1,25 @@
+{
+  "name": "Switch",
+  "type": "primitive",
+  "purpose": "Enable or disable a binary system setting with immediate effect.",
+  "useWhen": [
+    "Toggling a system feature on or off",
+    "Immediate state change is expected"
+  ],
+  "rules": [
+    "Switch implies immediate effect",
+    "Label should describe the resulting state"
+  ],
+  "doNotUseWhen": [
+    "Selecting items",
+    "Choosing between more than two options",
+    "Mode or tool selection (use Toggle)"
+  ],
+  "alternatives": [
+    "Checkbox",
+    "Toggle"
+  ],
+  "aiHints": [
+    "If the label reads as a sentence describing system state, use Switch"
+  ]
+}

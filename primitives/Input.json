@@ -1,0 +1,26 @@
+{
+  "name": "Input",
+  "type": "primitive",
+  "purpose": "Allow the user to enter freeform text or numeric values.",
+  "useWhen": [
+    "User needs to type a value",
+    "Single-line text entry is required"
+  ],
+  "rules": [
+    "Input handles typing and focus only",
+    "Input does not manage labels or errors"
+  ],
+  "doNotUseWhen": [
+    "Structured choice is required (use Select, RadioGroup, etc.)",
+    "Multiple lines are required (use Textarea)"
+  ],
+  "alternatives": [
+    "Textarea",
+    "Select",
+    "Combobox"
+  ],
+  "aiHints": [
+    "Wrap Input in Field when used in forms",
+    "Use InputGroup when adding inline affordances"
+  ]
+}

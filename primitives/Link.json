@@ -1,0 +1,20 @@
+{
+  "name": "Link",
+  "type": "primitive",
+  "purpose": "Navigate the user to another page or view.",
+  "useWhen": [
+    "Navigating to a different page",
+    "Opening a detail view"
+  ],
+  "doNotUseWhen": [
+    "Triggering state changes",
+    "Confirming actions"
+  ],
+  "rules": [
+    "Links should not look like primary actions",
+    "Links should not perform mutations"
+  ],
+  "alternatives": [
+    "Button"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "name": "ButtonGroup",
+  "type": "primitive",
+  "purpose": "Visually and functionally group buttons and button-adjacent controls into a single cohesive control surface.",
+  "useWhen": [
+    "Grouping multiple action buttons together",
+    "Creating split buttons",
+    "Pairing buttons with inputs, selects, dropdowns, or popovers",
+    "Presenting compact, inline action clusters"
+  ],
+  "allowedChildren": [
+    "Button",
+    "Input",
+    "InputGroup",
+    "Select",
+    "DropdownMenu",
+    "Popover",
+    "ButtonGroupText",
+    "ButtonGroupSeparator"
+  ],
+  "rules": [
+    "ButtonGroup does not manage selection state",
+    "Actions inside a ButtonGroup execute immediately",
+    "Visual grouping implies related functionality, not shared state",
+    "Orientation may be horizontal or vertical"
+  ],
+  "visualRules": [
+    "Buttons retain their individual semantic variants",
+    "Separators are recommended for non-outline button variants",
+    "Outline buttons do not require separators due to visible borders"
+  ],
+  "doNotUseWhen": [
+    "Selecting between mutually exclusive options (use ToggleGroup)",
+    "Managing persistent state selection",
+    "Presenting unrelated actions"
+  ],
+  "alternatives": [
+    "ToggleGroup",
+    "Select",
+    "InlineAction"
+  ],
+  "aiHints": [
+    "Use ButtonGroup for split buttons and compound controls",
+    "Do not replace ToggleGroup with ButtonGroup when state selection is required",
+    "ButtonGroup may wrap non-button controls when they participate in a single action cluster"
+  ]
+}

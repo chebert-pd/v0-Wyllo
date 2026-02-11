@@ -1,0 +1,28 @@
+{
+  "name": "Checkbox",
+  "type": "primitive",
+  "purpose": "Allow the user to select or deselect one or more independent options.",
+  "useWhen": [
+    "Multiple selections are allowed",
+    "Options are independent",
+    "Selection does not imply immediate system state change"
+  ],
+  "rules": [
+    "Each checkbox represents an independent choice",
+    "Checkboxes may be part of a group or used individually"
+  ],
+  "doNotUseWhen": [
+    "Representing a system on/off state (use Switch)",
+    "Selecting exactly one option from a set (use RadioGroup)",
+    "User must search for options (use Combobox)"
+  ],
+  "alternatives": [
+    "Switch",
+    "RadioGroup",
+    "Combobox"
+  ],
+  "aiHints": [
+    "Use Checkbox for selection, not system enablement",
+    "Checkbox does not imply immediate effect"
+  ]
+}

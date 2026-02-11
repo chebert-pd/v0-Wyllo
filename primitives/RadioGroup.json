@@ -1,0 +1,26 @@
+{
+  "name": "RadioGroup",
+  "type": "primitive",
+  "purpose": "Allow the user to select exactly one option from a visible set.",
+  "useWhen": [
+    "Only one option may be selected",
+    "Options should be compared",
+    "Choice is deliberate or high-consequence"
+  ],
+  "rules": [
+    "All options are visible",
+    "Selection is exclusive"
+  ],
+  "doNotUseWhen": [
+    "Binary enable/disable (use Switch)",
+    "Options are numerous (use Select)",
+    "User must search (use Combobox)"
+  ],
+  "alternatives": [
+    "Select",
+    "ToggleGroup"
+  ],
+  "aiHints": [
+    "Use RadioGroup when comparison matters"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Toggle",
+  "type": "primitive",
+  "purpose": "Represent a two-state control used for modes or tools.",
+  "useWhen": [
+    "Toggling a mode or tool on/off",
+    "Button-like interaction is appropriate"
+  ],
+  "rules": [
+    "Toggle behaves like a button with state",
+    "Often used in toolbars or compact controls"
+  ],
+  "doNotUseWhen": [
+    "System settings (use Switch)",
+    "Form field selection (use Checkbox or RadioGroup)"
+  ],
+  "alternatives": [
+    "Switch",
+    "ToggleGroup"
+  ],
+  "aiHints": [
+    "Toggle is for tools and modes, not settings"
+  ]
+}

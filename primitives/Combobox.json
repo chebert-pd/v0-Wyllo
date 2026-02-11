@@ -1,0 +1,31 @@
+{
+  "name": "Combobox",
+  "type": "primitive",
+  "purpose": "Allow the user to search, filter, and select from a potentially large or dynamic set of options.",
+  "useWhen": [
+    "Options are numerous or unbounded",
+    "User needs to type to find an option",
+    "Options are dynamic or object-based",
+    "Multiple selections are required",
+    "Chips or tags are needed to display selections"
+  ],
+  "rules": [
+    "User input drives filtering or discovery",
+    "Options update as the user types",
+    "May support single or multiple selection"
+  ],
+  "doNotUseWhen": [
+    "Options are few and easily recognizable",
+    "Simple selection without search is sufficient",
+    "A closed, static list is preferred"
+  ],
+  "alternatives": [
+    "Select",
+    "ToggleGroup"
+  ],
+  "aiHints": [
+    "Use Combobox when discovery matters more than recognition",
+    "Do not default to Combobox for simple selects",
+    "Combobox implies higher interaction cost than Select"
+  ]
+}

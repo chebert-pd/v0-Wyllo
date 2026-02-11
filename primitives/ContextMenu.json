@@ -1,0 +1,33 @@
+{
+  "name": "ContextMenu",
+  "type": "primitive",
+  "purpose": "Provide object-specific actions triggered by right-click or long-press.",
+  "useWhen": [
+    "Actions apply to a specific object or region",
+    "User invokes actions via pointer context",
+    "Advanced or power-user interactions are appropriate"
+  ],
+  "rules": [
+    "Triggered by right-click or long-press",
+    "Actions are scoped to the target object",
+    "Content is menu-item based"
+  ],
+  "allowedContent": [
+    "Menu items",
+    "Checkbox menu items",
+    "Radio menu items",
+    "Submenus"
+  ],
+  "doNotUseWhen": [
+    "Primary or discoverable actions are required",
+    "Triggered by a button (use DropdownMenu)",
+    "Interactive layouts or forms are needed (use Popover)"
+  ],
+  "alternatives": [
+    "DropdownMenu"
+  ],
+  "aiHints": [
+    "ContextMenu should supplement visible UI, not replace it",
+    "Do not rely on ContextMenu for core workflows"
+  ]
+}

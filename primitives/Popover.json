@@ -1,0 +1,34 @@
+{
+  "name": "Popover",
+  "type": "primitive",
+  "purpose": "Present interactive, contextual content anchored to a trigger.",
+  "useWhen": [
+    "User needs to interact with controls or inputs",
+    "Configuration or refinement is required",
+    "Context should be preserved without navigation"
+  ],
+  "rules": [
+    "Content may be arbitrary and interactive",
+    "User may perform multiple actions before closing",
+    "Popover is anchored to a trigger element"
+  ],
+  "allowedContent": [
+    "Form fields",
+    "Buttons",
+    "Toggles",
+    "Custom layouts"
+  ],
+  "doNotUseWhen": [
+    "Presenting a list of actions (use DropdownMenu)",
+    "Critical confirmation or irreversible actions (use Modal)",
+    "Purely informational previews (use HoverCard)"
+  ],
+  "alternatives": [
+    "DropdownMenu",
+    "Modal"
+  ],
+  "aiHints": [
+    "Use Popover when the user must interact, not just choose",
+    "Popover is not a menu replacement"
+  ]
+}

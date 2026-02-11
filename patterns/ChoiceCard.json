@@ -1,0 +1,47 @@
+{
+  "name": "ChoiceCard",
+  "type": "pattern",
+  "purpose": "Present a short set of options as selectable cards to support comparison and deliberate decision-making.",
+  "useWhen": [
+    "User must choose from a small number of meaningful options",
+    "Options require description or explanation",
+    "Visual comparison improves understanding",
+    "Selection represents a configuration or mode choice"
+  ],
+  "rules": [
+    "Options are presented as visually consistent cards",
+    "Entire card is selectable",
+    "All options have equal visual weight",
+    "Selection control (radio, switch, checkbox) is integrated into the card"
+  ],
+  "composition": [
+    "Field",
+    "FieldGroup",
+    "FieldSet",
+    "FieldLabel",
+    "FieldContent",
+    "FieldTitle",
+    "FieldDescription",
+    "RadioGroup | Checkbox | Switch"
+  ],
+  "selectionModels": [
+    "single (radio)",
+    "multiple (checkbox)",
+    "binary (switch)"
+  ],
+  "doNotUseWhen": [
+    "Options are numerous (use Select or Combobox)",
+    "Selection is low-stakes or incidental",
+    "Purely navigational choices are needed"
+  ],
+  "alternatives": [
+    "RadioGroup",
+    "ToggleGroup",
+    "Select"
+  ],
+  "aiHints": [
+    "Use ChoiceCard when comparison and clarity matter more than compactness",
+    "Do not mix ChoiceCard with plain radio lists in the same decision set",
+    "Avoid nesting ChoiceCards inside other cards"
+  ]
+}

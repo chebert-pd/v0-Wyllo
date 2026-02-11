@@ -1,0 +1,24 @@
+{
+  "name": "InputGroup",
+  "type": "primitive",
+  "purpose": "Compose inputs with inline addons, buttons, icons, or helper controls.",
+  "useWhen": [
+    "Input needs inline icons or text",
+    "Input is paired with a button or dropdown",
+    "Additional context is embedded within the input"
+  ],
+  "rules": [
+    "InputGroup enhances a single input or textarea",
+    "InputGroup does not provide semantic meaning",
+    "Focus should remain on the input control"
+  ],
+  "doNotUseWhen": [
+    "No inline affordances are needed",
+    "Used as a replacement for Field"
+  ],
+  "alternatives": [],
+  "aiHints": [
+    "Use InputGroup for composition, not validation",
+    "Combine InputGroup with Field for full form inputs"
+  ]
+}

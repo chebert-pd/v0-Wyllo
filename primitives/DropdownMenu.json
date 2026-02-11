@@ -1,0 +1,34 @@
+{
+  "name": "DropdownMenu",
+  "type": "primitive",
+  "purpose": "Present a discoverable list of actions or choices triggered by a button.",
+  "useWhen": [
+    "User needs to choose an action from a short list",
+    "Actions are related to the trigger",
+    "Menu should be easily discoverable"
+  ],
+  "rules": [
+    "Triggered by a button",
+    "Each item performs a single action or selection",
+    "Menu closes after selection"
+  ],
+  "allowedContent": [
+    "Menu items",
+    "Checkbox menu items",
+    "Radio menu items",
+    "Submenus"
+  ],
+  "doNotUseWhen": [
+    "Inputs or complex layouts are required (use Popover)",
+    "Triggered by right-click (use ContextMenu)",
+    "Confirmation or multi-step flows are needed (use Modal)"
+  ],
+  "alternatives": [
+    "Popover",
+    "ContextMenu"
+  ],
+  "aiHints": [
+    "DropdownMenu is for choosing actions, not configuring settings",
+    "Do not place form fields inside a DropdownMenu"
+  ]
+}

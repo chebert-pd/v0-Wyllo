@@ -1,0 +1,309 @@
+{
+  "PageHeader": {
+    "category": "pattern",
+    "description": "Page-level header that establishes identity, stable context, and optional page-scoped controls.",
+    "usedOn": [
+      "Orders List",
+      "Order Detail",
+      "Customers List",
+      "Customer Detail",
+      "Account Settings"
+    ],
+    "variants": ["static", "sticky"],
+    "composesWith": [
+      "Typography",
+      "Button",
+      "DropdownMenu",
+      "DateRangePicker",
+      "Badge",
+      "Icon"
+    ]
+  },
+
+  "SummaryRow": {
+    "category": "pattern",
+    "description": "Responsive row of uniform summary cards providing high-level context for the current view.",
+    "usedOn": [
+      "Orders List",
+      "Customers List",
+      "Overview pages"
+    ],
+    "composesWith": [
+      "Card",
+      "Typography",
+      "Badge",
+      "Icon"
+    ]
+  },
+
+  "DataTable": {
+    "category": "pattern",
+    "description": "Interactive table experience for scanning, filtering, and acting on structured data.",
+    "usedOn": [
+      "Orders List (OrderTable)",
+      "Customers List (CustomerTable)",
+      "Team Access",
+      "Review Queues"
+    ],
+    "composesWith": [
+      "Table",
+      "Checkbox",
+      "Input",
+      "DropdownMenu",
+      "Pagination",
+      "EmptyState",
+      "SidePanel"
+    ],
+    "relatedPatterns": [
+      "SidePanel",
+      "Avatar"
+    ]
+  },
+
+  "Table": {
+    "category": "pattern",
+    "description": "Non-interactive table used to display small, fixed sets of structured data.",
+    "usedOn": [
+      "Order Detail",
+      "Customer Detail"
+    ],
+    "composesWith": [
+      "Table (shadcn primitive)",
+      "Card",
+      "Typography"
+    ],
+    "notes": [
+      "No sorting, filtering, pagination, or actions",
+      "Used strictly for descriptive data"
+    ]
+  },
+
+  "SidePanel": {
+    "category": "pattern",
+    "description": "Non-modal, context-preserving panel used for progressive disclosure of secondary information.",
+    "usedOn": [
+      "Orders List",
+      "Order Detail",
+      "Customers List",
+      "Customer Detail",
+      "Account Pages"
+    ],
+    "variants": [
+      "left",
+      "right"
+    ],
+    "composesWith": [
+      "Sheet",
+      "Button",
+      "ScrollArea",
+      "Separator"
+    ]
+  },
+
+  "EntitySummary": {
+    "category": "pattern",
+    "description": "Summary of the most important, stable facts about a single entity for rapid understanding.",
+    "usedOn": [
+      "Order Detail",
+      "Customer Detail"
+    ],
+    "composesWith": [
+      "Card",
+      "LabelValue",
+      "Badge",
+      "Icon",
+      "Typography"
+    ]
+  },
+
+  "LabelValue": {
+    "category": "pattern",
+    "description": "Semantic presentation of a label and its corresponding value.",
+    "variants": [
+      "inline",
+      "stacked",
+      "iconLabel"
+    ],
+    "usedOn": [
+      "Order Detail",
+      "Customer Detail",
+      "Side Panels",
+      "Summary cards"
+    ],
+    "composesWith": [
+      "Typography",
+      "Icon",
+      "Badge"
+    ]
+  },
+
+  "BadgeGroup": {
+    "category": "pattern",
+    "description": "Grouped set of badges used to communicate multiple stable states at a glance.",
+    "usedOn": [
+      "Order Detail",
+      "Customer Detail",
+      "List rows",
+      "Summaries"
+    ],
+    "composesWith": [
+      "Badge"
+    ]
+  },
+
+  "DisclosureCard": {
+    "category": "pattern",
+    "description": "Clickable card that discloses additional contextual information in a right side panel.",
+    "usedOn": [
+      "Order Detail",
+      "Customer Detail",
+      "Account Pages"
+    ],
+    "composesWith": [
+      "Card",
+      "Icon",
+      "Typography",
+      "SidePanel"
+    ]
+  },
+
+  "SettingsForm": {
+    "category": "pattern",
+    "description": "Settings configuration form that applies explicit, implicit, or immediate-save behavior based on consequence and scope.",
+    "usedOn": [
+      "Organization Details",
+      "Team Access",
+      "Review Settings",
+      "Notification Settings"
+    ],
+    "composesWith": [
+      "FormField",
+      "Input",
+      "Select",
+      "Combobox",
+      "Switch",
+      "Button",
+      "Modal",
+      "Toast"
+    ]
+  },
+
+  "OptionCardGroup": {
+    "category": "pattern",
+    "description": "Small, fixed set of explanatory option cards used to describe roles or predefined choices.",
+    "usedOn": [
+      "Team Access",
+      "Role Permissions"
+    ],
+    "composesWith": [
+      "Card",
+      "Typography",
+      "Icon"
+    ]
+  },
+
+  "ChoiceCard": {
+    "category": "pattern",
+    "description": "Selectable card-based option used for deliberate decision-making among a small, meaningful set of choices.",
+    "usedOn": [
+      "Settings pages",
+      "Configuration flows",
+      "Mode or environment selection"
+    ],
+    "selectionModels": [
+      "single (radio)",
+      "multiple (checkbox)",
+      "binary (switch)"
+    ],
+    "rules": [
+      "Options are presented as visually equal cards",
+      "Entire card is selectable",
+      "Selection control is integrated into the card",
+      "Designed for short option sets (typically 2–5)",
+      "Optimized for comparison, not scanning"
+    ],
+    "composesWith": [
+      "Field",
+      "FieldGroup",
+      "FieldSet",
+      "FieldLabel",
+      "FieldContent",
+      "FieldTitle",
+      "FieldDescription",
+      "RadioGroup",
+      "Checkbox",
+      "Switch"
+    ]
+  },
+
+  "Avatar": {
+    "category": "pattern",
+    "description": "Identity representation combining an avatar with a primary name and supporting metadata.",
+    "usedOn": [
+      "Team Tables",
+      "Review Activity",
+      "Account Pages"
+    ],
+    "composesWith": [
+      "Avatar (shadcn primitive)",
+      "Typography",
+      "Badge"
+    ]
+  },
+
+  "Timeline": {
+    "category": "pattern",
+    "description": "Chronological sequence of events with contextual explanation and optional detail.",
+    "usedOn": [
+      "Customer History",
+      "Review Activity",
+      "Team Activity Log"
+    ],
+    "composesWith": [
+      "Icon",
+      "Typography",
+      "Accordion",
+      "LabelValue"
+    ]
+  },
+
+  "InlineAction": {
+    "category": "pattern",
+    "description": "Low-stakes inline action used to mutate small sets of data without a modal or flow.",
+    "usedOn": [
+      "Email Recipients",
+      "Notification Settings",
+      "Simple access toggles"
+    ],
+    "composesWith": [
+      "Input",
+      "Button",
+      "Badge",
+      "Tag"
+    ]
+  },
+
+  "Modal": {
+    "category": "pattern",
+    "description": "Interruptive overlay used for confirmations, small configurations, or required acknowledgements.",
+    "usedOn": [
+      "Team Access",
+      "Organization Details",
+      "Review Settings",
+      "Account Pages"
+    ],
+    "variants": [
+      "confirmation",
+      "configuration",
+      "information"
+    ],
+    "composesWith": [
+      "Dialog",
+      "Button",
+      "FormField",
+      "Input",
+      "Select",
+      "Typography"
+    ]
+  }
+}

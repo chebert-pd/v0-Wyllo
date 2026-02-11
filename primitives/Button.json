@@ -1,0 +1,45 @@
+{
+  "name": "Button",
+  "type": "primitive",
+  "purpose": "Trigger a user action.",
+  "useWhen": [
+    "Completing or confirming an action",
+    "Submitting a form",
+    "Triggering a UI change"
+  ],
+  "doNotUseWhen": [
+    "Navigation between pages (use Link)"
+  ],
+  "contentVariants": [
+    "text",
+    "icon",
+    "textAndIcon"
+  ],
+  "visualVariants": {
+    "allowed": [
+      "primary",
+      "outline",
+      "ghost",
+      "destructivePrimary",
+      "destructiveSecondary"
+    ],
+    "forbidden": [
+      "secondary"
+    ],
+    "semanticMeaning": {
+      "primary": "Single most important action on a page",
+      "outline": "Default, most commonly used action",
+      "ghost": "Low-importance or optional action",
+      "destructivePrimary": "High-impact or irreversible action",
+      "destructiveSecondary": "Destructive intent without visual dominance"
+    }
+  },
+  "rules": [
+    "Only one primary button per page",
+    "Destructive actions must use destructive variants",
+    "Buttons may be used inline when action intent is clear"
+  ],
+  "alternatives": [
+    "Link"
+  ]
+}

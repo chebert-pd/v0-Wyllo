@@ -1,0 +1,32 @@
+{
+  "name": "Select",
+  "type": "primitive",
+  "purpose": "Allow the user to choose a single value from a known, finite list of options.",
+  "useWhen": [
+    "Options are known and bounded",
+    "User can recognize the correct option without searching",
+    "Only one option may be selected",
+    "Used within a form field"
+  ],
+  "rules": [
+    "Selection is made from a closed list",
+    "User does not type to filter options",
+    "Only one value may be selected"
+  ],
+  "doNotUseWhen": [
+    "Options are numerous or unbounded",
+    "User needs to search or filter to find an option",
+    "Multiple values may be selected (use Combobox)",
+    "Options are dynamic or object-based"
+  ],
+  "alternatives": [
+    "Combobox",
+    "RadioGroup",
+    "ToggleGroup"
+  ],
+  "aiHints": [
+    "Prefer Select over Combobox when options are short and recognizable",
+    "Do not use Select as a searchable control",
+    "If users must type, use Combobox"
+  ]
+}

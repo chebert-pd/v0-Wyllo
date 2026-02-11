@@ -1,0 +1,25 @@
+{
+  "name": "Field",
+  "type": "primitive",
+  "purpose": "Provide semantic structure, labeling, validation, and layout for a single form control.",
+  "useWhen": [
+    "An input requires a label",
+    "Validation or error messaging is needed",
+    "Helper or descriptive text is present",
+    "Input participates in a form"
+  ],
+  "rules": [
+    "Field wraps exactly one logical control",
+    "Labels, descriptions, and errors belong to Field",
+    "Field controls orientation and grouping semantics"
+  ],
+  "doNotUseWhen": [
+    "Purely decorative or read-only content",
+    "Ephemeral inline controls with no semantic meaning"
+  ],
+  "alternatives": [],
+  "aiHints": [
+    "Default to using Field for form inputs",
+    "Do not put validation logic on Input directly"
+  ]
+}
