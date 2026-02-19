@@ -1,0 +1,199 @@
+export default function Page() {
+  return (
+    <div className="max-w-5xl mx-auto px-8 py-16 space-y-16">
+      <div className="space-y-4">
+        <h1 className="h1">Design System Logic</h1>
+        <p className="p text-muted-foreground max-w-3xl">
+          This page documents the architectural decisions behind the system —
+          how tokens are structured, how surfaces alternate, how elevation works,
+          and how semantic intent is mapped to primitives. This is the “why”
+          behind the UI.
+        </p>
+      </div>
+
+      {/* ============================= */}
+      {/* COLOR ARCHITECTURE */}
+      {/* ============================= */}
+      <section className="space-y-6">
+        <h2 className="h2">Color Architecture</h2>
+
+        <div className="space-y-4">
+          <h3 className="h3">1. Primitive First</h3>
+          <p className="p text-muted-foreground">
+            All color decisions begin at the primitive level. We defined:
+          </p>
+          <ul className="p text-muted-foreground list-disc pl-6 space-y-2">
+            <li>Gray scale (lightness-based, shared violet hue)</li>
+            <li>Violet scale (brand-driven, OKLCH based)</li>
+            <li>Tailwind families for semantic states (emerald, amber, cyan, rose)</li>
+          </ul>
+          <p className="p text-muted-foreground">
+            Primitives are named by lightness (e.g., <code>--gray-96</code>,{" "}
+            <code>--violet-64</code>) to keep them perceptually predictable.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">2. Semantic Layer</h3>
+          <p className="p text-muted-foreground">
+            Semantic tokens map intent to primitives:
+          </p>
+          <ul className="p text-muted-foreground list-disc pl-6 space-y-2">
+            <li>background, card, popover</li>
+            <li>primary, secondary, accent</li>
+            <li>success, warning, info, destructive</li>
+            <li>border, input, ring</li>
+          </ul>
+          <p className="p text-muted-foreground">
+            Components never reference primitives directly. They use semantic
+            tokens so we can shift the underlying system without rewriting
+            components.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">3. OKLCH as the Source of Truth</h3>
+          <p className="p text-muted-foreground">
+            We use OKLCH instead of HSL or HEX internally because:
+          </p>
+          <ul className="p text-muted-foreground list-disc pl-6 space-y-2">
+            <li>Perceptual lightness consistency</li>
+            <li>Predictable contrast shifts</li>
+            <li>Better dark mode parity</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* ============================= */}
+      {/* SURFACE SYSTEM */}
+      {/* ============================= */}
+      <section className="space-y-6">
+        <h2 className="h2">Surface System</h2>
+
+        <div className="space-y-4">
+          <h3 className="h3">1. Tone Alternation by Level</h3>
+          <p className="p text-muted-foreground">
+            Cards compute their tone based on a numeric <code>level</code> prop.
+            Tone alternates mathematically:
+          </p>
+          <ul className="p text-muted-foreground list-disc pl-6 space-y-2">
+            <li>Even levels → secondary surface (canvas tone)</li>
+            <li>Odd levels → primary surface (white in light mode)</li>
+          </ul>
+          <p className="p text-muted-foreground">
+            This keeps nested surfaces visually distinct without manually
+            assigning variants.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">2. Border Logic</h3>
+          <p className="p text-muted-foreground">
+            Borders are contextual:
+          </p>
+          <ul className="p text-muted-foreground list-disc pl-6 space-y-2">
+            <li>Level 1 → primary border</li>
+            <li>Nested surfaces → subtle border</li>
+            <li>Canvas (level 0) → no border</li>
+          </ul>
+          <p className="p text-muted-foreground">
+            This reinforces hierarchy without relying on heavy elevation.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">3. Elevation Rules</h3>
+          <p className="p text-muted-foreground">
+            Elevation is semantic and restrained:
+          </p>
+          <ul className="p text-muted-foreground list-disc pl-6 space-y-2">
+            <li>Level 1 surfaces are elevated</li>
+            <li>Level 2+ are completely flat</li>
+            <li>Elevation uses violet‑tinted ambient shadows</li>
+          </ul>
+          <p className="p text-muted-foreground">
+            Shadows are tokenized by Y-axis offset (e.g.,{" "}
+            <code>--shadow-y2</code>) and mapped to semantic elevation roles.
+          </p>
+        </div>
+      </section>
+
+      {/* ============================= */}
+      {/* TYPOGRAPHY SYSTEM */}
+      {/* ============================= */}
+      <section className="space-y-6">
+        <h2 className="h2">Typography System</h2>
+
+        <div className="space-y-4">
+          <h3 className="h3">1. Utility-Driven Scale</h3>
+          <p className="p text-muted-foreground">
+            We use Tailwind sizing but semantic utility classes:
+          </p>
+          <ul className="p text-muted-foreground list-disc pl-6 space-y-2">
+            <li>Headings → <code>.h1 – .h4</code></li>
+            <li>Body → <code>.p-lg, .p, .p-sm</code></li>
+            <li>Label → <code>.label-lg, .label-md, .label-sm</code></li>
+            <li>Data → <code>.data-lg, .data-md, .data-sm</code></li>
+          </ul>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">2. Weight as Hierarchy</h3>
+          <p className="p text-muted-foreground">
+            Headings use 650 weight. Body uses 425. Labels use 525. Data uses
+            650 with tabular numbers. Hierarchy is created by weight and rhythm,
+            not just size.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">3. 4px Vertical Rhythm</h3>
+          <p className="p text-muted-foreground">
+            Line heights and spacing are aligned to a 4px system. This ensures
+            tighter SaaS-style density instead of blog-style looseness.
+          </p>
+        </div>
+      </section>
+
+      {/* ============================= */}
+      {/* COMPONENT PRINCIPLES */}
+      {/* ============================= */}
+      <section className="space-y-6">
+        <h2 className="h2">Component Principles</h2>
+
+        <div className="space-y-4">
+          <h3 className="h3">1. Variant over Duplication</h3>
+          <p className="p text-muted-foreground">
+            Visual differences (tone, border, elevation, size) are implemented
+            as variants — not new components.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">2. Semantic Tokens in Components</h3>
+          <p className="p text-muted-foreground">
+            Buttons, Cards, Alerts, and Inputs reference semantic tokens
+            exclusively. No component references raw primitive values.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">3. System Trust</h3>
+          <p className="p text-muted-foreground">
+            Demo pages and examples do not override tokens. They rely entirely
+            on system logic so we can validate architecture under real nesting
+            conditions.
+          </p>
+        </div>
+      </section>
+
+      <div className="pt-8 border-t border-border">
+        <p className="p text-muted-foreground">
+          This system prioritizes predictability, semantic clarity, and
+          architectural flexibility. Every decision supports long-term
+          maintainability and AI-assisted consistency.
+        </p>
+      </div>
+    </div>
+  )
+}

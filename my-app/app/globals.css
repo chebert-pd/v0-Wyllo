@@ -25,6 +25,7 @@
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-destructive-border: var(--destructive-border);
@@ -140,7 +141,13 @@
   --accent: var(--violet-95);
   --accent-foreground: var(--violet-38);
 
+  /* Tokenized halo ring (selected state only) */
+  --accent-halo: 0 0 0 2px color-mix(in oklch, var(--primary) 40%, transparent);
+
+  /* Borders */
   --border: var(--gray-86);
+  --border-subtle: var(--gray-94);
+  --border-primary: var(--primary);
   --input: var(--gray-89);
   --ring: var(--violet-64);
 
@@ -231,23 +238,28 @@
   --background: var(--gray-12);
   --foreground: var(--gray-96);
 
+  /* Card slightly elevated from background */
   --card: var(--gray-25);
   --card-foreground: var(--gray-96);
 
   --popover: var(--gray-25);
   --popover-foreground: var(--gray-96);
 
-  --primary: var(--violet-64);
+  /* Primary = previous accent tone (calmer) */
+  --primary: var(--violet-38);
   --primary-foreground: var(--violet-95);
 
-  --secondary: var(--gray-25);
+  /* Accent = darker interaction violet */
+  --accent: var(--violet-31);
+  --accent-foreground: var(--violet-95);
+
+  /* Background + Secondary match */
+  --secondary: var(--background);
   --secondary-foreground: var(--gray-96);
 
-  --muted: var(--gray-25);
+  /* Muted clearly distinct from surfaces */
+  --muted: var(--gray-38);
   --muted-foreground: var(--gray-63);
-
-  --accent: var(--violet-47);
-  --accent-foreground: var(--violet-95);
 
   /* SUCCESS — Emerald */
   --success: oklch(0.20 0.05 155);
@@ -264,17 +276,23 @@
   --info-border: oklch(0.32 0.10 210);
   --info-foreground: oklch(0.78 0.18 210);
 
-  /* DESTRUCTIVE — Rose */
-  --destructive: oklch(0.22 0.08 10);
-  --destructive-border: oklch(0.34 0.12 10);
-  --destructive-foreground: oklch(0.78 0.22 10);
-  --destructive-solid: oklch(0.22 0.08 10);
-  --destructive-solid-foreground: oklch(0.96 0.03 10);
+  --destructive: oklch(0.20 0.09 10);
+  --destructive-border: oklch(0.38 0.16 10);
+  --destructive-foreground: oklch(0.90 0.20 10);
+
+  /* Higher contrast solid destructive button */
+  --destructive-solid: oklch(0.62 0.24 10);
+  --destructive-solid-foreground: oklch(0.98 0.02 10);
 
   /* Structural */
   --border: var(--gray-38);
-  --input: var(--gray-38);
-  --ring: var(--violet-64);
+  --border-subtle: var(--gray-25);
+  --border-primary: var(--primary);
+
+  /* Input slightly darker than border */
+  --input: var(--gray-25);
+
+  --ring: var(--primary);
 
   /* Charts — same violet progression */
   --chart-1: var(--violet-78);
@@ -304,11 +322,11 @@
   .h3 { @apply text-sm font-[650]; }
   .h4 { @apply text-xs font-[650]; }
 
-  /* Body */
+  /* p */
 
-  .body-lg { @apply text-base font-[425]; }
-  .body { @apply text-sm font-[425]; }
-  .body-sm { @apply text-xs font-[425]; }
+  .p-lg { @apply text-base font-[425]; }
+  .p { @apply text-sm font-[425]; }
+  .p-sm { @apply text-xs font-[425]; }
 
   /* Label / UI */
   .label-lg { @apply text-base font-[525]; }
@@ -321,10 +339,19 @@
   .data-sm { @apply text-base font-[650] leading-tight tabular-nums; }
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
+@layer components {
+  /* Card size-aware typography */
+
+  [data-slot="card"][data-size="sm"] [data-slot="card-title"] {
+    @apply text-sm font-[525];
   }
+
+  [data-slot="card"][data-size="sm"] [data-slot="card-description"] {
+    @apply text-xs font-[425];
+  }
+}
+
+@layer base {
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);

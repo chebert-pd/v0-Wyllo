@@ -13,7 +13,49 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group"
 
-const Combobox = ComboboxPrimitive.Root
+type SimpleOption = {
+  label: string
+  value: string
+}
+
+type ComboboxRootProps = React.ComponentProps<typeof ComboboxPrimitive.Root> & {
+  options?: SimpleOption[]
+  placeholder?: string
+  className?: string
+}
+
+const Combobox = ({
+  options,
+  placeholder,
+  className,
+  children,
+  ...props
+}: ComboboxRootProps) => {
+  return (
+    <ComboboxPrimitive.Root {...props}>
+      {options ? (
+        <>
+          <ComboboxInput
+            placeholder={placeholder}
+            className={className}
+            showTrigger
+          />
+          <ComboboxContent>
+            <ComboboxList>
+              {options.map((option) => (
+                <ComboboxItem key={option.value} value={option.value}>
+                  {option.label}
+                </ComboboxItem>
+              ))}
+            </ComboboxList>
+          </ComboboxContent>
+        </>
+      ) : (
+        children
+      )}
+    </ComboboxPrimitive.Root>
+  )
+}
 
 function ComboboxValue({ ...props }: ComboboxPrimitive.Value.Props) {
   return <ComboboxPrimitive.Value data-slot="combobox-value" {...props} />
