@@ -1,5 +1,6 @@
 "use client"
 
+import React from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
 const grayScale = [
@@ -12,7 +13,234 @@ const violetScale = [
   "violet-64","violet-59","violet-47","violet-38","violet-31","violet-24"
 ]
 
+const semanticTokens = [
+  {
+    token: "background",
+    label: "background",
+    description: "The canvas background (level 0).",
+    lightPrimitive: "gray-96",
+    darkPrimitive: "gray-12",
+  },
+  {
+    token: "foreground",
+    label: "foreground",
+    description: "Default foreground text color.",
+    lightPrimitive: "gray-12",
+    darkPrimitive: "gray-96",
+  },
+  {
+    token: "card",
+    label: "card",
+    description: "Primary surface background (level 1).",
+    lightPrimitive: "white",
+    darkPrimitive: "gray-25",
+  },
+  {
+    token: "card-foreground",
+    label: "card-foreground",
+    description: "Text on card surfaces.",
+    lightPrimitive: "gray-12",
+    darkPrimitive: "gray-96",
+  },
+  {
+    token: "popover",
+    label: "popover",
+    description: "Popover / floating surface background.",
+    lightPrimitive: "white",
+    darkPrimitive: "gray-25",
+  },
+  {
+    token: "popover-foreground",
+    label: "popover-foreground",
+    description: "Text on popovers.",
+    lightPrimitive: "gray-25",
+    darkPrimitive: "gray-96",
+  },
+  {
+    token: "primary",
+    label: "primary",
+    description: "Primary brand / action color.",
+    lightPrimitive: "violet-64",
+    darkPrimitive: "violet-38",
+  },
+  {
+    token: "primary-foreground",
+    label: "primary-foreground",
+    description: "Text/icon on primary surfaces.",
+    lightPrimitive: "violet-95",
+    darkPrimitive: "violet-95",
+  },
+  {
+    token: "secondary",
+    label: "secondary",
+    description: "Secondary surface (often matches canvas tone).",
+    lightPrimitive: "gray-96",
+    darkPrimitive: "gray-12",
+  },
+  {
+    token: "secondary-foreground",
+    label: "secondary-foreground",
+    description: "Text on secondary surfaces.",
+    lightPrimitive: "gray-25",
+    darkPrimitive: "gray-96",
+  },
+  {
+    token: "muted",
+    label: "muted",
+    description: "Subtle surface for quiet sections.",
+    lightPrimitive: "gray-91",
+    darkPrimitive: "gray-38",
+  },
+  {
+    token: "muted-foreground",
+    label: "muted-foreground",
+    description: "Muted text.",
+    lightPrimitive: "gray-50",
+    darkPrimitive: "gray-63",
+  },
+  {
+    token: "accent",
+    label: "accent",
+    description: "Accent surface (hover / highlight).",
+    lightPrimitive: "violet-95",
+    darkPrimitive: "violet-24",
+  },
+  {
+    token: "accent-foreground",
+    label: "accent-foreground",
+    description: "Text/icon on accent surfaces.",
+    lightPrimitive: "violet-38",
+    darkPrimitive: "violet-95",
+  },
+  {
+    token: "border",
+    label: "border",
+    description: "Primary border.",
+    lightPrimitive: "gray-86",
+    darkPrimitive: "gray-38",
+  },
+  {
+    token: "input",
+    label: "input",
+    description: "Input border.",
+    lightPrimitive: "gray-89",
+    darkPrimitive: "gray-38",
+  },
+  {
+    token: "ring",
+    label: "ring",
+    description: "Focus ring.",
+    lightPrimitive: "violet-64",
+    darkPrimitive: "violet-64",
+  },
+  {
+    token: "border-subtle",
+    label: "border-subtle",
+    description: "Low-emphasis border for nested surfaces.",
+    lightPrimitive: "gray-94",
+    darkPrimitive: "gray-50",
+  },
+  {
+    token: "border-primary",
+    label: "border-primary",
+    description: "Primary emphasis border (selected states, active surfaces).",
+    lightPrimitive: "violet-64",
+    darkPrimitive: "violet-47",
+  },
+  {
+    token: "accent-halo",
+    label: "accent-halo",
+    description: "Outer halo / focus emphasis color.",
+    lightPrimitive: "violet-78",
+    darkPrimitive: "violet-38",
+  },
+  {
+    token: "success",
+    label: "success",
+    description: "Success background surface.",
+    lightPrimitive: "oklch(0.95 0.03 155)",
+    darkPrimitive: "oklch(0.20 0.05 155)",
+  },
+  {
+    token: "success-foreground",
+    label: "success-foreground",
+    description: "Text on success surfaces.",
+    lightPrimitive: "oklch(0.53 0.18 155)",
+    darkPrimitive: "oklch(0.75 0.20 155)",
+  },
+  {
+    token: "warning",
+    label: "warning",
+    description: "Warning background surface.",
+    lightPrimitive: "oklch(0.97 0.03 85)",
+    darkPrimitive: "oklch(0.20 0.05 85)",
+  },
+  {
+    token: "warning-foreground",
+    label: "warning-foreground",
+    description: "Text on warning surfaces.",
+    lightPrimitive: "oklch(0.62 0.16 85)",
+    darkPrimitive: "oklch(0.78 0.18 85)",
+  },
+  {
+    token: "destructive",
+    label: "destructive",
+    description: "Destructive / error surface.",
+    lightPrimitive: "oklch(0.96 0.03 10)",
+    darkPrimitive: "oklch(0.20 0.09 10)",
+  },
+  {
+    token: "destructive-foreground",
+    label: "destructive-foreground",
+    description: "Text on destructive surfaces.",
+    lightPrimitive: "oklch(0.55 0.22 10)",
+    darkPrimitive: "oklch(0.90 0.20 10)",
+  },
+]
+
+
+function primitiveLabel(name: string) {
+  if (name === "white") return "oklch(1 0 0)"
+  return `--${name}`
+}
+
+function primitiveVar(name: string) {
+  if (name === "white") return "oklch(1 0 0)"
+  return `var(--${name})`
+}
+
+function resolvePrimitiveOklch(value: string) {
+  return value.trim().replace(/\s+/g, " ")
+}
+
 export default function FoundationsPage() {
+  const [primitiveOklch, setPrimitiveOklch] = React.useState<Record<string, string>>({})
+
+  React.useEffect(() => {
+    const root = document.documentElement
+    const needed = new Set<string>()
+
+    grayScale.forEach((p) => needed.add(p))
+    violetScale.forEach((p) => needed.add(p))
+    semanticTokens.forEach((t) => {
+      needed.add(t.lightPrimitive)
+      needed.add(t.darkPrimitive)
+    })
+
+    const next: Record<string, string> = {}
+
+    // "white" isn't a CSS var in our system — it's explicit.
+    next.white = "oklch(1 0 0)"
+
+    needed.forEach((name) => {
+      if (name === "white") return
+      const raw = getComputedStyle(root).getPropertyValue(`--${name}`)
+      if (raw) next[name] = resolvePrimitiveOklch(raw)
+    })
+
+    setPrimitiveOklch(next)
+  }, [])
+
   return (
     <div className="space-y-12">
 
@@ -113,7 +341,7 @@ export default function FoundationsPage() {
                     <div className="p-sm">{color}</div>
                     <div className="space-y-0.5">
                       <div className="p-sm opacity-80">
-                        OKLCH: {getComputedStyle(document.documentElement).getPropertyValue(`--${color}`)}
+                        OKLCH: {primitiveOklch[color] ?? ""}
                       </div>
                     </div>
                   </div>
@@ -148,7 +376,7 @@ export default function FoundationsPage() {
                     <div className="p-sm">{color}</div>
                     <div className="space-y-0.5">
                       <div className="p-sm opacity-80">
-                        OKLCH: {getComputedStyle(document.documentElement).getPropertyValue(`--${color}`)}
+                        OKLCH: {primitiveOklch[color] ?? ""}
                       </div>
                     </div>
                   </div>
@@ -194,32 +422,51 @@ export default function FoundationsPage() {
       {/* ===================== */}
       <Card>
         <CardHeader>
-          <CardTitle className="label-lg">Semantic Tokens — Light Mode</CardTitle>
+          <CardTitle className="label-lg">Semantic Mode</CardTitle>
+          <CardDescription className="p">
+            Semantic tokens mapped to primitives. Shows both Light + Dark mappings.
+          </CardDescription>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            "background","card","primary","secondary",
-            "muted","accent","border","input","ring"
-          ].map((token) => {
-            const lightTokens = ["background","card","secondary","muted","accent","border","input"]
-            const textColor = lightTokens.includes(token)
-              ? "var(--gray-12)"
-              : "var(--gray-99)"
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {semanticTokens.map((t) => {
+            const lightLabel = primitiveLabel(t.lightPrimitive)
+            const darkLabel = primitiveLabel(t.darkPrimitive)
 
             return (
-              <div
-                key={token}
-                className="h-20 rounded-md border p-3 flex flex-col justify-between"
-                style={{
-                  backgroundColor: `var(--${token})`,
-                  color: textColor,
-                }}
-              >
-                <div className="p-sm">{token}</div>
-                <div className="p-sm opacity-80">
-                  OKLCH: {getComputedStyle(document.documentElement).getPropertyValue(`--${token}`)}
-                </div>
-              </div>
+              <Card key={t.token} level={2} size="sm">
+                <CardContent className="flex items-start gap-4">
+                  <div
+                    className="size-12 rounded-md border"
+                    style={{ backgroundColor: `var(--${t.token})` }}
+                    aria-hidden="true"
+                  />
+
+                  <div className="min-w-0 flex-1 space-y-2">
+                    <div className="space-y-0.5">
+                      <div className="label-md">{t.label}</div>
+                      <p className="p">{t.description}</p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="p-sm">
+                        <span className="text-muted-foreground">Light:</span>{" "}
+                        <span className="font-[525]">{t.lightPrimitive === "white" ? "white" : `--${t.lightPrimitive}`}</span>
+                      </div>
+                      <div className="p-sm text-muted-foreground">
+                        OKLCH: {primitiveOklch[t.lightPrimitive] ?? (t.lightPrimitive === "white" ? "oklch(1 0 0)" : "")}
+                      </div>
+
+                      <div className="p-sm pt-1">
+                        <span className="text-muted-foreground">Dark:</span>{" "}
+                        <span className="font-[525]">{t.darkPrimitive === "white" ? "white" : `--${t.darkPrimitive}`}</span>
+                      </div>
+                      <div className="p-sm text-muted-foreground">
+                        OKLCH: {primitiveOklch[t.darkPrimitive] ?? (t.darkPrimitive === "white" ? "oklch(1 0 0)" : "")}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             )
           })}
         </CardContent>
@@ -233,22 +480,58 @@ export default function FoundationsPage() {
           <CardTitle className="label-lg">Elevation</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="rounded-md bg-card p-6 shadow-[var(--elevation-surface)]">
-            <div className="p">elevation-surface (y1)</div>
-          </div>
-          <div className="rounded-md bg-card p-6 shadow-[var(--elevation-floating)]">
-            <div className="p">elevation-floating (y2)</div>
-          </div>
-          <div className="rounded-md bg-card p-6 shadow-[var(--elevation-overlay)]">
-            <div className="p">elevation-overlay (y6)</div>
-          </div>
-          <div className="rounded-md bg-card p-6 shadow-[var(--elevation-popover)]">
-            <div className="p">elevation-popover (y16)</div>
+          <div className="space-y-8">
+
+            {/* elevation-none */}
+            <div className="rounded-md bg-card p-6 shadow-none border border-subtle">
+              <div className="label-md">elevation-none</div>
+              <p className="p">
+                No shadow. Used for nested surfaces (Level 2 cards), inline panels,
+                subtle containers, and low-emphasis UI groupings.
+              </p>
+            </div>
+
+            {/* elevation-surface */}
+            <div className="rounded-md bg-card p-6 shadow-[var(--elevation-surface)]">
+              <div className="label-md">elevation-surface (y1)</div>
+              <p className="p">
+                Base surface elevation. Used for primary cards, panels,
+                and standard content containers.
+              </p>
+            </div>
+
+            {/* elevation-floating */}
+            <div className="rounded-md bg-card p-6 shadow-[var(--elevation-floating)]">
+              <div className="label-md">elevation-floating (y2)</div>
+              <p className="p">
+                Floating surfaces above standard content. Used for dropdowns,
+                hover panels, compact toolbars, and contextual UI.
+              </p>
+            </div>
+
+            {/* elevation-overlay */}
+            <div className="rounded-md bg-card p-6 shadow-[var(--elevation-overlay)]">
+              <div className="label-md">elevation-overlay (y6)</div>
+              <p className="p">
+                Modal-level elevation. Used for dialogs, sheets, drawers,
+                and surfaces that block or interrupt workflow.
+              </p>
+            </div>
+
+            {/* elevation-popover */}
+            <div className="rounded-md bg-card p-6 shadow-[var(--elevation-popover)]">
+              <div className="label-md">elevation-popover (y16)</div>
+              <p className="p">
+                Highest elevation tier. Used for tooltips, transient popovers,
+                command palettes, and attention-grabbing overlays.
+              </p>
+            </div>
+
           </div>
         </CardContent>
       </Card>
 
-            {/* ===================== */}
+      {/* ===================== */}
       {/* Surface Tone Alternation */}
       {/* ===================== */}
       <Card level={1}>
@@ -262,7 +545,7 @@ export default function FoundationsPage() {
 
           {/* Level 0 — Canvas */}
           <div className="space-y-4">
-            <div className="label-md">Level 0 — Canvas (secondary)</div>
+            <div className="label-md">Level 0 — Canvas (--background)</div>
 
             {/* Full-bleed canvas demo */}
             <div className="-mx-6 bg-secondary px-6 py-8 space-y-8">
@@ -270,13 +553,13 @@ export default function FoundationsPage() {
               {/* Level 1 — Primary Surface */}
               <Card level={1}>
                 <CardContent className="space-y-4">
-                  <div className="label-md">Level 1 — Primary Surface (white)</div>
+                  <div className="label-md">Level 1 — Primary surface (--card)</div>
 
                   {/* Level 2 — Nested */}
                   <Card level={2}>
                     <CardContent>
                       <div className="p">
-                        Level 2 — Nested (secondary background)
+                        Level 2 — Nested surface (--secondary)
                       </div>
                     </CardContent>
                   </Card>
@@ -304,12 +587,12 @@ export default function FoundationsPage() {
           {/* Surface Logic Explanation */}
           <div className="space-y-2 pt-6">
             <div className="label-md">Surface & Border Logic</div>
-            <p className="p-sm text-muted-foreground">
+            <p className="p">
               Level 0 (Canvas) uses the secondary background and has no border.
               Level 1 surfaces alternate tone against the canvas and use the
               primary border token (--border).
             </p>
-            <p className="p-sm text-muted-foreground">
+            <p className="p">
               Any surface nested inside another surface (Level 2+) alternates
               background tone and switches to the subtle border token
               (--border-subtle) to reduce visual weight and preserve hierarchy.
@@ -319,7 +602,35 @@ export default function FoundationsPage() {
         </CardContent>
       </Card>
 
+      {/* ===================== */}
+      {/* Corners */}
+      {/* ===================== */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="label-lg">Corners</CardTitle>
+          <CardDescription className="p">
+            We use a consistent 0.5rem (8px) corner radius across the system.
+            The shape feels approachable and modern, while remaining structured
+            and professional — introducing just enough softness for sensitive
+            and high-trust experiences.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-4 max-w-xs">
+
+            <Card level={1}>
+              <CardContent className="h-20" />
+            </Card>
+
+            <Card level={2}>
+              <CardContent className="h-20" />
+            </Card>
+
+          </div>
+        </CardContent>
+      </Card>
+
 
     </div>
   )
-}   
+}  

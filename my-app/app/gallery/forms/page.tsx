@@ -24,345 +24,400 @@ import { useState } from "react"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Combobox } from "@/components/ui/combobox"
 
-import { CircleOff, ShieldUser, ShieldCheck } from "lucide-react"
+import {
+  CircleOff,
+  ShieldUser,
+  ShieldCheck,
+  ShoppingBag,
+  Package,
+  BotOff,
+  ShoppingCart,
+  Check,
+} from "lucide-react"
 
 export default function Page() {
   const [paymentType, setPaymentType] = useState<"credit" | "ach" | "wire">("credit")
+  const [telemetryEnabled, setTelemetryEnabled] = useState(false)
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-2">
-        <h1 className="h1">Forms</h1>
+    <div className="space-y-10">
+      {/* Page Header */}
+      <div className="space-y-2 max-w-3xl">
+        <h1 className="h1">Create a new merchant workspace</h1>
         <p className="p text-muted-foreground">
-          Create Merchant Workspace — full example using Field primitives.
+          Merchant workspaces empower your CX teams to approve good orders by
+          integrating with numerous external partners such as Shopify,
+          BigCommerce, Loop, Slack, and even a direct API.
         </p>
       </div>
 
-      <Card level={1}>
-        <CardContent className="space-y-8 max-w-3xl">
-          <section className="space-y-4">
-            <div className="space-y-2">
-              <h2 className="h2">Create Merchant Workspace</h2>
-              <p className="p text-muted-foreground">
-                Merchant onboarding form reflecting CS integration and portal setup requirements.
-              </p>
-            </div>
+      {/* Timeline + Steps (numbers align to their cards) */}
+      <ol className="space-y-10">
+        {(() => {
+          // STEP 1 state
+          const step1Complete = true // default selections make this always complete for now
 
-            <FieldGroup className="space-y-8">
-              {/* ===================== */}
-              {/* BASIC INFO */}
-              {/* ===================== */}
-              <div className="space-y-4">
-                <h3 className="h3">Basic Info</h3>
+          // STEP 2 state (minimal required fields per payment type)
+          const step2Complete = true
 
-                <Field className="space-y-1">
-                  <FieldLabel className="label-md">Merchant Name</FieldLabel>
-                  <Input placeholder="Acme Co." className="p" />
-                </Field>
+          // STEP 3 state (minimal required fields)
+          const step3Complete = true
 
-                <Field className="space-y-1">
-                  <FieldLabel className="label-md">Billing Address</FieldLabel>
-                  <Input placeholder="123 Market St" className="p" />
-                  <FieldDescription className="p-sm text-muted-foreground">
-                    Used for invoicing and contract documentation.
-                  </FieldDescription>
-                </Field>
+          const steps = [
+            { key: "1", title: "Step 1 — Choose Wyllo Products", complete: step1Complete },
+            { key: "2", title: "Step 2 — Activate Merchant Account", complete: step2Complete },
+            { key: "3", title: "Step 3 — Merchant Information", complete: step3Complete },
+          ]
 
-                <Field className="space-y-1">
-                  <FieldLabel className="label-md">Phone Number</FieldLabel>
-                  <Input placeholder="(555) 123-4567" className="p" />
-                </Field>
+          const currentIdx = Math.max(0, steps.findIndex((s) => !s.complete))
 
-                <Field className="space-y-1">
-                  <FieldLabel className="label-md">Email Address</FieldLabel>
-                  <Input placeholder="merchant@company.com" className="p" />
-                </Field>
-              </div>
+          const StepDot = ({
+            idx,
+            complete,
+            label,
+          }: {
+            idx: number
+            complete: boolean
+            label: string
+          }) => {
+            const isCurrent = idx === (currentIdx === -1 ? steps.length - 1 : currentIdx)
 
-              {/* ===================== */}
-              {/* CSM CHECKLIST */}
-              {/* ===================== */}
-              <div className="space-y-4">
-                <h3 className="h3">CSM Checklist</h3>
-
-                <Field className="space-y-1 w-full">
-                  <FieldLabel className="label-md">Industry / Descriptor</FieldLabel>
-                  <Combobox
-                    options={[
-                      { label: "Retail", value: "retail" },
-                      { label: "Digital Goods", value: "digital-goods" },
-                      { label: "SaaS", value: "saas" },
-                      { label: "Travel", value: "travel" },
-                    ]}
-                    placeholder="Select industry"
-                    className="w-full"
+            return (
+              <div className="relative flex flex-col items-center">
+                {/* connector line */}
+                {idx !== steps.length - 1 && (
+                  <div
+                    aria-hidden="true"
+                    className="absolute top-10 bottom-0 w-px bg-border"
                   />
-                </Field>
+                )}
 
-                <div className="space-y-2">
-                  {[
-                    {
-                      label: "Selling Digital Gift Cards",
-                      value: "giftcards",
-                      description:
-                        "Merchant sells digital gift cards that may require special handling.",
-                    },
-                    {
-                      label: "Accepting Phone Orders",
-                      value: "phone-orders",
-                      description:
-                        "Merchant accepts orders over the phone and processes them manually.",
-                    },
-                    {
-                      label: "Buy Online Pickup In Store (BOPIS)",
-                      value: "bopis",
-                      description:
-                        "Customers purchase online and pick up items in store.",
-                    },
-                  ].map((item) => (
-                    <FieldLabel key={item.value} htmlFor={`csm-${item.value}`}>
-                    <Field
-                      orientation="horizontal"
-                      className="group items-start gap-3 w-full rounded-[var(--radius)] border border-input bg-card p-4 transition-colors hover:bg-accent hover:text-accent-foreground has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:ring-2 has-[[data-state=checked]]:ring-primary/40"
-                    >
-                        <Checkbox id={`csm-${item.value}`} value={item.value} className="peer" />
-                        <div className="space-y-1 flex-1">
-                          <p className="label-md">{item.label}</p>
-                          <p className="p-sm text-muted-foreground">
-                            {item.description}
-                          </p>
-                        </div>
-                      </Field>
-                    </FieldLabel>
-                  ))}
+                {/* dot */}
+                <div
+                  className={
+                    "relative flex size-8 items-center justify-center rounded-full border text-sm font-[650] " +
+                    (complete
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : isCurrent
+                      ? "bg-card text-foreground border-primary"
+                      : "bg-card text-muted-foreground border-border")
+                  }
+                >
+                  {complete ? <Check className="size-4" /> : <span>{label}</span>}
                 </div>
               </div>
+            )
+          }
 
-              {/* ===================== */}
-              {/* PORTAL SETUP */}
-              {/* ===================== */}
-              <div className="space-y-4">
-                <h3 className="h3">Portal Setup</h3>
-                <h4 className="h4 text-muted-foreground">
-                  Set up how the product will work
-                </h4>
+          return (
+            <>
+              {/* STEP 1 */}
+              <li className="grid grid-cols-[auto_1fr] gap-6 items-start">
+                <StepDot idx={0} complete={step1Complete} label="1" />
+                <Card level={1}>
+                  <CardHeader>
+                    <CardTitle>Step 1 — Choose Wyllo Products</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-8">
+                    {/* Chargeback Product */}
+                    <div className="space-y-2">
+                      <FieldLabel className="form-label text-muted-foreground">Chargeback Product</FieldLabel>
+                      <RadioGroup defaultValue="none">
+                        {[
+                          {
+                            label: "None",
+                            value: "none",
+                            description:
+                              "Chargebacks are merchant managed and Wyllo will not handle chargebacks.",
+                          },
+                          {
+                            label: "Chargeback Management",
+                            value: "management",
+                            description:
+                              "Chargebacks are fully managed and protected by Wyllo.",
+                          },
+                          {
+                            label: "Chargeback Protection",
+                            value: "protection",
+                            description:
+                              "Merchant managed, but Wyllo provides protection.",
+                          },
+                        ].map((item) => (
+                          <FieldLabel key={item.value} htmlFor={`step1-${item.value}`}>
+                            <Field
+                              orientation="horizontal"
+                              className="group items-start gap-3 w-full rounded-[var(--radius)] border border-input bg-card p-4 transition-colors hover:bg-accent hover:text-accent-foreground has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:ring-2 has-[[data-state=checked]]:ring-primary/40"
+                            >
+                              <div className="flex items-start gap-3 flex-1">
+                                <span className="mt-1 text-muted-foreground">
+                                  {item.value === "none" && <CircleOff className="h-4 w-4" />}
+                                  {item.value === "management" && <ShieldUser className="h-4 w-4" />}
+                                  {item.value === "protection" && <ShieldCheck className="h-4 w-4" />}
+                                </span>
+                                <div className="space-y-1">
+                                  <p className="label-md text-foreground">{item.label}</p>
+                                  <p className="p-sm text-muted-foreground">{item.description}</p>
+                                </div>
+                              </div>
+                              <RadioGroupItem
+                                id={`step1-${item.value}`}
+                                value={item.value}
+                                className="ml-auto"
+                              />
+                            </Field>
+                          </FieldLabel>
+                        ))}
+                      </RadioGroup>
+                    </div>
 
-                <Field className="space-y-4">
-                  <FieldLabel className="label-md">Payment Method Type</FieldLabel>
+                    <Separator />
 
-                  <ToggleGroup
-                    type="single"
-                    variant="outline"
-                    value={paymentType}
-                    onValueChange={(value) => {
-                      if (value) setPaymentType(value as "credit" | "ach" | "wire")
-                    }}
-                  >
-                    <ToggleGroupItem value="credit" aria-label="Credit Card">
-                      Credit Card
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="ach" aria-label="ACH">
-                      ACH
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="wire" aria-label="Wire">
-                      Wire
-                    </ToggleGroupItem>
-                  </ToggleGroup>
-
-                  {/* ===================== */}
-                  {/* CREDIT CARD */}
-                  {/* ===================== */}
-                  {paymentType === "credit" && (
-                    <div className="space-y-4">
-                      <Field className="space-y-1">
-                        <FieldLabel className="label-md">Cardholder Name</FieldLabel>
-                        <Input placeholder="John Doe" className="p" />
-                      </Field>
-
-                      <Field className="space-y-1">
-                        <FieldLabel className="label-md">Card Number</FieldLabel>
-                        <Input placeholder="4242 4242 4242 4242" className="p" />
-                      </Field>
-
-                      <div className="flex gap-3">
-                        <Field className="space-y-1 flex-1">
-                          <FieldLabel className="label-md">Expiration</FieldLabel>
-                          <Input placeholder="MM/YY" className="p" />
-                        </Field>
-
-                        <Field className="space-y-1 flex-1">
-                          <FieldLabel className="label-md">CVC</FieldLabel>
-                          <Input placeholder="123" className="p" />
-                        </Field>
+                    {/* Screening Product */}
+                    <div className="space-y-2">
+                      <FieldLabel className="form-label text-muted-foreground">Screening Product</FieldLabel>
+                      <div className="flex flex-col gap-2">
+                        {["Orders", "Returns"].map((label) => (
+                          <FieldLabel key={label} htmlFor={`screening-${label}`}>
+                            <Field
+                              orientation="horizontal"
+                              className="group items-start gap-3 w-full rounded-[var(--radius)] border border-input bg-card p-4 transition-colors hover:bg-accent hover:text-accent-foreground has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:ring-2 has-[[data-state=checked]]:ring-primary/40"
+                            >
+                              <span className="mt-1 text-muted-foreground">
+                                {label === "Orders" && <ShoppingBag className="h-4 w-4" />}
+                                {label === "Returns" && <Package className="h-4 w-4" />}
+                              </span>
+                              <div className="flex-1 space-y-1">
+                                <p className="label-md text-foreground">{label}</p>
+                                {label === "Orders" && (
+                                  <p className="p-sm text-muted-foreground">
+                                    Real-time order risk assessment using behavioral, device, and transaction signals to prevent fraud before fulfillment.
+                                  </p>
+                                )}
+                                {label === "Returns" && (
+                                  <p className="p-sm text-muted-foreground">
+                                    Return abuse detection powered by predictive analytics to identify policy manipulation and high-risk refund activity.
+                                  </p>
+                                )}
+                              </div>
+                              <Checkbox id={`screening-${label}`} className="ml-auto" />
+                            </Field>
+                          </FieldLabel>
+                        ))}
                       </div>
 
-                      <Field className="space-y-1">
-                        <FieldLabel className="label-md">Billing ZIP / Postal Code</FieldLabel>
-                        <Input placeholder="10001" className="p" />
-                      </Field>
-                    </div>
-                  )}
+                      <div className="space-y-2 pt-4">
+                        <FieldLabel className="form-label text-muted-foreground">Additional Features</FieldLabel>
+                        <div className="flex flex-col gap-2">
+                          <Field
+                            orientation="horizontal"
+                            className="group items-start gap-3 w-full rounded-[var(--radius)] border border-input bg-card p-4 transition-colors hover:bg-accent hover:text-accent-foreground has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:ring-2 has-[[data-state=checked]]:ring-primary/40"
+                          >
+                            <span className="mt-1 text-muted-foreground">
+                              <BotOff className="h-4 w-4" />
+                            </span>
+                            <div className="flex-1 space-y-1">
+                              <p className="label-md text-foreground">Telemetry & Bot Blocking</p>
+                              <p className="p-sm text-muted-foreground">
+                                Collects real-time behavioral and device signals to power predictive risk scoring and automated fraud detection.
+                              </p>
+                            </div>
+                            <Switch className="ml-auto" />
+                          </Field>
 
-                  {/* ===================== */}
-                  {/* ACH */}
-                  {/* ===================== */}
-                  {paymentType === "ach" && (
-                    <div className="space-y-4">
-                      <div className="space-y-4">
-                        <Field className="space-y-1">
-                          <FieldLabel className="label-md">Account Holder Name</FieldLabel>
-                          <Input placeholder="John Doe" className="p" />
-                        </Field>
-                        <Field className="space-y-1">
-                          <FieldLabel className="label-md">Routing Number</FieldLabel>
-                          <Input placeholder="123456789" className="p" />
-                        </Field>
-                        <Field className="space-y-1">
-                          <FieldLabel className="label-md">Account Number</FieldLabel>
-                          <Input placeholder="000123456789" className="p" />
-                        </Field>
+                          <Field
+                            orientation="horizontal"
+                            className="group items-start gap-3 w-full rounded-[var(--radius)] border border-input bg-card p-4 transition-colors hover:bg-accent hover:text-accent-foreground has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:ring-2 has-[[data-state=checked]]:ring-primary/40"
+                          >
+                            <span className="mt-1 text-muted-foreground">
+                              <ShoppingCart className="h-4 w-4" />
+                            </span>
+                            <div className="flex-1 space-y-1">
+                              <p className="label-md text-foreground">Checkout UI Extension</p>
+                              <p className="p-sm text-muted-foreground">
+                                Blocks invalid or incomplete customer information directly at checkout before the transaction is completed.
+                              </p>
+                            </div>
+                            <Switch className="ml-auto" />
+                          </Field>
+                        </div>
                       </div>
-
-                      <Card level={2} size="sm">
-                        <CardContent className="flex items-center justify-between gap-6">
-                          <div className="space-y-1">
-                            <p className="label-md">
-                              Or link your bank account
-                            </p>
-                            <p className="p-sm text-muted-foreground">
-                              Securely connect your bank account using Plaid.
-                            </p>
-                          </div>
-                          <Button variant="primary" size="sm">
-                            Link with Plaid
-                          </Button>
-                        </CardContent>
-                      </Card>
                     </div>
-                  )}
+                  </CardContent>
+                </Card>
+              </li>
 
-                  {/* ===================== */}
-                  {/* WIRE */}
-                  {/* ===================== */}
-                  {paymentType === "wire" && (
-                    <div className="space-y-4">
-                      <Field className="space-y-1">
-                        <FieldLabel className="label-md">Account Holder Name</FieldLabel>
-                        <Input placeholder="John Doe" className="p" />
-                      </Field>
-                      <Field className="space-y-1">
-                        <FieldLabel className="label-md">Bank Name</FieldLabel>
-                        <Input placeholder="Bank of Example" className="p" />
-                      </Field>
-                      <Field className="space-y-1">
-                        <FieldLabel className="label-md">SWIFT / BIC Code</FieldLabel>
-                        <Input placeholder="ABCDEFGH" className="p" />
-                      </Field>
-                      <Field className="space-y-1">
-                        <FieldLabel className="label-md">IBAN / Account Number</FieldLabel>
-                        <Input placeholder="DE89 3704 0044 0532 0130 00" className="p" />
-                      </Field>
-                      <Field className="space-y-1">
-                        <FieldLabel className="label-md">Bank Address</FieldLabel>
-                        <Input placeholder="123 Bank St, City, Country" className="p" />
-                      </Field>
-                    </div>
-                  )}
-                </Field>
+              {/* STEP 2 */}
+              <li className="grid grid-cols-[auto_1fr] gap-6 items-start">
+                <StepDot idx={1} complete={step2Complete} label="2" />
+                <Card level={1}>
+                  <CardHeader>
+                    <CardTitle>Step 2 — Activate Merchant Account</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-8">
+                    <Field className="space-y-4">
+                      <FieldLabel className="form-label text-muted-foreground">Payment Method Type</FieldLabel>
 
-                <Field className="space-y-1 w-full">
-                  <FieldLabel className="label-md">Product Category</FieldLabel>
-                  <Combobox
-                    options={[
-                      { label: "Apparel", value: "apparel" },
-                      { label: "Electronics", value: "electronics" },
-                      { label: "Home Goods", value: "home-goods" },
-                    ]}
-                    placeholder="Select category"
-                    className="w-full"
-                  />
-                </Field>
-
-                <Field className="space-y-1 w-full">
-                  <FieldLabel className="label-md">Product Subcategory</FieldLabel>
-                  <Combobox
-                    options={[
-                      { label: "Men's", value: "mens" },
-                      { label: "Women's", value: "womens" },
-                      { label: "Accessories", value: "accessories" },
-                    ]}
-                    placeholder="Select subcategory"
-                    className="w-full"
-                  />
-                </Field>
-              </div>
-
-              {/* ===================== */}
-              {/* CHARGEBACK PRODUCT */}
-              {/* ===================== */}
-              <div className="space-y-4">
-                <h3 className="h3">Chargeback Product</h3>
-                <RadioGroup defaultValue="none" className="space-y-2">
-                  {[
-                    {
-                      label: "None",
-                      value: "none",
-                      icon: "x",
-                      description:
-                        "Chargebacks are merchant managed and Wyllo will not handle chargebacks at all.",
-                    },
-                    {
-                      label: "Chargeback Management",
-                      value: "management",
-                      icon: "user",
-                      description:
-                        "Chargebacks are fully managed and protected by Wyllo.",
-                    },
-                    {
-                      label: "Chargeback Protection",
-                      value: "protection",
-                      icon: "shield",
-                      description:
-                        "Chargebacks are merchant managed, but Wyllo will provide protection against them.",
-                    },
-                  ].map((item) => (
-                    <FieldLabel key={item.value} htmlFor={`chargeback-${item.value}`}>
-                      <Field
-                        orientation="horizontal"
-                        className="group items-start gap-3 w-full rounded-[var(--radius)] border border-input bg-card p-4 transition-colors hover:bg-accent hover:text-accent-foreground has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:ring-2 has-[[data-state=checked]]:ring-primary/40"
+                      <ToggleGroup
+                        type="single"
+                        variant="outline"
+                        value={paymentType}
+                        onValueChange={(value) => {
+                          if (value) setPaymentType(value as "credit" | "ach" | "wire")
+                        }}
                       >
-                        <div className="flex items-start gap-3 flex-1">
-                          <span className="mt-1 text-muted-foreground">
-                            {item.icon === "x" && <CircleOff className="h-4 w-4" />}
-                            {item.icon === "user" && <ShieldUser className="h-4 w-4" />}
-                            {item.icon === "shield" && <ShieldCheck className="h-4 w-4" />}
-                          </span>
-                          <div className="space-y-1">
-                            <p className="label-md">{item.label}</p>
-                            <p className="p-sm text-muted-foreground">
-                              {item.description}
-                            </p>
+                        <ToggleGroupItem value="credit">Credit Card</ToggleGroupItem>
+                        <ToggleGroupItem value="ach">ACH</ToggleGroupItem>
+                        <ToggleGroupItem value="wire">Wire</ToggleGroupItem>
+                      </ToggleGroup>
+
+                      {/* CREDIT CARD */}
+                      {paymentType === "credit" && (
+                        <div className="space-y-4 pt-4">
+                          <Field className="space-y-1">
+                            <FieldLabel className="form-label text-muted-foreground">Cardholder Name</FieldLabel>
+                            <Input className="form-data" placeholder="John Doe" />
+                          </Field>
+
+                          <Field className="space-y-1">
+                            <FieldLabel className="form-label text-muted-foreground">Card Number</FieldLabel>
+                            <Input className="form-data" placeholder="4242 4242 4242 4242" />
+                          </Field>
+
+                          <div className="flex gap-3">
+                            <Field className="space-y-1 flex-1">
+                              <FieldLabel className="form-label text-muted-foreground">Expiration</FieldLabel>
+                              <Input className="form-data" placeholder="MM/YY" />
+                            </Field>
+
+                            <Field className="space-y-1 flex-1">
+                              <FieldLabel className="form-label text-muted-foreground">CVC</FieldLabel>
+                              <Input className="form-data" placeholder="123" />
+                            </Field>
                           </div>
                         </div>
-                        <RadioGroupItem
-                          id={`chargeback-${item.value}`}
-                          value={item.value}
-                          className="peer ml-auto"
+                      )}
+
+                      {/* ACH */}
+                      {paymentType === "ach" && (
+                        <div className="space-y-4 pt-4">
+                          <Field className="space-y-1">
+                            <FieldLabel className="form-label text-muted-foreground">Account Holder Name</FieldLabel>
+                            <Input className="form-data" placeholder="John Doe" />
+                          </Field>
+
+                          <Field className="space-y-1">
+                            <FieldLabel className="form-label text-muted-foreground">Routing Number</FieldLabel>
+                            <Input className="form-data" placeholder="123456789" />
+                          </Field>
+
+                          <Field className="space-y-1">
+                            <FieldLabel className="form-label text-muted-foreground">Account Number</FieldLabel>
+                            <Input className="form-data" placeholder="000123456789" />
+                          </Field>
+                        </div>
+                      )}
+
+                      {/* WIRE */}
+                      {paymentType === "wire" && (
+                        <div className="space-y-4 pt-4">
+                          <Field className="space-y-1">
+                            <FieldLabel className="form-label text-muted-foreground">Account Holder Name</FieldLabel>
+                            <Input className="form-data" placeholder="John Doe" />
+                          </Field>
+
+                          <Field className="space-y-1">
+                            <FieldLabel className="form-label text-muted-foreground">Bank Name</FieldLabel>
+                            <Input className="form-data" placeholder="Bank of Example" />
+                          </Field>
+
+                          <Field className="space-y-1">
+                            <FieldLabel className="form-label text-muted-foreground">SWIFT / BIC Code</FieldLabel>
+                            <Input className="form-data" placeholder="ABCDEFGH" />
+                          </Field>
+                        </div>
+                      )}
+                    </Field>
+                  </CardContent>
+                </Card>
+              </li>
+
+              {/* STEP 3 */}
+              <li className="grid grid-cols-[auto_1fr] gap-6 items-start">
+                <StepDot idx={2} complete={step3Complete} label="3" />
+                <Card level={1}>
+                  <CardHeader>
+                    <CardTitle>Step 3 — Merchant Information</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <Field className="space-y-1">
+                      <FieldLabel className="form-label text-muted-foreground">Merchant Name</FieldLabel>
+                      <Input className="form-data" placeholder="Acme Co." />
+                    </Field>
+
+                    <Field className="space-y-1">
+                      <FieldLabel className="form-label text-muted-foreground">Billing Address</FieldLabel>
+                      <Input className="form-data" placeholder="123 Market St" />
+                    </Field>
+
+                    <div className="flex gap-3">
+                      <Field className="space-y-1 flex-1">
+                        <FieldLabel className="form-label text-muted-foreground">Phone Number</FieldLabel>
+                        <Input className="form-data" placeholder="(555) 123-4567" />
+                      </Field>
+
+                      <Field className="space-y-1 flex-1">
+                        <FieldLabel className="form-label text-muted-foreground">Email Address</FieldLabel>
+                        <Input className="form-data" placeholder="merchant@company.com" />
+                      </Field>
+                    </div>
+
+                    <Field className="space-y-1 w-full">
+                      <FieldLabel className="form-label text-muted-foreground">Industry</FieldLabel>
+                      <Combobox
+                        options={[
+                          { label: "Retail", value: "retail" },
+                          { label: "Digital Goods", value: "digital-goods" },
+                          { label: "SaaS", value: "saas" },
+                        ]}
+                        placeholder="Select industry"
+                        className="form-data w-full"
+                      />
+                    </Field>
+
+                    <div className="flex gap-3">
+                      <Field className="space-y-1 flex-1">
+                        <FieldLabel className="form-label text-muted-foreground">Product Category</FieldLabel>
+                        <Combobox
+                          options={[
+                            { label: "Apparel", value: "apparel" },
+                            { label: "Electronics", value: "electronics" },
+                            { label: "Home Goods", value: "home-goods" },
+                          ]}
+                          placeholder="Select category"
+                          className="form-data w-full"
                         />
                       </Field>
-                    </FieldLabel>
-                  ))}
-                </RadioGroup>
-              </div>
 
-              <div className="flex gap-4 pt-6">
-                <Button variant="primary">Create Merchant</Button>
-                <Button variant="outline">Cancel</Button>
-              </div>
-            </FieldGroup>
-          </section>
-        </CardContent>
-      </Card>
+                      <Field className="space-y-1 flex-1">
+                        <FieldLabel className="form-label text-muted-foreground">Product Subcategory</FieldLabel>
+                        <Combobox
+                          options={[
+                            { label: "Men's", value: "mens" },
+                            { label: "Women's", value: "womens" },
+                            { label: "Accessories", value: "accessories" },
+                          ]}
+                          placeholder="Select subcategory"
+                          className="form-data w-full"
+                        />
+                      </Field>
+                    </div>
+                  </CardContent>
+                </Card>
+              </li>
+            </>
+          )
+        })()}
+      </ol>
     </div>
   )
 }
