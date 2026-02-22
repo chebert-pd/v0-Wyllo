@@ -26,6 +26,8 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-border-subtle: var(--border-subtle);
+  --color-border-primary: var(--primary);
+  --color-border-primary-subtle: var(--border-primary-subtle);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-destructive-border: var(--destructive-border);
@@ -96,7 +98,7 @@
   /* Lightness-based scale */
   /* ===================== */
   --gray-99: oklch(0.99 0.01 286.45);
-  --gray-96: oklch(0.96 0.01 286.45);
+  --gray-96: oklch(0.97 0.01 286.45);
   --gray-94: oklch(0.94 0.01 286.45);
   --gray-91: oklch(0.91 0.01 286.45);
   --gray-89: oklch(0.89 0.01 286.45);
@@ -154,6 +156,7 @@
   --border: var(--gray-86);
   --border-subtle: var(--gray-94);
   --border-primary: var(--primary);
+  --border-primary-subtle: color-mix(in oklch, var(--primary) 40%, transparent);
   --input: var(--gray-89);
   --ring: var(--violet-64);
 
@@ -299,6 +302,7 @@
   --border: var(--gray-38);
   --border-subtle: var(--gray-50);
   --border-primary: var(--primary);
+  --border-primary-subtle: color-mix(in oklch, var(--primary) 40%, transparent);
 
   /* Input slightly darker than border */
   --input: var(--gray-38);
@@ -371,6 +375,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    font-optical-sizing: auto;
     font-weight: 425;
     font-feature-settings:
       "ss01" 1,

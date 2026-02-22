@@ -187,6 +187,139 @@ export default function Page() {
         </div>
       </section>
 
+      {/* ============================= */}
+      {/* DARK MODE STRATEGY */}
+      {/* ============================= */}
+      <section className="space-y-6">
+        <h2 className="h2">Dark Mode Strategy</h2>
+
+        <div className="space-y-4">
+          <h3 className="h3">1. Independent Semantic Mapping</h3>
+          <p className="p text-muted-foreground">
+            Core polarity tokens (<code>background</code> and{" "}
+            <code>foreground</code>) invert between themes. All other semantic
+            tokens (primary, accent, border, input, destructive, etc.) are
+            intentionally remapped to different primitives per theme to
+            preserve contrast, hierarchy, and interaction clarity rather than
+            relying on mathematical lightness inversion.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">2. Structural vs Subtle Borders</h3>
+          <p className="p text-muted-foreground">
+            We distinguish between structural borders (<code>--border</code>) and
+            subtle separators (<code>--border-subtle</code>). Subtle borders are
+            always perceptually lighter than structural borders in both themes.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">3. Tokenized Destructive Solid</h3>
+          <p className="p text-muted-foreground">
+            Destructive buttons use a dedicated solid token
+            (<code>--destructive-solid</code>) instead of reusing the background
+            semantic. This ensures accessibility and visual priority without
+            compromising contextual alert styling.
+          </p>
+        </div>
+      </section>
+
+      {/* ============================= */}
+      {/* INTERACTION ARCHITECTURE */}
+      {/* ============================= */}
+      <section className="space-y-6">
+        <h2 className="h2">Interaction Architecture</h2>
+
+        <div className="space-y-4">
+          <h3 className="h3">1. Selection Owns Its Own Visual State</h3>
+          <p className="p text-muted-foreground">
+            Layout components (e.g., Field) own spacing and structure only.
+            Interactive components (ChoiceCard, Switch, Tabs) own selection,
+            halo, border, and hover states. This separation prevents cascading
+            side effects.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">2. Tokenized Halo System</h3>
+          <p className="p text-muted-foreground">
+            Selection halos use the <code>--accent-halo</code> token rather than
+            ad-hoc ring utilities. This ensures consistent focus and selection
+            feedback across cards, radios, and toggles.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">3. Skeuomorphic Toggle Logic</h3>
+          <p className="p text-muted-foreground">
+            The Switch thumb uses tokenized gradients and layered shadows to
+            create a subtle raised effect. On-state styling shifts from neutral
+            gray undertones to violet undertones while preserving the same
+            structural logic.
+          </p>
+        </div>
+      </section>
+
+      {/* ============================= */}
+      {/* COMPOSITION PATTERNS */}
+      {/* ============================= */}
+      <section className="space-y-6">
+        <h2 className="h2">Composition Patterns</h2>
+
+        <div className="space-y-4">
+          <h3 className="h3">1. GlassFrame Wrapper</h3>
+          <p className="p text-muted-foreground">
+            Frosted overlays (dialogs, sheets, drawers) use a reusable
+            <code>&lt;GlassFrame /&gt;</code> wrapper. Blur, border, and ambient
+            treatment are centralized so overlays remain visually consistent.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">2. DataTable as a Shell Pattern</h3>
+          <p className="p text-muted-foreground">
+            The DataTable component separates structural table rendering from
+            optional controls (search, filters, column visibility, actions).
+            Feature affordances are composable rather than baked in.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">3. Timeline as Validation Logic</h3>
+          <p className="p text-muted-foreground">
+            Step timelines are not decorative. Status (upcoming, current,
+            complete) is derived from validation state. Completion converts
+            numeric markers to check icons automatically.
+          </p>
+        </div>
+      </section>
+
+      {/* ============================= */}
+      {/* RESPONSIVE PHILOSOPHY */}
+      {/* ============================= */}
+      <section className="space-y-6">
+        <h2 className="h2">Responsive Philosophy</h2>
+
+        <div className="space-y-4">
+          <h3 className="h3">1. Structural Reflow over Cosmetic Shift</h3>
+          <p className="p text-muted-foreground">
+            Components change structure at breakpoints (sidebar collapsing,
+            timeline scaling, radio cards stacking) rather than simply resizing.
+            Layout adapts to cognition, not just viewport width.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">2. Density Scales Intentionally</h3>
+          <p className="p text-muted-foreground">
+            Controls and navigation elements offer size variants (e.g., Tabs,
+            Buttons) to support dense dashboards and spacious workflows using
+            the same token system.
+          </p>
+        </div>
+      </section>
+
       <div className="pt-8 border-t border-border">
         <p className="p text-muted-foreground">
           This system prioritizes predictability, semantic clarity, and

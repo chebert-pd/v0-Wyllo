@@ -83,27 +83,34 @@ export default function Page() {
             const isCurrent = idx === (currentIdx === -1 ? steps.length - 1 : currentIdx)
 
             return (
-              <div className="relative flex flex-col items-center">
-                {/* connector line */}
+              <div className="relative flex flex-col items-center self-stretch">
+                {/* connector line (vertical) */}
                 {idx !== steps.length - 1 && (
                   <div
                     aria-hidden="true"
-                    className="absolute top-10 bottom-0 w-px bg-border"
+                    className={
+                      "absolute left-1/2 -translate-x-1/2 top-5 md:top-8 bottom-0 w-px " +
+                      (complete ? "bg-primary" : "bg-border")
+                    }
                   />
                 )}
 
                 {/* dot */}
                 <div
                   className={
-                    "relative flex size-8 items-center justify-center rounded-full border text-sm font-[650] " +
+                    "relative flex size-5 md:size-8 items-center justify-center rounded-full border text-xs md:text-sm font-[650] " +
                     (complete
                       ? "bg-primary text-primary-foreground border-primary"
                       : isCurrent
-                      ? "bg-card text-foreground border-primary"
-                      : "bg-card text-muted-foreground border-border")
+                        ? "bg-card text-foreground border-primary"
+                        : "bg-card text-muted-foreground border-border")
                   }
                 >
-                  {complete ? <Check className="size-4" /> : <span>{label}</span>}
+                  {complete ? (
+                    <Check className="size-3.5 md:size-4" />
+                  ) : (
+                    <span>{label}</span>
+                  )}
                 </div>
               </div>
             )
@@ -112,7 +119,7 @@ export default function Page() {
           return (
             <>
               {/* STEP 1 */}
-              <li className="grid grid-cols-[auto_1fr] gap-6 items-start">
+              <li className="grid grid-cols-[auto_1fr] gap-2 md:gap-6 items-start">
                 <StepDot idx={0} complete={step1Complete} label="1" />
                 <Card level={1}>
                   <CardHeader>
@@ -122,13 +129,13 @@ export default function Page() {
                     {/* Chargeback Product */}
                     <div className="space-y-2">
                       <FieldLabel className="form-label text-muted-foreground">Chargeback Product</FieldLabel>
-                      <RadioGroup defaultValue="none">
+                      <RadioGroup defaultValue="none" className="grid gap-2 md:grid-cols-3 items-stretch">
                         {[
                           {
                             label: "None",
                             value: "none",
                             description:
-                              "Chargebacks are merchant managed and Wyllo will not handle chargebacks.",
+                              "Chargebacks are merchant managed.",
                           },
                           {
                             label: "Chargeback Management",
@@ -143,10 +150,10 @@ export default function Page() {
                               "Merchant managed, but Wyllo provides protection.",
                           },
                         ].map((item) => (
-                          <FieldLabel key={item.value} htmlFor={`step1-${item.value}`}>
+                          <FieldLabel key={item.value} htmlFor={`step1-${item.value}`} className="block h-full">
                             <Field
                               orientation="horizontal"
-                              className="group items-start gap-3 w-full rounded-[var(--radius)] border border-input bg-card p-4 transition-colors hover:bg-accent hover:text-accent-foreground has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:ring-2 has-[[data-state=checked]]:ring-primary/40"
+                              className="group items-start gap-3 w-full h-full rounded-[var(--radius)] border border-input bg-card p-4 transition-colors hover:bg-accent hover:text-accent-foreground has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:ring-2 has-[[data-state=checked]]:ring-primary/40"
                             >
                               <div className="flex items-start gap-3 flex-1">
                                 <span className="mt-1 text-muted-foreground">
@@ -247,28 +254,30 @@ export default function Page() {
               </li>
 
               {/* STEP 2 */}
-              <li className="grid grid-cols-[auto_1fr] gap-6 items-start">
+              <li className="grid grid-cols-[auto_1fr] gap-2 md:gap-6 items-start">
                 <StepDot idx={1} complete={step2Complete} label="2" />
                 <Card level={1}>
                   <CardHeader>
                     <CardTitle>Step 2 — Activate Merchant Account</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-8">
-                    <Field className="space-y-4">
+                    <Field className="space-y-1">
                       <FieldLabel className="form-label text-muted-foreground">Payment Method Type</FieldLabel>
 
-                      <ToggleGroup
-                        type="single"
-                        variant="outline"
-                        value={paymentType}
-                        onValueChange={(value) => {
-                          if (value) setPaymentType(value as "credit" | "ach" | "wire")
-                        }}
-                      >
-                        <ToggleGroupItem value="credit">Credit Card</ToggleGroupItem>
-                        <ToggleGroupItem value="ach">ACH</ToggleGroupItem>
-                        <ToggleGroupItem value="wire">Wire</ToggleGroupItem>
-                      </ToggleGroup>
+                      <div className="pt-2">
+                        <ToggleGroup
+                          type="single"
+                          variant="outline"
+                          value={paymentType}
+                          onValueChange={(value) => {
+                            if (value) setPaymentType(value as "credit" | "ach" | "wire")
+                          }}
+                        >
+                          <ToggleGroupItem value="credit">Credit Card</ToggleGroupItem>
+                          <ToggleGroupItem value="ach">ACH</ToggleGroupItem>
+                          <ToggleGroupItem value="wire">Wire</ToggleGroupItem>
+                        </ToggleGroup>
+                      </div>
 
                       {/* CREDIT CARD */}
                       {paymentType === "credit" && (
@@ -342,7 +351,7 @@ export default function Page() {
               </li>
 
               {/* STEP 3 */}
-              <li className="grid grid-cols-[auto_1fr] gap-6 items-start">
+              <li className="grid grid-cols-[auto_1fr] gap-2 md:gap-6 items-start">
                 <StepDot idx={2} complete={step3Complete} label="3" />
                 <Card level={1}>
                   <CardHeader>
