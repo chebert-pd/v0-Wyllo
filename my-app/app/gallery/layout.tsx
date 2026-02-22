@@ -77,6 +77,9 @@ export default function GalleryLayout({
             <a href="/gallery/sidebar" className="block hover:text-primary">
               Sidebar
             </a>
+            <a href="/gallery/header" className="block hover:text-primary">
+              Header
+            </a>
             <a href="/gallery/stats" className="block hover:text-primary">
               Stats
             </a>
