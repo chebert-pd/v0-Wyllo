@@ -84,7 +84,10 @@ function Header({
         "flex w-full flex-col",
         isSticky && [
           "sticky top-0 z-10",
-          "bg-card border-b border-border-subtle",
+          "bg-card",
+          // When tabs are present the TabsList (line variant) provides the bottom border.
+          // Without tabs we add it directly on the header.
+          tabs ? "" : "border-b border-border-subtle",
           "shadow-[var(--elevation-surface)]",
         ],
         className
