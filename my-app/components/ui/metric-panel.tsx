@@ -1,87 +1,117 @@
 "use client"
-import React, { useState } from "react"
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/components/ui/tabs"
-import { Card, CardContent } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 
-interface MetricItem {
+import * as React from "react"
+import { useState } from "react"
+
+import { cn } from "@/lib/utils"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent } from "@/components/ui/card"
+import { StatCard } from "@/components/ui/stats"
+
+export type MetricItem = {
   key: string
-  label: React.ReactNode
-  value: React.ReactNode
+
+  /** StatCard large variant inputs */
+  label: string
+  value: string
   icon?: React.ReactNode
-  helper?: React.ReactNode
+  description?: string
+  secondary?: React.ReactNode
+
+  /** The expanded content (chart, table, etc.) */
   content: React.ReactNode
 }
 
-interface MetricPanelProps {
+export type MetricPanelProps = {
   title?: string
   subtitle?: string
   items: MetricItem[]
+
+  /** Closed by default if omitted. Provide a key to open a metric by default. */
+  defaultOpenKey?: string
+
+  className?: string
 }
 
 export function MetricPanel({
   title,
   subtitle,
   items,
+  defaultOpenKey,
+  className,
 }: MetricPanelProps) {
-  const [active, setActive] = useState<string | null>(null)
+  // Closed by default unless a defaultOpenKey is provided.
+  const [active, setActive] = useState<string | null>(defaultOpenKey ?? null)
 
   return (
-    <Card level={1} className="animate-in fade-in duration-500">
+    <Card level={1} className={cn("animate-in fade-in duration-500", className)}>
       <CardContent className="p-0">
-
         {/* Header */}
         {(title || subtitle) && (
-          <div className="px-8 py-6 border-b border-border-subtle space-y-2">
+          <div className="space-y-2 border-b border-border-subtle px-8 py-6">
             {title && <div className="label-lg">{title}</div>}
-            {subtitle && (
-              <p className="p text-muted-foreground">{subtitle}</p>
-            )}
+            {subtitle && <p className="p text-muted-foreground">{subtitle}</p>}
           </div>
         )}
 
-        {/* Metric Tabs */}
-        <Tabs value={active ?? undefined} onValueChange={setActive} className="w-full">
+        <Tabs
+          // Radix Tabs expects undefined for uncontrolled/none.
+          value={active ?? undefined}
+          onValueChange={(v) => setActive(v || null)}
+          className="w-full"
+        >
+          {/*
+            Triggers: keep them in a single row on md+ with vertical separators.
+            On small screens, stack them with horizontal separators.
+          */}
           <TabsList
-            className="
-              w-full
-              p-0
-              bg-transparent
-              md:grid md:grid-cols-3
-              divide-y md:divide-y-0
-              md:divide-x
-              divide-border-subtle
-            "
+            className={cn(
+              // Override shadcn TabsList defaults (it ships with fixed height/padding)
+              "w-full bg-transparent p-0",
+              "h-auto",
+              "items-stretch",
+              "flex flex-col md:flex-row",
+              "divide-y divide-border-subtle md:divide-y-0 md:divide-x"
+            )}
           >
             {items.map((item) => (
               <TabsTrigger
                 key={item.key}
                 value={item.key}
-                className="
-                  w-full
-                  px-8 py-8
-                  text-left
-                  data-[state=active]:bg-secondary/40
-                  transition-all duration-300
-                "
+                className={cn(
+                  // Override shadcn TabsTrigger defaults (fixed height + padding)
+                  "w-full rounded-none p-0 text-left",
+                  "h-auto",
+                  "items-stretch",
+                  "justify-stretch",
+                  "transition-colors",
+                  "data-[state=active]:bg-secondary",
+                  "hover:bg-secondary/40",
+                  "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                )}
               >
-                <div className="space-y-2">
-                  <div className="label-md text-muted-foreground flex items-center gap-2">
-                    {item.icon}
-                    {item.label}
-                  </div>
-                  <div className="data-lg">{item.value}</div>
-                  {item.helper && (
-                    <div className="label-sm text-muted-foreground">
-                      {item.helper}
-                    </div>
+                {/*
+                  Reuse the existing StatCard (large variant) layout.
+                  We intentionally remove its own chrome (border/bg/radius/shadow)
+                  so the MetricPanel owns the segmented layout and separators.
+                */}
+                <StatCard
+                  surfaceLevel={1}
+                  variant="large"
+                  size="lg"
+                  valueSize="lg"
+                  label={item.label}
+                  value={item.value}
+                  icon={item.icon}
+                  description={item.description}
+                  secondary={item.secondary}
+                  className={cn(
+                    // Let the tabs segment own chrome.
+                    "border-0 rounded-none bg-transparent shadow-none",
+                    // Make the trigger feel like a tappable surface.
+                    "w-full h-full"
                   )}
-                </div>
+                />
               </TabsTrigger>
             ))}
           </TabsList>
@@ -90,11 +120,11 @@ export function MetricPanel({
             <TabsContent
               key={item.key}
               value={item.key}
-              className="
-                border-t border-border-subtle
-                px-8 pt-6 pb-8
-                animate-in fade-in slide-in-from-top-2 duration-500
-              "
+              className={cn(
+                "border-t border-border-subtle",
+                "px-8 pt-6 pb-8",
+                "animate-in fade-in slide-in-from-top-2 duration-500"
+              )}
             >
               {item.content}
             </TabsContent>

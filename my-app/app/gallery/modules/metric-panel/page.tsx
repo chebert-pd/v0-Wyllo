@@ -1,66 +1,63 @@
 "use client"
 
 import * as React from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { StatCard } from "@/components/ui/stats"
+import { BarChart3, Laptop, Smartphone } from "lucide-react"
 
-interface MetricPanelItem {
-  key: string
-  label: string
-  value: string
-  icon?: React.ReactNode
-  helper?: React.ReactNode
-  content?: React.ReactNode
-}
+import { MetricPanel } from "@/components/ui/metric-panel"
 
-interface MetricPanelProps {
-  title?: string
-  subtitle?: string
-  defaultOpenKey?: string
-  items: MetricPanelItem[]
-}
-
-export function MetricPanel({ title, subtitle, defaultOpenKey, items }: MetricPanelProps) {
-  const [openKey, setOpenKey] = React.useState(defaultOpenKey || items[0]?.key)
-
+export default function MetricPanelPage() {
   return (
-    <div className="space-y-6">
-      {(title || subtitle) && (
-        <div className="space-y-1">
-          {title && <h2 className="h2">{title}</h2>}
-          {subtitle && <p className="p text-muted-foreground">{subtitle}</p>}
-        </div>
-      )}
+    <div className="space-y-10">
+      <div className="space-y-2">
+        <h1 className="h1">Metric Panel</h1>
+        <p className="p text-muted-foreground">
+          Large stat tabs that expand to reveal detailed analytics.
+        </p>
+      </div>
 
-      <Tabs value={openKey} onValueChange={setOpenKey} className="space-y-4">
-        <TabsList>
-          {items.map((item) => (
-            <TabsTrigger
-              key={item.key}
-              value={item.key}
-              className="p-0 bg-transparent data-[state=active]:bg-transparent"
-            >
-              <StatCard
-                variant="large"
-                size="lg"
-                valueSize="lg"
-                surfaceLevel={1}
-                label={item.label}
-                value={item.value}
-                icon={item.icon}
-                secondary={item.helper}
-                className="border-0 shadow-none"
-              />
-            </TabsTrigger>
-          ))}
-        </TabsList>
-
-        {items.map((item) => (
-          <TabsContent key={item.key} value={item.key} className="space-y-4">
-            {item.content}
-          </TabsContent>
-        ))}
-      </Tabs>
+      <MetricPanel
+        title="Traffic by platform"
+        subtitle="Select a platform to view the breakdown."
+        defaultOpenKey={undefined}
+        items={[
+          {
+            key: "desktop",
+            label: "Desktop",
+            value: "7,324",
+            icon: <Laptop className="size-5" />,
+            helper: "Web",
+            content: (
+              <div className="rounded-[var(--radius)] border border-border bg-card p-6">
+                <p className="p text-muted-foreground">Chart placeholder (Desktop)</p>
+              </div>
+            ),
+          },
+          {
+            key: "mobile",
+            label: "Mobile",
+            value: "7,250",
+            icon: <Smartphone className="size-5" />,
+            helper: "iOS + Android",
+            content: (
+              <div className="rounded-[var(--radius)] border border-border bg-card p-6">
+                <p className="p text-muted-foreground">Chart placeholder (Mobile)</p>
+              </div>
+            ),
+          },
+          {
+            key: "total",
+            label: "Total",
+            value: "14,574",
+            icon: <BarChart3 className="size-5" />,
+            helper: "All platforms",
+            content: (
+              <div className="rounded-[var(--radius)] border border-border bg-card p-6">
+                <p className="p text-muted-foreground">Chart placeholder (Total)</p>
+              </div>
+            ),
+          },
+        ]}
+      />
     </div>
   )
 }
