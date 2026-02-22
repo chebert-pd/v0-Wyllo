@@ -63,6 +63,7 @@ export default function GalleryLayout({
               <a href="/gallery/accordions" className="block hover:text-primary">Accordions</a>
               <a href="/gallery/command-palette" className="block hover:text-primary">Command Palette</a>
               <a href="/gallery/sidebar" className="block hover:text-primary">Sidebar</a>
+              <a href="/gallery/header" className="block hover:text-primary">Header</a>
               <a href="/gallery/stats" className="block hover:text-primary">Stats</a>
               <a href="/gallery/overlays/background" className="block hover:text-primary">Overlay Background</a>
               <a href="/gallery/overlays/dialog" className="block hover:text-primary">Dialog</a>
@@ -132,6 +133,7 @@ export default function GalleryLayout({
                 <a href="/gallery/accordions" className="block" onClick={() => setMobileOpen(false)}>Accordions</a>
                 <a href="/gallery/command-palette" className="block" onClick={() => setMobileOpen(false)}>Command Palette</a>
                 <a href="/gallery/sidebar" className="block" onClick={() => setMobileOpen(false)}>Sidebar</a>
+                <a href="/gallery/header" className="block" onClick={() => setMobileOpen(false)}>Header</a>
                 <a href="/gallery/stats" className="block" onClick={() => setMobileOpen(false)}>Stats</a>
                 <a href="/gallery/overlays/background" className="block" onClick={() => setMobileOpen(false)}>Overlay Background</a>
                 <a href="/gallery/overlays/dialog" className="block" onClick={() => setMobileOpen(false)}>Dialog</a>
