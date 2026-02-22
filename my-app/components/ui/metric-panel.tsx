@@ -1,26 +1,36 @@
-import React from "react"
+"use client"
+import React, { useState } from "react"
 import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/components/ui/accordion"
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+
+interface MetricItem {
+  key: string
+  label: React.ReactNode
+  value: React.ReactNode
+  icon?: React.ReactNode
+  helper?: React.ReactNode
+  content: React.ReactNode
+}
 
 interface MetricPanelProps {
   title?: string
   subtitle?: string
-  stats: React.ReactNode
-  children: React.ReactNode
+  items: MetricItem[]
 }
 
 export function MetricPanel({
   title,
   subtitle,
-  stats,
-  children,
+  items,
 }: MetricPanelProps) {
+  const [active, setActive] = useState<string | null>(null)
+
   return (
     <Card level={1} className="animate-in fade-in duration-500">
       <CardContent className="p-0">
@@ -35,51 +45,61 @@ export function MetricPanel({
           </div>
         )}
 
-        {/* Interactive Stat Accordion */}
-        <Accordion
-          type="single"
-          collapsible
-          className="
-            w-full
-            md:grid md:grid-cols-3
-            divide-y md:divide-y-0
-            md:divide-x
-            divide-border-subtle
-          "
-        >
-          {React.Children.map(stats, (child, index) => (
-            <AccordionItem
-              key={index}
-              value={`metric-${index}`}
-              className="border-0 contents"
-            >
-              {/* Stat Trigger */}
-              <AccordionTrigger
+        {/* Metric Tabs */}
+        <Tabs value={active ?? undefined} onValueChange={setActive} className="w-full">
+          <TabsList
+            className="
+              w-full
+              p-0
+              bg-transparent
+              md:grid md:grid-cols-3
+              divide-y md:divide-y-0
+              md:divide-x
+              divide-border-subtle
+            "
+          >
+            {items.map((item) => (
+              <TabsTrigger
+                key={item.key}
+                value={item.key}
                 className="
                   w-full
                   px-8 py-8
                   text-left
-                  hover:bg-secondary/40
+                  data-[state=active]:bg-secondary/40
                   transition-all duration-300
                 "
               >
-                {child}
-              </AccordionTrigger>
+                <div className="space-y-2">
+                  <div className="label-md text-muted-foreground flex items-center gap-2">
+                    {item.icon}
+                    {item.label}
+                  </div>
+                  <div className="data-lg">{item.value}</div>
+                  {item.helper && (
+                    <div className="label-sm text-muted-foreground">
+                      {item.helper}
+                    </div>
+                  )}
+                </div>
+              </TabsTrigger>
+            ))}
+          </TabsList>
 
-              {/* Expanded Analytics Panel */}
-              <AccordionContent
-                className="
-                  col-span-full
-                  px-8 pt-6 pb-8
-                  border-t border-border-subtle
-                  animate-in fade-in slide-in-from-top-2 duration-500
-                "
-              >
-                {children}
-              </AccordionContent>
-            </AccordionItem>
+          {items.map((item) => (
+            <TabsContent
+              key={item.key}
+              value={item.key}
+              className="
+                border-t border-border-subtle
+                px-8 pt-6 pb-8
+                animate-in fade-in slide-in-from-top-2 duration-500
+              "
+            >
+              {item.content}
+            </TabsContent>
           ))}
-        </Accordion>
+        </Tabs>
       </CardContent>
     </Card>
   )
