@@ -96,7 +96,7 @@ function Header({
       {/* ── Heading row ─────────────────────────────────────────────── */}
       <div
         className={cn(
-          "flex w-full items-center gap-4 px-6 transition-[padding] duration-150",
+          "flex w-full flex-wrap items-center gap-x-4 gap-y-2 px-6 transition-[padding] duration-150",
           isSticky && scrolled ? "py-2" : "py-4"
         )}
       >
@@ -137,9 +137,9 @@ function Header({
           )}
         </div>
 
-        {/* Right ── optional right metadata + actions */}
+        {/* Right ── optional right metadata + actions; wraps below left on small viewports */}
         {(rightMetadata || actions) && (
-          <div className="flex shrink-0 items-center gap-4">
+          <div className="flex w-full items-center gap-4 sm:w-auto sm:shrink-0">
             {rightMetadata && (
               <div
                 className={cn(
