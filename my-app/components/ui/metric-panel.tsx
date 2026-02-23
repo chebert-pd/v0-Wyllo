@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import { StatCard } from "@/components/ui/stats"
 
+const CLOSED_TAB_VALUE = "__closed__"
+
 export type MetricItem = {
   key: string
 
@@ -41,7 +43,7 @@ export function MetricPanel({
   className,
 }: MetricPanelProps) {
   // Closed by default unless a defaultOpenKey is provided.
-  const [active, setActive] = useState<string | null>(defaultOpenKey ?? null)
+  const [active, setActive] = useState<string>(defaultOpenKey ?? CLOSED_TAB_VALUE)
 
   return (
     <Card level={1} className={cn("animate-in fade-in duration-500", className)}>
@@ -55,9 +57,8 @@ export function MetricPanel({
         )}
 
         <Tabs
-          // Radix Tabs expects undefined for uncontrolled/none.
-          value={active ?? undefined}
-          onValueChange={(v) => setActive(v || null)}
+          value={active}
+          onValueChange={(v) => setActive(v)}
           className="w-full"
         >
           {/*
@@ -71,22 +72,47 @@ export function MetricPanel({
               "h-auto",
               "items-stretch",
               "flex flex-col md:flex-row",
-              "divide-y divide-border-subtle md:divide-y-0 md:divide-x"
+              // Internal separators
+              "divide-y divide-border-subtle md:divide-y-0 md:divide-x",
+              // Baseline rule so the active underline feels anchored
+              "border-b border-border-subtle"
             )}
           >
+            <TabsTrigger
+              value={CLOSED_TAB_VALUE}
+              className="hidden"
+              aria-hidden="true"
+              tabIndex={-1}
+            />
             {items.map((item) => (
               <TabsTrigger
                 key={item.key}
                 value={item.key}
+                onMouseDown={(e) => {
+                  // Radix Tabs selects on pointer down; intercept that for toggle-close.
+                  if (active === item.key) {
+                    e.preventDefault()
+                    setActive(CLOSED_TAB_VALUE)
+                  }
+                }}
                 className={cn(
                   // Override shadcn TabsTrigger defaults (fixed height + padding)
-                  "w-full rounded-none p-0 text-left",
+                  "relative w-full rounded-none p-0 text-left",
                   "h-auto",
                   "items-stretch",
                   "justify-stretch",
-                  "transition-colors",
-                  "data-[state=active]:bg-secondary",
+
+                  // Keep the surface in the same family as the Card background (no grey-on-colored)
+                  "bg-transparent",
                   "hover:bg-secondary/40",
+                  "data-[state=active]:bg-transparent",
+
+                  // Bottom-only active indicator
+                  "border-b-2 border-transparent -mb-px",
+                  "data-[state=active]:[border-bottom-color:var(--primary)]",
+
+                  // Typography/interaction polish
+                  "transition-colors",
                   "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 )}
               >

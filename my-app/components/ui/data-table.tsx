@@ -35,7 +35,20 @@ import {
   TableRow,
   TableFooter,
 } from "@/components/ui/table"
-import { ChevronUp, ChevronDown } from "lucide-react"
+import { ChevronUp, ChevronDown, ChevronRight } from "lucide-react"
+
+// Helper type and functions for total/footer row detection
+type AnyRecord = Record<string, any>
+function isTotalRow(row: unknown): boolean {
+  if (typeof row !== "object" || row === null) return false
+  const r = row as AnyRecord
+  return (
+    r.__rowType === "total" ||
+    r.rowType === "total" ||
+    r.isTotal === true ||
+    r._isTotal === true
+  )
+}
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
@@ -60,6 +73,12 @@ type DataTableProps<TData, TValue> = {
   /** Enable expandable rows */
   enableExpansion?: boolean
 
+  /** Expansion rendering mode */
+  expansionVariant?: "panel" | "nested"
+
+  /** Custom full-width panel renderer (used in panel mode) */
+  renderExpandedPanel?: (row: TData) => React.ReactNode
+
   /** Function to return subRows */
   getSubRows?: (row: TData) => TData[] | undefined
 
@@ -81,6 +100,12 @@ type DataTableProps<TData, TValue> = {
 
   pageCount?: number
   rowCount?: number
+  /** Optional explicit footer total/roll-up row */
+  footerRow?: TData
+  /** Footer label for total row (defaults to "Total") */
+  footerLabel?: string
+  /** Hide footer when empty (default true) */
+  hideFooterWhenEmpty?: boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -99,6 +124,8 @@ export function DataTable<TData, TValue>({
   enablePagination = true,
   enableFooter = false,
   enableExpansion = false,
+  expansionVariant = "panel",
+  renderExpandedPanel,
   getSubRows,
   getRowColor,
   mode = "client",
@@ -110,6 +137,9 @@ export function DataTable<TData, TValue>({
   onPaginationStateChange,
   pageCount,
   rowCount,
+  footerRow,
+  footerLabel,
+  hideFooterWhenEmpty = true,
 }: DataTableProps<TData, TValue>) {
   const isServer = mode === "server"
 
@@ -127,8 +157,115 @@ export function DataTable<TData, TValue>({
   const effectivePagination = paginationState ?? pagination
   const setEffectivePagination = onPaginationStateChange ?? setPagination
 
+  // --- Split data and handle footer row logic ---
+  const explicitFooterRow = footerRow
+  const implicitFooterRow = React.useMemo(() => {
+    if (!enableFooter) return undefined
+    if (explicitFooterRow) return undefined
+
+    const found = data.find((d) => isTotalRow(d))
+    if (found) return found
+
+    // If no flagged total row exists, auto-detect a row where first column equals "Total"
+    const firstColumn = columns[0] as any
+    const accessor = firstColumn?.accessorKey
+
+    if (accessor) {
+      const totalRow = data.find((d: any) => d?.[accessor] === "Total")
+      return totalRow
+    }
+
+    return undefined
+  }, [data, enableFooter, explicitFooterRow, columns])
+  const tableData = React.useMemo(() => {
+    // Remove implicit footer row from the table body so it won't sort/filter/paginate.
+    if (!implicitFooterRow) return data
+    return data.filter((d) => d !== implicitFooterRow)
+  }, [data, implicitFooterRow])
+
+  const numericColumnIds = React.useMemo(() => {
+    const ids = new Set<string>()
+
+    if (!tableData?.length) return ids
+
+    for (const col of columns as Array<ColumnDef<TData, any> & { accessorKey?: string; id?: string; meta?: any }>) {
+      const key = (col as any).accessorKey as string | undefined
+      const id = (col as any).id ?? key
+      if (!id || !key) continue
+
+      // Respect explicit meta overrides
+      const align = (col as any).meta?.align
+      if (align) continue
+
+      // Scan rows until we find a numeric-like value
+      for (const row of tableData as AnyRecord[]) {
+        const v = row[key]
+
+        if (
+          typeof v === "number" ||
+          typeof v === "bigint" ||
+          (typeof v === "string" &&
+            /^\s*-?\$?\s*-?\d[\d,]*(\.\d+)?%?\s*$/.test(v))
+        ) {
+          ids.add(id)
+          break
+        }
+      }
+    }
+
+    return ids
+  }, [columns, tableData])
+
+  const currencyColumnIds = React.useMemo(() => {
+    const ids = new Set<string>()
+
+    if (!tableData?.length) return ids
+
+    for (const col of columns as Array<
+      ColumnDef<TData, any> & { accessorKey?: string; id?: string; meta?: any }
+    >) {
+      const key = (col as any).accessorKey as string | undefined
+      const id = (col as any).id ?? key
+      if (!id || !key) continue
+
+      // Respect explicit meta overrides
+      const format = (col as any).meta?.format
+      if (format === "currency") {
+        ids.add(id)
+        continue
+      }
+      if (format) continue
+
+      // Heuristics: accessor name + value inspection
+      if (/(amount|cost|price|revenue|subtotal|total|charge|credit|spent|payment)/i.test(key)) {
+        ids.add(id)
+        continue
+      }
+
+      for (const row of tableData as AnyRecord[]) {
+        const v = row[key]
+        if (typeof v === "string" && v.includes("$")) {
+          ids.add(id)
+          break
+        }
+      }
+    }
+
+    return ids
+  }, [columns, tableData])
+
+  const isRightAligned = React.useCallback(
+    (col: any) => {
+      const explicit = col.columnDef?.meta?.align
+      if (explicit === "right") return true
+      if (explicit === "left") return false
+      return numericColumnIds.has(col.id)
+    },
+    [numericColumnIds]
+  )
+
   const table = useReactTable({
-    data,
+    data: tableData,
     columns,
     state: {
       sorting: effectiveSorting,
@@ -145,7 +282,10 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: !isServer && enableSorting ? getSortedRowModel() : undefined,
     getPaginationRowModel: !isServer && enablePagination ? getPaginationRowModel() : undefined,
     getSubRows: enableExpansion ? getSubRows : undefined,
-    getExpandedRowModel: enableExpansion ? getExpandedRowModel() : undefined,
+    getExpandedRowModel:
+      enableExpansion && expansionVariant === "nested"
+        ? getExpandedRowModel()
+        : undefined,
     manualPagination: isServer && enablePagination ? true : false,
     manualSorting: isServer && enableSorting ? true : false,
     manualFiltering: isServer && enableSearch ? true : false,
@@ -171,9 +311,9 @@ export function DataTable<TData, TValue>({
   }, [enablePagination, goToPage, table, totalPages])
 
   return (
-    <Card className="p-6">
+    <Card className="w-full overflow-hidden">
       {/* HEADER */}
-      <div className="flex items-start justify-between gap-6">
+      <div className="px-6 pt-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-start sm:gap-6">
         <div className="flex items-start gap-3">
           {icon && <div className="mt-1">{icon}</div>}
           <div className="space-y-1">
@@ -184,20 +324,20 @@ export function DataTable<TData, TValue>({
           </div>
         </div>
         {actions && (
-          <div className="flex items-center gap-2">
+          <div className="flex min-w-0 w-full flex-wrap items-center gap-2 sm:w-auto sm:justify-end">
             {actions}
           </div>
         )}
       </div>
 
       {/* BODY */}
-      <div className="mt-4">
+      <div className="mt-4 px-6">
         {/* TABS */}
         {tabs && <div className="mb-4">{tabs}</div>}
 
         {/* CONTROLS ROW */}
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex min-w-0 w-full flex-wrap items-center gap-2">
             {filterTrigger ?? (
               <Button variant="outline" size="md">
                 Filter
@@ -209,7 +349,7 @@ export function DataTable<TData, TValue>({
                 placeholder="Search..."
                 value={effectiveSearch ?? ""}
                 onChange={(e) => setEffectiveSearch(e.target.value)}
-                className="flex-1 p"
+                className="min-w-0 flex-1 basis-0 p"
               />
             )}
 
@@ -228,8 +368,14 @@ export function DataTable<TData, TValue>({
         </div>
 
         {/* TABLE */}
-        <div className="mt-3">
-          <Table className="table-fixed w-full">
+        <div className="mt-3 -mx-6">
+          {/*
+            Full-bleed separators + footer background:
+            - We keep the card padding for content, but let the table area bleed to the card edges.
+            Scroll is constrained to the table region only.
+          */}
+          <div className="relative w-full max-w-full overflow-x-auto">
+            <Table className="w-full min-w-full table-auto">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
@@ -237,8 +383,8 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       className={cn(
-                        "px-4 py-2 align-middle label-md text-muted-foreground",
-                        header.column.columnDef.meta?.align === "right" && "text-right",
+                        "px-6 py-2 align-middle label-md text-muted-foreground",
+                        isRightAligned(header.column) && "text-right",
                         header.column.getCanSort() && "cursor-pointer select-none"
                       )}
                       onClick={
@@ -251,7 +397,7 @@ export function DataTable<TData, TValue>({
                         <div
                           className={cn(
                             "flex items-center gap-1",
-                            header.column.columnDef.meta?.align === "right" && "justify-end"
+                            isRightAligned(header.column) && "justify-end"
                           )}
                         >
                           {flexRender(
@@ -288,67 +434,121 @@ export function DataTable<TData, TValue>({
 
             <TableBody>
               {table.getRowModel().rows.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <React.Fragment key={row.id}>
-                    <TableRow>
-                      {enableExpansion && (
-                        <TableCell className="px-4 py-2 align-middle w-8">
-                          {row.getCanExpand() && (
-                            <button
-                              onClick={row.getToggleExpandedHandler()}
-                              className="flex items-center justify-center"
-                            >
-                              {row.getIsExpanded() ? (
-                                <ChevronDown className="size-4" />
-                              ) : (
-                                <ChevronUp className="size-4 rotate-90" />
+                table.getRowModel().rows.map((row) => {
+                  // In panel mode, only render depth 0 rows
+                  if (
+                    enableExpansion &&
+                    expansionVariant === "panel" &&
+                    row.depth > 0
+                  ) {
+                    return null
+                  }
+
+                  const isNested =
+                    enableExpansion &&
+                    expansionVariant === "nested" &&
+                    row.depth > 0
+
+                  const isTopLevel = !isNested
+
+                  return (
+                    <React.Fragment key={row.id}>
+                      <TableRow className={cn(!isNested && enableExpansion && (row.getCanExpand?.() ?? false) && "cursor-pointer hover:bg-accent/40")}
+                      >
+                        {row.getVisibleCells().map((cell, idx) => {
+                          const canExpand = row.getCanExpand?.() ?? false
+                          const isExpanded = row.getIsExpanded?.() ?? false
+
+                          return (
+                            <TableCell
+                              key={cell.id}
+                              className={cn(
+                                "px-6 py-2 align-middle p",
+                                isRightAligned(cell.column) && "text-right",
+                                !isTopLevel && "bg-secondary"
                               )}
-                            </button>
-                          )}
-                        </TableCell>
-                      )}
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell
-                          key={cell.id}
-                          className="px-4 py-2 align-middle p"
-                        >
-                          {cell.column.id === table.getAllLeafColumns()[0]?.id && getRowColor && (
-                            <span
-                              className="inline-block size-3 rounded-sm mr-2 align-middle"
-                              style={{ backgroundColor: getRowColor(row.original) }}
-                            />
-                          )}
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                    {row.getIsExpanded() && (
-                      <TableRow>
-                        <TableCell
-                          colSpan={row.getVisibleCells().length + (enableExpansion ? 1 : 0)}
-                          className="bg-secondary px-6 py-4"
-                        >
-                          {row.subRows?.map((subRow) => (
-                            <div key={subRow.id} className="py-1">
-                              {subRow.getVisibleCells().map((cell) => (
-                                <div key={cell.id}>
-                                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            >
+                              {idx === 0 && (
+                                <div className="flex items-center gap-2">
+                                  {enableExpansion && expansionVariant === "nested" && (
+                                    <div className="inline-flex size-6 items-center justify-center shrink-0">
+                                      {canExpand ? (
+                                        <button
+                                          onClick={row.getToggleExpandedHandler()}
+                                          className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                                        >
+                                          {isExpanded ? (
+                                            <ChevronDown className="size-4" />
+                                          ) : (
+                                            <ChevronRight className="size-4" />
+                                          )}
+                                        </button>
+                                      ) : null}
+                                    </div>
+                                  )}
+
+                                  {getRowColor && !isNested && (
+                                    <span
+                                      className="inline-block size-3 rounded-sm"
+                                      style={{ backgroundColor: getRowColor(row.original) }}
+                                    />
+                                  )}
+
+                                  <div className="min-w-0 flex-1">
+                                    {flexRender(
+                                      cell.column.columnDef.cell,
+                                      cell.getContext()
+                                    )}
+                                  </div>
                                 </div>
-                              ))}
-                            </div>
-                          ))}
-                        </TableCell>
+                              )}
+                              {idx !== 0 &&
+                                flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                )}
+                            </TableCell>
+                          )
+                        })}
                       </TableRow>
-                    )}
-                  </React.Fragment>
-                ))
+
+                      {/* PANEL MODE (full-width details row, animated) */}
+                      {enableExpansion &&
+                        expansionVariant === "panel" && (
+                          <TableRow>
+                            <TableCell
+                              colSpan={
+                                row.getVisibleCells().length
+                              }
+                              className="bg-secondary px-6 py-0 border-none"
+                            >
+                              <div
+                                className={cn(
+                                  "overflow-hidden transition-all duration-300 ease-out",
+                                  row.getIsExpanded()
+                                    ? "max-h-[1000px] opacity-100 py-4"
+                                    : "max-h-0 opacity-0"
+                                )}
+                              >
+                                {row.getIsExpanded() &&
+                                  (renderExpandedPanel ? (
+                                    renderExpandedPanel(row.original)
+                                  ) : (
+                                    <div className="p text-muted-foreground">
+                                      No details provided.
+                                    </div>
+                                  ))}
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        )}
+                    </React.Fragment>
+                  )
+                })
               ) : (
                 <TableRow>
                   <TableCell
-                    colSpan={columns.length}
+                    colSpan={columns.length + (enableExpansion ? 1 : 0)}
                     className="h-24 text-center p-sm text-muted-foreground"
                   >
                     No results.
@@ -357,35 +557,106 @@ export function DataTable<TData, TValue>({
               )}
             </TableBody>
 
-            {enableFooter && (
-              <TableFooter>
-                <TableRow className="border-t border-border">
-                  {table.getFooterGroups().map((footerGroup) =>
-                    footerGroup.headers.map((header) => (
-                      <TableCell
-                        key={header.id}
-                        className="px-4 py-3 p-sm bg-secondary"
-                      >
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.footer,
-                              header.getContext()
-                            )}
-                      </TableCell>
-                    ))
-                  )}
-                </TableRow>
-              </TableFooter>
-            )}
-          </Table>
+            {enableFooter && (() => {
+              const effectiveFooterRow = (footerRow ?? implicitFooterRow) as AnyRecord | undefined
+              const shouldHide = (hideFooterWhenEmpty ?? true) && !effectiveFooterRow
+              if (shouldHide) return null
+
+              const leafColumns = table.getAllLeafColumns()
+              const label = footerLabel ?? "Total"
+
+              return (
+                <TableFooter>
+                  <TableRow className="bg-secondary border-t border-border-subtle">
+                    {leafColumns.map((col, idx) => {
+                      const key = (col.columnDef as any)?.accessorKey as string | undefined
+                      const value = key && effectiveFooterRow ? effectiveFooterRow[key] : undefined
+
+                      return (
+                        <TableCell
+                          key={col.id}
+                          className={cn(
+                            "px-6 py-3 align-middle",
+                            isRightAligned(col) && "text-right"
+                          )}
+                        >
+                          {idx === 0 ? (
+                            <span className="label-md">{label}</span>
+                          ) : value !== undefined && value !== null ? (
+                            <span className="label-md tabular-nums">
+                              {(() => {
+                                // Respect explicit meta formatting if provided
+                                const format = (col.columnDef as any)?.meta?.format as
+                                  | "currency"
+                                  | "percent"
+                                  | "number"
+                                  | undefined
+
+                                const isCurrency = format === "currency" || currencyColumnIds.has(col.id)
+
+                                if (typeof value === "number") {
+                                  if (isCurrency) {
+                                    return new Intl.NumberFormat(undefined, {
+                                      style: "currency",
+                                      currency: "USD",
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    }).format(value)
+                                  }
+
+                                  if (format === "percent") {
+                                    return new Intl.NumberFormat(undefined, {
+                                      style: "percent",
+                                      minimumFractionDigits: 0,
+                                      maximumFractionDigits: 2,
+                                    }).format(value)
+                                  }
+
+                                  return value.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                  })
+                                }
+
+                                if (typeof value === "string") {
+                                  // If the incoming value is already formatted, keep it.
+                                  if (value.includes("$")) return value
+                                  if (/^\s*-?\d[\d,]*(\.\d+)?\s*%\s*$/.test(value)) return value
+
+                                  // If it's a numeric-like string and this is a currency column, format it.
+                                  const numeric = Number(value.replace(/[^0-9.-]/g, ""))
+                                  if (Number.isFinite(numeric) && isCurrency) {
+                                    return new Intl.NumberFormat(undefined, {
+                                      style: "currency",
+                                      currency: "USD",
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    }).format(numeric)
+                                  }
+
+                                  return value
+                                }
+
+                                return String(value)
+                              })()}
+                            </span>
+                          ) : null}
+                        </TableCell>
+                      )
+                    })}
+                  </TableRow>
+                </TableFooter>
+              )
+            })()}
+            </Table>
+          </div>
         </div>
       </div>
 
       {/* FOOTER */}
-      {(enablePagination) && (
-        <div className="mt-3 pt-3 border-t border-border flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
+      {enablePagination && totalPages > 1 && (
+        <div className="mt-3 px-6 pb-6 flex flex-col gap-3 border-t border-border pt-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 max-w-full">
+          <div className="flex items-center gap-2 whitespace-nowrap">
             <span className="p-sm text-muted-foreground">
               Rows per page:
             </span>
@@ -412,19 +683,19 @@ export function DataTable<TData, TValue>({
             </Select>
           </div>
 
-          <div className="flex items-center gap-4">
-            <span className="p-sm text-muted-foreground">
+          <div className="flex items-center gap-4 whitespace-nowrap overflow-x-auto">
+            <span className="p-sm text-muted-foreground whitespace-nowrap">
               Page {effectivePagination.pageIndex + 1} of {Math.max(totalPages, 1)}
             </span>
 
             {isServer && typeof rowCount === "number" && (
-              <span className="p-sm text-muted-foreground">
+              <span className="p-sm text-muted-foreground whitespace-nowrap">
                 Total: {rowCount.toLocaleString()} rows
               </span>
             )}
 
             <div className="flex items-center gap-2">
-              <span className="p-sm text-muted-foreground">Go to</span>
+              <span className="p-sm text-muted-foreground whitespace-nowrap">Go to</span>
               <Input
                 size="inline"
                 inputMode="numeric"

@@ -153,6 +153,15 @@ export default function Page() {
             tighter SaaS-style density instead of blog-style looseness.
           </p>
         </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">4. Forms Typography Rules</h3>
+          <p className="p text-muted-foreground">
+            Form labels default to <code>label-sm</code> with muted foreground
+            to reduce visual noise, while entered values use a stronger weight
+            so user input reads as the primary information.
+          </p>
+        </div>
       </section>
 
       {/* ============================= */}
@@ -221,6 +230,17 @@ export default function Page() {
             (<code>--destructive-solid</code>) instead of reusing the background
             semantic. This ensures accessibility and visual priority without
             compromising contextual alert styling.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">4. Subtle Primary Borders</h3>
+          <p className="p text-muted-foreground">
+            When primary emphasis needs to feel premium (e.g., default badges),
+            we use a dedicated soft border token
+            (<code>--border-primary-subtle</code>) built with color-mix logic
+            similar to the halo approach. This avoids overbearing borders while
+            staying within the semantic system.
           </p>
         </div>
       </section>
@@ -293,6 +313,56 @@ export default function Page() {
             numeric markers to check icons automatically.
           </p>
         </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">4. Inline Field Controls</h3>
+          <p className="p text-muted-foreground">
+            Tables and dense workflows use dedicated inline variants for Input
+            and Select. Inline controls are borderless by default, use
+            <code>text-sm</code> with 525 weight, inherit primary text color,
+            and expose affordance via an animated underline (input-colored)
+            that thickens on focus.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">5. Semantic Badges + Composed Badge Patterns</h3>
+          <p className="p text-muted-foreground">
+            Badges support semantic intent variants and reusable composed
+            patterns (status, indicator, avatar, icon, delta, action). Composed
+            patterns are style-agnostic and can be paired with any semantic
+            badge variant.
+          </p>
+          <ul className="p text-muted-foreground list-disc pl-6 space-y-2">
+            <li>
+              Default badge uses a softer semantic border token
+              (<code>--border-primary-subtle</code>) for premium, consistent
+              emphasis.
+            </li>
+            <li>
+              Outline badges always render on the primary surface background
+              (white in light mode) and use subtle borders.
+            </li>
+            <li>
+              Indicator pulse is constrained to the outline badge style, while
+              the pulsing dot remains a solid semantic color.
+            </li>
+            <li>
+              Action badges are constrained to the outline style for clarity
+              and consistency.
+            </li>
+          </ul>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">6. Metric Panel Pattern</h3>
+          <p className="p text-muted-foreground">
+            A composed Metric Panel pattern uses a row of stat-like triggers
+            with a single expandable detail region (chart/table) below. Behavior
+            is intentionally “closed by default” and supports click-to-open,
+            click-again-to-close.
+          </p>
+        </div>
       </section>
 
       {/* ============================= */}
@@ -316,6 +386,16 @@ export default function Page() {
             Controls and navigation elements offer size variants (e.g., Tabs,
             Buttons) to support dense dashboards and spacious workflows using
             the same token system.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="h3">3. App Navigation Collapse</h3>
+          <p className="p text-muted-foreground">
+            The left navigation collapses into a hamburger menu at
+            <code>lg+</code> breakpoints to preserve workspace density while
+            keeping the system’s primary navigation reachable on smaller
+            screens.
           </p>
         </div>
       </section>
