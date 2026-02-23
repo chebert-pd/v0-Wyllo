@@ -5,8 +5,8 @@ import * as React from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Header } from "@/components/ui/header"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ChevronDown } from "lucide-react"
 
 /** Scrollable demo shell for the default (no-tabs) sticky variant */
 function ScrollDemo({
@@ -70,17 +70,17 @@ function TabsScrollDemo({ label }: { label: string }) {
             </Button>
           }
         />
-        <div className="relative border-t border-border bg-background px-4 py-3">
-          <select
-            value={activeTab}
-            onChange={(e) => setActiveTab(e.target.value)}
-            className="w-full appearance-none rounded-md border border-input bg-card px-3 py-2 pr-8 label-md"
-          >
-            {TAB_ITEMS.map((t) => (
-              <option key={t.value} value={t.value}>{t.label}</option>
-            ))}
-          </select>
-          <ChevronDown className="pointer-events-none absolute right-6 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <div className="border-t border-border bg-background px-4 py-3">
+          <Select value={activeTab} onValueChange={setActiveTab}>
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {TAB_ITEMS.map((t) => (
+                <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div className="space-y-3 p-6">
           {Array.from({ length: 4 }).map((_, i) => (
