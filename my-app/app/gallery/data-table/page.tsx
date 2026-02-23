@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "@/components/ui/data-table"
-import { Badge } from "@/components/ui/badge"
+import { StatusBadge } from "@/lib/status"
 import { Button } from "@/components/ui/button"
 import { Table as TableIcon } from "lucide-react"
 
@@ -33,8 +33,7 @@ const columns: ColumnDef<Payment>[] = [
     header: "Status",
     cell: ({ row }) => {
       const value = row.getValue("status") as Payment["status"]
-
-      return <Badge variant="secondary">{value}</Badge>
+      return <StatusBadge status={value} />
     },
   },
   {

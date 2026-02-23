@@ -34,20 +34,86 @@ export default function GalleryHome() {
     {
       title: "Core",
       description:
-        "Buttons, Badge, Alert, Card — core reusable UI building blocks.",
+        "Core primitives and structural components.",
       href: "/gallery/core",
     },
     {
-      title: "Tables & Lists",
+      title: "Buttons",
       description:
-        "Data tables, sorting, pagination, row selection, and structured layouts.",
-      href: "/gallery/tables",
+        "Primary, outline, ghost, destructive, and link button variants.",
+      href: "/gallery/buttons",
+    },
+    {
+      title: "Badges",
+      description:
+        "Semantic status indicators, metadata labels, and composed badge patterns.",
+      href: "/gallery/badge",
     },
     {
       title: "Forms",
       description:
-        "Field system, inputs, toggles, comboboxes, and the Create Merchant Workspace example.",
+        "Field system, inputs, toggles, comboboxes, and multi-step form patterns.",
       href: "/gallery/forms",
+    },
+    {
+      title: "Tables",
+      description:
+        "Basic tables, structured layouts, and static data presentation.",
+      href: "/gallery/tables",
+    },
+    {
+      title: "Data Table",
+      description:
+        "Advanced data table with sorting, pagination, filters, and expandable rows.",
+      href: "/gallery/data-table",
+    },
+    {
+      title: "Tabs",
+      description:
+        "Line and pill variants, vertical tabs, and responsive behavior.",
+      href: "/gallery/tabs",
+    },
+    {
+      title: "Accordions",
+      description:
+        "Collapsible content sections for progressive disclosure.",
+      href: "/gallery/accordions",
+    },
+    {
+      title: "Command Palette",
+      description:
+        "Keyboard-driven command interface and search patterns.",
+      href: "/gallery/command-palette",
+    },
+    {
+      title: "Sidebar",
+      description:
+        "Responsive navigation patterns and layout structures.",
+      href: "/gallery/sidebar",
+    },
+    {
+      title: "Stats",
+      description:
+        "Metric display components with trends, badges, and action footers.",
+      href: "/gallery/stats",
+    },
+    {
+      title: "Overlay Background",
+      description:
+        "Backdrop treatments, blur layers, and glass-frame patterns.",
+      href: "/gallery/overlays/background",
+    },
+    {
+      title: "Dialog",
+      description:
+        "Modal dialogs with structured header, body, and footer patterns.",
+      href: "/gallery/overlays/dialog",
+    },
+    {
+      title: "Sheet",
+      description:
+        "Slide-over panels and contextual side drawers.",
+      href: "/gallery/overlays/sheet",
     },
   ]
 
