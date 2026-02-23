@@ -4,9 +4,31 @@ import * as React from "react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Header } from "@/components/ui/header"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { EllipsisVertical } from "lucide-react"
+
+/** Ellipsis icon button that opens the order actions dropdown */
+function ActionsMenu() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm" iconOnly aria-label="Order actions">
+          <EllipsisVertical />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem>Submit Chargeback</DropdownMenuItem>
+        <DropdownMenuItem>Report Fraud</DropdownMenuItem>
+        <DropdownMenuItem>Submit Abuse</DropdownMenuItem>
+        <DropdownMenuItem>Mark as Passed by Merchant</DropdownMenuItem>
+        <DropdownMenuItem>Edit Transaction</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
 /** Scrollable demo shell for the default (no-tabs) sticky variant */
 function ScrollDemo({
@@ -102,11 +124,7 @@ function TabsScrollDemo({ label }: { label: string }) {
               badge={<Badge variant="destructive">Cancelled</Badge>}
               metadata="Month DD, YYYY, 00:00 AM ET"
               rightMetadata="$1,234"
-              actions={
-                <Button variant="outline" size="md">
-                  Actions
-                </Button>
-              }
+              actions={<ActionsMenu />}
               tabs={
                 <TabsList className="w-full justify-start px-6">
                   {TAB_ITEMS.map((t) => (
@@ -161,11 +179,7 @@ export default function HeaderGalleryPage() {
               badge={<Badge variant="destructive">Cancelled</Badge>}
               metadata="Month DD, YYYY, 00:00 AM ET"
               rightMetadata="$1,234"
-              actions={
-                <Button variant="outline" size="md">
-                  Actions
-                </Button>
-              }
+              actions={<ActionsMenu />}
               scrollContainerRef={ref}
             />
           )}
