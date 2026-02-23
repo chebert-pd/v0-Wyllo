@@ -56,21 +56,40 @@ function TabsScrollDemo({ label }: { label: string }) {
     <div className="space-y-2">
       <p className="label-sm text-muted-foreground">{label}</p>
 
-      {/* Mobile select fallback (matches tabs gallery pattern) */}
-      <div className="sm:hidden relative">
-        <select
-          value={activeTab}
-          onChange={(e) => setActiveTab(e.target.value)}
-          className="w-full appearance-none rounded-md border border-input bg-card px-3 py-2 pr-8 label-md"
-        >
-          {TAB_ITEMS.map((t) => (
-            <option key={t.value} value={t.value}>{t.label}</option>
+      {/* Mobile: full header visible, select takes the place of the tabs row */}
+      <div className="sm:hidden rounded-lg border border-border overflow-hidden">
+        <Header
+          variant="sticky"
+          title="ORD-0123"
+          badge={<Badge variant="destructive">Cancelled</Badge>}
+          metadata="Month DD, YYYY, 00:00 AM ET"
+          rightMetadata="$1,234"
+          actions={
+            <Button variant="outline" size="md">
+              Actions
+            </Button>
+          }
+        />
+        <div className="relative border-t border-border bg-background px-4 py-3">
+          <select
+            value={activeTab}
+            onChange={(e) => setActiveTab(e.target.value)}
+            className="w-full appearance-none rounded-md border border-input bg-card px-3 py-2 pr-8 label-md"
+          >
+            {TAB_ITEMS.map((t) => (
+              <option key={t.value} value={t.value}>{t.label}</option>
+            ))}
+          </select>
+          <ChevronDown className="pointer-events-none absolute right-6 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        </div>
+        <div className="space-y-3 p-6">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="h-8 rounded bg-border-subtle" />
           ))}
-        </select>
-        <ChevronDown className="pointer-events-none absolute right-2 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        </div>
       </div>
 
-      {/* Tabs demo — variant set on <Tabs> root, inherited by TabsList/TabsTrigger */}
+      {/* Desktop: scroll box with Tabs + Header inside */}
       <div className="hidden sm:block">
         <Tabs variant="line" value={activeTab} onValueChange={setActiveTab}>
           <div
