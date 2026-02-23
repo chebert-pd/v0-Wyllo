@@ -101,7 +101,7 @@ export default function GalleryLayout({
         <div className="fixed inset-0 z-40 lg:hidden">
           {/* backdrop */}
           <div
-            className="absolute inset-0 bg-background/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-overlay backdrop-blur-overlay"
             onClick={() => setMobileOpen(false)}
           />
 

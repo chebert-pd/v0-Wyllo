@@ -57,6 +57,9 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  /* Overlay / scrim */
+  --color-overlay: var(--overlay-bg);
+  --backdrop-blur-overlay: var(--overlay-blur);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -92,6 +95,12 @@
   --elevation-floating: var(--shadow-y2);
   --elevation-overlay: var(--shadow-y6);
   --elevation-popover: var(--shadow-y16);
+
+  /* ===================== */
+  /* SEMANTIC — OVERLAY / SCRIM */
+  /* ===================== */
+  --overlay-bg: color-mix(in oklch, var(--background) 60%, transparent);
+  --overlay-blur: 4px;
 
   /* ===================== */
   /* PRIMITIVES — GRAY */
