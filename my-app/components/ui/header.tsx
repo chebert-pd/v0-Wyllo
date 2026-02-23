@@ -139,7 +139,7 @@ function Header({
 
         {/* Right ── optional right metadata + actions; wraps below left on small viewports */}
         {(rightMetadata || actions) && (
-          <div className="flex w-full items-center gap-4 sm:w-auto sm:shrink-0">
+          <div className="flex w-full items-center justify-between gap-4 sm:w-auto sm:shrink-0 sm:justify-start">
             {rightMetadata && (
               <div
                 className={cn(
