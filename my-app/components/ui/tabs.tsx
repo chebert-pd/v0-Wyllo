@@ -36,11 +36,11 @@ const tabsTriggerVariants = cva(
     variants: {
       variant: {
         line: [
-          "border-b-2 border-transparent",
+          "border-b border-border-subtle",
           "text-muted-foreground",
           "hover:text-foreground",
           "data-[state=active]:border-primary",
-          "data-[state=active]:text-foreground",
+          "data-[state=active]:text-primary",
         ].join(" "),
         pill: [
           "rounded-md",
@@ -74,7 +74,7 @@ const tabsTriggerVariants = cva(
         ].join(" "),
       },
       size: {
-        md: "h-8 px-3 label-sm [&>svg]:size-5",
+        md: "py-2 px-4 text-base font-medium leading-6 [&>svg]:size-5",
         sm: "h-6 px-2 text-[11px] font-[525] [&>svg]:size-4",
       },
     },
