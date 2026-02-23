@@ -19,7 +19,7 @@ const TabsStyleContext = React.createContext<TabsStyleContextValue>({
 const tabsListVariants = cva("inline-flex", {
   variants: {
     variant: {
-      line: "items-center border-b border-border-subtle",
+      line: "items-center border-b border-border-subtle bg-background",
       pill: "items-center gap-1 p-1 rounded-lg",
       verticalLine: "flex flex-col items-stretch border-r border-border-subtle w-full",
       verticalPill: "flex flex-col items-start gap-1 p-1 rounded-lg w-fit",
