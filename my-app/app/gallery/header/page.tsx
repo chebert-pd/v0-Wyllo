@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Header } from "@/components/ui/header"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ChevronDown } from "lucide-react"
 
 /** Scrollable demo shell for the default (no-tabs) sticky variant */
 function ScrollDemo({
@@ -40,55 +41,79 @@ function ScrollDemo({
  * (so Radix context is available to TabsList/TabsContent), but Header must be
  * a *direct* child of the overflow container so sticky positioning works.
  */
+const TAB_ITEMS = [
+  { value: "overview", label: "Overview" },
+  { value: "items",    label: "Items" },
+  { value: "history",  label: "History" },
+  { value: "notes",    label: "Notes" },
+]
+
 function TabsScrollDemo({ label }: { label: string }) {
   const containerRef = React.useRef<HTMLDivElement>(null)
+  const [activeTab, setActiveTab] = React.useState("overview")
+
   return (
     <div className="space-y-2">
       <p className="label-sm text-muted-foreground">{label}</p>
-      <Tabs defaultValue="overview">
-        <div
-          ref={containerRef}
-          className="relative h-64 overflow-y-auto rounded-lg border border-border"
+
+      {/* Mobile select fallback (matches tabs gallery pattern) */}
+      <div className="sm:hidden relative">
+        <select
+          value={activeTab}
+          onChange={(e) => setActiveTab(e.target.value)}
+          className="w-full appearance-none rounded-md border border-input bg-card px-3 py-2 pr-8 label-md"
         >
-          <Header
-            variant="sticky"
-            title="ORD-0123"
-            badge={<Badge variant="destructive">Cancelled</Badge>}
-            metadata="Month DD, YYYY, 00:00 AM ET"
-            rightMetadata="$1,234"
-            actions={
-              <Button variant="outline" size="md">
-                Actions
-              </Button>
-            }
-            tabs={
-              <TabsList variant="line" className="w-full justify-start px-6">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="items">Items</TabsTrigger>
-                <TabsTrigger value="history">History</TabsTrigger>
-                <TabsTrigger value="notes">Notes</TabsTrigger>
-              </TabsList>
-            }
-            scrollContainerRef={containerRef}
-          />
-          <TabsContent value="overview">
-            <div className="space-y-3 p-6">
-              {Array.from({ length: 12 }).map((_, i) => (
-                <div key={i} className="h-8 rounded bg-border-subtle" />
-              ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="items">
-            <div className="p-6 p-sm text-muted-foreground">No items</div>
-          </TabsContent>
-          <TabsContent value="history">
-            <div className="p-6 p-sm text-muted-foreground">No history</div>
-          </TabsContent>
-          <TabsContent value="notes">
-            <div className="p-6 p-sm text-muted-foreground">No notes</div>
-          </TabsContent>
-        </div>
-      </Tabs>
+          {TAB_ITEMS.map((t) => (
+            <option key={t.value} value={t.value}>{t.label}</option>
+          ))}
+        </select>
+        <ChevronDown className="pointer-events-none absolute right-2 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+      </div>
+
+      {/* Tabs demo — variant set on <Tabs> root, inherited by TabsList/TabsTrigger */}
+      <div className="hidden sm:block">
+        <Tabs variant="line" value={activeTab} onValueChange={setActiveTab}>
+          <div
+            ref={containerRef}
+            className="relative h-64 overflow-y-auto rounded-lg border border-border"
+          >
+            <Header
+              variant="sticky"
+              title="ORD-0123"
+              badge={<Badge variant="destructive">Cancelled</Badge>}
+              metadata="Month DD, YYYY, 00:00 AM ET"
+              rightMetadata="$1,234"
+              actions={
+                <Button variant="outline" size="md">
+                  Actions
+                </Button>
+              }
+              tabs={
+                <TabsList className="w-full justify-start px-6">
+                  {TAB_ITEMS.map((t) => (
+                    <TabsTrigger key={t.value} value={t.value}>{t.label}</TabsTrigger>
+                  ))}
+                </TabsList>
+              }
+              scrollContainerRef={containerRef}
+            />
+            {TAB_ITEMS.map((t) => (
+              <TabsContent key={t.value} value={t.value}>
+                {t.value === "overview" ? (
+                  <div className="space-y-3 p-6">
+                    {Array.from({ length: 12 }).map((_, i) => (
+                      <div key={i} className="h-8 rounded bg-border-subtle" />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-6 p-sm text-muted-foreground">No {t.label.toLowerCase()}</div>
+                )}
+              </TabsContent>
+            ))}
+          </div>
+        </Tabs>
+      </div>
+
       <p className="p-sm text-muted-foreground">↑ Scroll inside the box to see it condense</p>
     </div>
   )
