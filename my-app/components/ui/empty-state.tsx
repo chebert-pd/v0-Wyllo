@@ -76,7 +76,7 @@ export function EmptyState({
       {action && (
         <Button
           onClick={action.onClick}
-          variant="outline"
+          variant="primary"
           size="sm"
           className="mt-4"
         >
