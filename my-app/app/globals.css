@@ -60,6 +60,10 @@
   /* Overlay / scrim */
   --color-overlay: var(--overlay-bg);
   --backdrop-blur-overlay: var(--overlay-blur);
+  /* Glass surface */
+  --color-glass: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+  --backdrop-blur-glass: var(--glass-blur);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -101,6 +105,13 @@
   /* ===================== */
   --overlay-bg: color-mix(in oklch, var(--background) 60%, transparent);
   --overlay-blur: 4px;
+
+  /* ===================== */
+  /* SEMANTIC — GLASS SURFACE */
+  /* ===================== */
+  --glass-bg: color-mix(in oklch, var(--background) 25%, transparent);
+  --glass-blur: 8px;
+  --glass-border: color-mix(in oklch, white 40%, transparent);
 
   /* ===================== */
   /* PRIMITIVES — GRAY */
@@ -251,6 +262,12 @@
   --elevation-floating: var(--shadow-y2);
   --elevation-overlay: var(--shadow-y6);
   --elevation-popover: var(--shadow-y16);
+
+  /* ===================== */
+  /* SEMANTIC — GLASS SURFACE (dark overrides) */
+  /* ===================== */
+  --glass-bg: color-mix(in oklch, var(--background) 20%, transparent);
+  --glass-border: color-mix(in oklch, white 20%, transparent);
 
   /* Core surfaces */
   --background: var(--gray-12);
