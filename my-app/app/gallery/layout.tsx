@@ -73,6 +73,7 @@ export default function GalleryLayout({
             <div className="pt-4 space-y-1">
               <div className="label-sm text-muted-foreground">Composed Patterns</div>
               <a href="/gallery/modules/metric-panel" className="block hover:text-primary">Metric Panel</a>
+              <a href="/gallery/empty-state" className="block hover:text-primary">Empty State</a>
             </div>
           </nav>
 
@@ -143,6 +144,7 @@ export default function GalleryLayout({
               <div className="pt-4 space-y-1">
                 <div className="label-sm text-muted-foreground">Composed Patterns</div>
                 <a href="/gallery/modules/metric-panel" className="block" onClick={() => setMobileOpen(false)}>Metric Panel</a>
+                <a href="/gallery/empty-state" className="block" onClick={() => setMobileOpen(false)}>Empty State</a>
               </div>
             </nav>
           </aside>
