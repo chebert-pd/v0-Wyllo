@@ -48,24 +48,12 @@ function SheetOverlay({
   )
 }
 
-const sheetSideVariants = {
-  top: [
-    "inset-x-0 top-0 border-b rounded-b-[var(--radius)]",
-    "data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
-  ],
-  right: [
-    "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm",
-    "data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
-  ],
-  bottom: [
-    "inset-x-0 bottom-0 border-t rounded-t-[var(--radius)]",
-    "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
-  ],
-  left: [
-    "inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm",
-    "data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
-  ],
-} as const
+const sheetSideVariants: Record<string, string> = {
+  top: "inset-x-0 top-0 border-b rounded-b-[var(--radius)] data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
+  right: "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
+  bottom: "inset-x-0 bottom-0 border-t rounded-t-[var(--radius)] data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
+  left: "inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
+}
 
 function SheetContent({
   side = "right",
@@ -73,7 +61,7 @@ function SheetContent({
   children,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
-  side?: keyof typeof sheetSideVariants
+  side?: "top" | "right" | "bottom" | "left"
 }) {
   return (
     <SheetPortal>
