@@ -102,8 +102,8 @@ export default function Page() {
       </div>
 
       <section className="space-y-6">
-        <div className="overflow-hidden">
-          <Table className="table-fixed w-full">
+        <div>
+          <Table className="table-auto w-full">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className="border-b" style={{ borderColor: "var(--color-border-subtle)" }}>
