@@ -33,7 +33,7 @@ const data: Payment[] = Array.from({ length: 25 }).map((_, i) => {
   return {
     status: statuses[i % statuses.length],
     email: `user${i + 1}@example.com`,
-    amount: Math.floor(Math.random() * 5000) + 25,
+    amount: ((i * 317 + 83) % 4975) + 25,
   }
 })
 
