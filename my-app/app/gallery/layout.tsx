@@ -152,7 +152,7 @@ export default function GalleryLayout({
       )}
 
       {/* Main */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile Header */}
         <header className="lg:hidden flex items-center justify-between border-b bg-background px-4 py-3">
           <button onClick={() => setMobileOpen(true)}>
@@ -161,7 +161,7 @@ export default function GalleryLayout({
           <div className="label-md">Design System</div>
         </header>
 
-        <main className="flex-1 p-6 md:p-10 overflow-y-auto">
+        <main className="flex-1 p-6 md:p-10 overflow-y-auto overflow-x-hidden">
           {children}
         </main>
       </div>

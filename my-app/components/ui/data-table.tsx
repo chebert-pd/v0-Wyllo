@@ -374,8 +374,8 @@ export function DataTable<TData, TValue>({
             - We keep the card padding for content, but let the table area bleed to the card edges.
             Scroll is constrained to the table region only.
           */}
-          <div className="relative w-full max-w-full overflow-x-auto">
-            <Table className="w-full min-w-full table-auto">
+          <div className="overflow-x-auto">
+            <Table className="w-full min-w-max table-auto">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
