@@ -8,6 +8,29 @@ import {
 } from "lucide-react"
 
 import { StatCard, StatsGrid } from "@/components/ui/stats"
+import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
+
+const STAT_CARD_ROWS: PropRow[] = [
+  { prop: "label", type: "string", required: true, description: "The stat's display label." },
+  { prop: "value", type: "string", required: true, description: "The primary metric value displayed prominently." },
+  { prop: "variant", type: '"default" | "large"', default: '"default"', description: '"large" uses a spacious two-row layout with a full-width centered footer action.' },
+  { prop: "size", type: '"default" | "lg"', default: '"default"', description: "Card padding and typography density." },
+  { prop: "valueSize", type: '"sm" | "md" | "lg"', default: '"md"', description: "Controls the scale of the primary metric number." },
+  { prop: "surfaceLevel", type: "0 | 1 | 2", default: "0", description: "The surface the card sits on. Automatically picks the next elevation level up so the card always reads above its container." },
+  { prop: "icon", type: "ReactNode", description: "Optional icon anchored to the top-right of the card." },
+  { prop: "description", type: "string", description: "Small muted text below the label." },
+  { prop: "secondary", type: "ReactNode", description: "Secondary line below the value. Use for explainer copy or a trend sentence." },
+  { prop: "trend", type: '{ value: string; direction: "up" | "down" }', description: "Renders a success or destructive badge next to the value." },
+  { prop: "comparison", type: "ReactNode", description: 'Footer left-side text, e.g. "vs last period".' },
+  { prop: "action", type: '{ label: string; onClick?: () => void }', description: "Footer action rendered as a ghost button." },
+  { prop: "className", type: "string", description: "Additional CSS classes applied to the outer card." },
+]
+
+const STATS_GRID_ROWS: PropRow[] = [
+  { prop: "children", type: "ReactNode", required: true, description: "StatCard elements. surfaceLevel is injected automatically unless already set on a child." },
+  { prop: "surfaceLevel", type: "0 | 1 | 2", default: "0", description: "Passed to all StatCard children that don't define their own surfaceLevel." },
+  { prop: "className", type: "string", description: "Additional CSS classes on the grid wrapper (4-col by default)." },
+]
 
 export default function StatsPage() {
   return (
@@ -250,6 +273,15 @@ export default function StatsPage() {
             action={{ label: "View details" }}
           />
         </div>
+      </section>
+
+      {/* -------------------------------- */}
+      {/* API Reference */}
+      {/* -------------------------------- */}
+      <section className="space-y-6">
+        <h2 className="h2">API Reference</h2>
+        <PropTable title="StatCard" rows={STAT_CARD_ROWS} />
+        <PropTable title="StatsGrid" rows={STATS_GRID_ROWS} />
       </section>
     </div>
   )

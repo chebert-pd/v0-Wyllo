@@ -17,6 +17,15 @@ import {
 } from "lucide-react"
 
 import { EmptyState } from "@/components/ui/empty-state"
+import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
+
+const EMPTY_STATE_ROWS: PropRow[] = [
+  { prop: "title", type: "string", required: true, description: "The primary heading shown below the icon(s)." },
+  { prop: "description", type: "string", required: true, description: "Supporting text. Use \\n for manual line breaks." },
+  { prop: "icons", type: "LucideIcon[]", description: "Pass 1 icon for a single centered card, or exactly 3 icons to enable the fan spread animation on hover." },
+  { prop: "action", type: '{ label: string; onClick: () => void }', description: "Optional CTA rendered as a primary button below the description." },
+  { prop: "className", type: "string", description: "Additional CSS classes applied to the outer dashed card." },
+]
 
 export default function EmptyStatePage() {
   return (
@@ -124,6 +133,12 @@ export default function EmptyStatePage() {
             "There's no data to analyze yet. Insights will appear here\nonce you've screened your first orders."
           }
         />
+      </section>
+
+      {/* API Reference */}
+      <section className="space-y-4">
+        <h2 className="h2">API Reference</h2>
+        <PropTable title="EmptyState" rows={EMPTY_STATE_ROWS} />
       </section>
     </div>
   )

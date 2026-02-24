@@ -3,6 +3,17 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
+
+const BUTTON_ROWS: PropRow[] = [
+  { prop: "variant", type: '"primary" | "destructive" | "outline" | "secondary" | "ghost" | "link"', default: '"primary"', description: "Visual style of the button." },
+  { prop: "size", type: '"xs" | "sm" | "md" | "lg"', default: '"md"', description: "Controls padding and font size." },
+  { prop: "iconOnly", type: "boolean", default: "false", description: "Collapses padding to make a square icon button. Use when the button contains only an icon." },
+  { prop: "asChild", type: "boolean", default: "false", description: "Merges button behaviour onto the child element (e.g. a Next.js Link). Uses Radix Slot." },
+  { prop: "disabled", type: "boolean", description: "Disables the button and applies reduced opacity." },
+  { prop: "onClick", type: "() => void", description: "Click handler. Inherited from HTML button." },
+  { prop: "className", type: "string", description: "Additional CSS classes." },
+]
 import { Card, CardContent } from "@/components/ui/card"
 import { Star } from "lucide-react"
 
@@ -135,6 +146,12 @@ export default function ButtonsPage() {
           </section>
         </CardContent>
       </Card>
+
+      {/* API Reference */}
+      <section className="space-y-4">
+        <h2 className="h2">API Reference</h2>
+        <PropTable title="Button" rows={BUTTON_ROWS} />
+      </section>
     </div>
   )
 }

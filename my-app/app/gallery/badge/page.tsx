@@ -9,6 +9,22 @@ import {
   BadgeIndicator,
   BadgeAction,
 } from "@/components/ui/badge"
+import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
+
+const BADGE_ROWS: PropRow[] = [
+  { prop: "variant", type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link" | "success" | "warning" | "info"', default: '"default"', description: "Visual style of the badge." },
+  { prop: "asChild", type: "boolean", default: "false", description: "Merges badge styling onto a child element." },
+  { prop: "className", type: "string", description: "Additional CSS classes." },
+]
+
+const BADGE_SUB_ROWS: PropRow[] = [
+  { prop: "BadgeIcon", type: "component", description: "Renders a Lucide icon inside the badge. Props: icon (LucideIcon, required), className." },
+  { prop: "BadgeAvatar", type: "component", description: "Renders a small avatar. Props: src, alt, fallback, size ('sm' | 'md', default 'sm')." },
+  { prop: "BadgeAvatarGroup", type: "component", description: "Wraps multiple BadgeAvatars with overlapping layout." },
+  { prop: "BadgeIndicator", type: "component", description: "Colored dot status indicator. Props: variant ('default' | 'success' | 'error' | 'warning' | 'info'), pulse (boolean)." },
+  { prop: "BadgeDelta", type: "component", description: "Shows a numeric delta with automatic up/down color. Props: delta (number, required)." },
+  { prop: "BadgeAction", type: "component", description: "Clickable area inside a badge (e.g. a dismiss ×). Accepts asChild." },
+]
 import {
   Card,
   CardContent,
@@ -202,6 +218,13 @@ export default function BadgeGalleryPage() {
           </Card>
         </div>
       </div>
+
+      {/* API Reference */}
+      <section className="space-y-6">
+        <h2 className="h2">API Reference</h2>
+        <PropTable title="Badge" rows={BADGE_ROWS} />
+        <PropTable title="Sub-components" rows={BADGE_SUB_ROWS} />
+      </section>
     </div>
   )
 }

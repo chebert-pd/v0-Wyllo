@@ -105,7 +105,7 @@ export function StatCard({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-[var(--radius)] border border-border",
+        "overflow-hidden rounded-[var(--radius)] border border-border flex flex-col",
         containerBg,
         elevation,
         className
@@ -113,7 +113,7 @@ export function StatCard({
     >
       {variant === "large" ? (
         <>
-          <div className={cn("flex flex-col gap-6", isLg ? "p-6" : "p-5")}>
+          <div className={cn("flex flex-col gap-6 flex-1", isLg ? "p-6" : "p-5")}>
             <div className="flex items-start justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <span className={cn(labelClass, "text-muted-foreground")}>{label}</span>
@@ -146,8 +146,7 @@ export function StatCard({
         </>
       ) : (
         <>
-          <div className={cn("flex flex-col gap-1", isLg ? "p-6" : "p-5")}
-          >
+          <div className={cn("flex flex-col gap-1 flex-1", isLg ? "p-6" : "p-5")}>
             {/* Label + optional icon */}
             <div className="flex items-start justify-between gap-4">
               <div className="flex flex-col gap-1">
