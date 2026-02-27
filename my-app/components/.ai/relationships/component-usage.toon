@@ -1,230 +1,5 @@
-generated: "2026-02-27T21:06:08.919654+00:00"
+generated: "2026-02-27T21:30:29.575604+00:00"
 components:
-  "components/ui/glass-frame.tsx":
-    path: components/ui/glass-frame.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/inline-field.tsx":
-    path: components/ui/inline-field.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/alert-dialog.tsx":
-    path: components/ui/alert-dialog.tsx
-    type: ui
-    framework: react
-    uses[2]: Button,GlassFrame
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/date-range-picker.tsx":
-    path: components/ui/date-range-picker.tsx
-    type: ui
-    framework: react
-    uses[5]: Calendar,Button,Popover,PopoverContent,PopoverTrigger
-    usedBy[0]:
-    externalDependencies[4]: date-fns,lucide-react,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/data-table.tsx":
-    path: components/ui/data-table.tsx
-    type: ui
-    framework: react
-    uses[15]: Input,Button,Select,SelectContent,SelectItem,SelectTrigger,SelectValue,Card,Table,TableBody,TableCell,TableHead,TableHeader,TableRow,TableFooter
-    usedBy[0]:
-    externalDependencies[14]: @tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/tabs.tsx":
-    path: components/ui/tabs.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[4]: class-variance-authority,class-variance-authority,react,@radix-ui/react-tabs
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/button-group.tsx":
-    path: components/ui/button-group.tsx
-    type: ui
-    framework: react
-    uses[1]: Separator
-    usedBy[0]:
-    externalDependencies[3]: class-variance-authority,class-variance-authority,radix-ui
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/card.tsx":
-    path: components/ui/card.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/slider.tsx":
-    path: components/ui/slider.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/input-group.tsx":
-    path: components/ui/input-group.tsx
-    type: ui
-    framework: react
-    uses[3]: Button,Input,Textarea
-    usedBy[0]:
-    externalDependencies[3]: class-variance-authority,class-variance-authority,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/popover.tsx":
-    path: components/ui/popover.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/chart.tsx":
-    path: components/ui/chart.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: react,recharts
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/sheet.tsx":
-    path: components/ui/sheet.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[3]: radix-ui,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/field.tsx":
-    path: components/ui/field.tsx
-    type: ui
-    framework: react
-    uses[2]: Label,Separator
-    usedBy[0]:
-    externalDependencies[3]: react,class-variance-authority,class-variance-authority
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/empty-state.tsx":
-    path: components/ui/empty-state.tsx
-    type: ui
-    framework: react
-    uses[1]: Button
-    usedBy[0]:
-    externalDependencies[2]: lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/label.tsx":
-    path: components/ui/label.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/accordion.tsx":
-    path: components/ui/accordion.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[5]: lucide-react,class-variance-authority,class-variance-authority,react,@radix-ui/react-accordion
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/alert.tsx":
-    path: components/ui/alert.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[3]: class-variance-authority,class-variance-authority,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/combobox.tsx":
-    path: components/ui/combobox.tsx
-    type: ui
-    framework: react
-    uses[5]: Button,InputGroup,InputGroupAddon,InputGroupButton,InputGroupInput
-    usedBy[0]:
-    externalDependencies[5]: @base-ui/react,lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/switch.tsx":
-    path: components/ui/switch.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/calendar.tsx":
-    path: components/ui/calendar.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[4]: react-day-picker,lucide-react,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/radio-group.tsx":
-    path: components/ui/radio-group.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/toggle-group.tsx":
-    path: components/ui/toggle-group.tsx
-    type: ui
-    framework: react
-    uses[1]: toggleVariants
-    usedBy[0]:
-    externalDependencies[3]: class-variance-authority,radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/stats.tsx":
-    path: components/ui/stats.tsx
-    type: ui
-    framework: react
-    uses[2]: Badge,Button
-    usedBy[0]:
-    externalDependencies[3]: lucide-react,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/header.tsx":
-    path: components/ui/header.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
   "components/ui/badge.tsx":
     path: components/ui/badge.tsx
     type: ui
@@ -234,85 +9,13 @@ components:
     externalDependencies[7]: class-variance-authority,class-variance-authority,radix-ui,lucide-react,lucide-react,lucide-react,react
     utilityDependencies[1]: @/lib/utils
     schemaDependencies[0]:
-  "components/ui/table.tsx":
-    path: components/ui/table.tsx
+  "components/ui/button-group.tsx":
+    path: components/ui/button-group.tsx
     type: ui
     framework: react
-    uses[0]:
+    uses[1]: Separator
     usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/metric-panel.tsx":
-    path: components/ui/metric-panel.tsx
-    type: ui
-    framework: react
-    uses[7]: Tabs,TabsContent,TabsList,TabsTrigger,Card,CardContent,StatCard
-    usedBy[0]:
-    externalDependencies[2]: react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/separator.tsx":
-    path: components/ui/separator.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/button.tsx":
-    path: components/ui/button.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[4]: class-variance-authority,class-variance-authority,radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/toggle.tsx":
-    path: components/ui/toggle.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[4]: class-variance-authority,class-variance-authority,radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/checkbox.tsx":
-    path: components/ui/checkbox.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[3]: lucide-react,react,@radix-ui/react-checkbox
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/choice-card.tsx":
-    path: components/ui/choice-card.tsx
-    type: ui
-    framework: react
-    uses[5]: Field,FieldContent,FieldDescription,FieldLabel,FieldTitle
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/dropdown-menu.tsx":
-    path: components/ui/dropdown-menu.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[5]: lucide-react,lucide-react,lucide-react,radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/select.tsx":
-    path: components/ui/select.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[5]: lucide-react,lucide-react,lucide-react,radix-ui,react
+    externalDependencies[3]: class-variance-authority,class-variance-authority,radix-ui
     utilityDependencies[1]: @/lib/utils
     schemaDependencies[0]:
   "components/ui/textarea.tsx":
@@ -331,6 +34,303 @@ components:
     uses[0]:
     usedBy[0]:
     externalDependencies[1]: react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/field.tsx":
+    path: components/ui/field.tsx
+    type: ui
+    framework: react
+    uses[2]: Label,Separator
+    usedBy[0]:
+    externalDependencies[3]: react,class-variance-authority,class-variance-authority
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/glass-frame.tsx":
+    path: components/ui/glass-frame.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/popover.tsx":
+    path: components/ui/popover.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/sheet.tsx":
+    path: components/ui/sheet.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[3]: radix-ui,lucide-react,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/date-range-picker.tsx":
+    path: components/ui/date-range-picker.tsx
+    type: ui
+    framework: react
+    uses[5]: Calendar,Button,Popover,PopoverContent,PopoverTrigger
+    usedBy[0]:
+    externalDependencies[4]: date-fns,lucide-react,lucide-react,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/accordion.tsx":
+    path: components/ui/accordion.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[5]: lucide-react,class-variance-authority,class-variance-authority,react,@radix-ui/react-accordion
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/choice-card.tsx":
+    path: components/ui/choice-card.tsx
+    type: ui
+    framework: react
+    uses[5]: Field,FieldContent,FieldDescription,FieldLabel,FieldTitle
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/inline-field.tsx":
+    path: components/ui/inline-field.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/input-group.tsx":
+    path: components/ui/input-group.tsx
+    type: ui
+    framework: react
+    uses[3]: Button,Input,Textarea
+    usedBy[0]:
+    externalDependencies[3]: class-variance-authority,class-variance-authority,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/select.tsx":
+    path: components/ui/select.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[5]: lucide-react,lucide-react,lucide-react,radix-ui,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/data-table.tsx":
+    path: components/ui/data-table.tsx
+    type: ui
+    framework: react
+    uses[15]: Input,Button,Select,SelectContent,SelectItem,SelectTrigger,SelectValue,Card,Table,TableBody,TableCell,TableHead,TableHeader,TableRow,TableFooter
+    usedBy[0]:
+    externalDependencies[14]: @tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,lucide-react,lucide-react,lucide-react,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/empty-state.tsx":
+    path: components/ui/empty-state.tsx
+    type: ui
+    framework: react
+    uses[1]: Button
+    usedBy[0]:
+    externalDependencies[2]: lucide-react,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/checkbox.tsx":
+    path: components/ui/checkbox.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[3]: lucide-react,react,@radix-ui/react-checkbox
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/metric-panel.tsx":
+    path: components/ui/metric-panel.tsx
+    type: ui
+    framework: react
+    uses[7]: Tabs,TabsContent,TabsList,TabsTrigger,Card,CardContent,StatCard
+    usedBy[0]:
+    externalDependencies[2]: react,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/calendar.tsx":
+    path: components/ui/calendar.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[4]: react-day-picker,lucide-react,lucide-react,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/button.tsx":
+    path: components/ui/button.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[4]: class-variance-authority,class-variance-authority,radix-ui,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/separator.tsx":
+    path: components/ui/separator.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/table.tsx":
+    path: components/ui/table.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/toggle.tsx":
+    path: components/ui/toggle.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[4]: class-variance-authority,class-variance-authority,radix-ui,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/label.tsx":
+    path: components/ui/label.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/tabs.tsx":
+    path: components/ui/tabs.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[4]: class-variance-authority,class-variance-authority,react,@radix-ui/react-tabs
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/header.tsx":
+    path: components/ui/header.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/stats.tsx":
+    path: components/ui/stats.tsx
+    type: ui
+    framework: react
+    uses[2]: Badge,Button
+    usedBy[0]:
+    externalDependencies[3]: lucide-react,lucide-react,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/alert.tsx":
+    path: components/ui/alert.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[3]: class-variance-authority,class-variance-authority,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/slider.tsx":
+    path: components/ui/slider.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/chart.tsx":
+    path: components/ui/chart.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: react,recharts
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/dropdown-menu.tsx":
+    path: components/ui/dropdown-menu.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[5]: lucide-react,lucide-react,lucide-react,radix-ui,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/card.tsx":
+    path: components/ui/card.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/toggle-group.tsx":
+    path: components/ui/toggle-group.tsx
+    type: ui
+    framework: react
+    uses[1]: toggleVariants
+    usedBy[0]:
+    externalDependencies[3]: class-variance-authority,radix-ui,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/alert-dialog.tsx":
+    path: components/ui/alert-dialog.tsx
+    type: ui
+    framework: react
+    uses[2]: Button,GlassFrame
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/radio-group.tsx":
+    path: components/ui/radio-group.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/combobox.tsx":
+    path: components/ui/combobox.tsx
+    type: ui
+    framework: react
+    uses[5]: Button,InputGroup,InputGroupAddon,InputGroupButton,InputGroupInput
+    usedBy[0]:
+    externalDependencies[5]: @base-ui/react,lucide-react,lucide-react,lucide-react,react
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "components/ui/switch.tsx":
+    path: components/ui/switch.tsx
+    type: ui
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
     utilityDependencies[1]: @/lib/utils
     schemaDependencies[0]:
   "app/layout.tsx":
@@ -369,15 +369,6 @@ components:
     externalDependencies[5]: next/link,lucide-react,lucide-react,react,react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/tabs/page.tsx":
-    path: app/gallery/tabs/page.tsx
-    type: component
-    framework: react
-    uses[7]: Tabs,TabsList,TabsTrigger,TabsContent,Card,CardContent,Badge
-    usedBy[0]:
-    externalDependencies[2]: lucide-react,react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
   "app/gallery/sidebar/page.tsx":
     path: app/gallery/sidebar/page.tsx
     type: component
@@ -387,22 +378,31 @@ components:
     externalDependencies[0]:
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/tables/page.tsx":
-    path: app/gallery/tables/page.tsx
+  "app/gallery/badge/page.tsx":
+    path: app/gallery/badge/page.tsx
     type: component
     framework: react
-    uses[7]: Button,Table,TableBody,TableCell,TableHead,TableHeader,TableRow
+    uses[12]: Badge,BadgeAvatar,BadgeAvatarGroup,BadgeDelta,BadgeIcon,BadgeIndicator,BadgeAction,Card,CardContent,CardHeader,CardTitle,CardDescription
     usedBy[0]:
-    externalDependencies[7]: @tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,react
+    externalDependencies[3]: lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/accordions/page.tsx":
-    path: app/gallery/accordions/page.tsx
+  "app/gallery/_components/prop-table.tsx":
+    path: app/gallery/_components/prop-table.tsx
     type: component
     framework: react
-    uses[9]: Accordion,AccordionContent,AccordionItem,AccordionTrigger,AccordionGroup,Card,CardContent,Badge,Button
+    uses[0]:
     usedBy[0]:
-    externalDependencies[5]: lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    externalDependencies[0]:
+    utilityDependencies[1]: @/lib/utils
+    schemaDependencies[0]:
+  "app/gallery/command-palette/page.tsx":
+    path: app/gallery/command-palette/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[0]:
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/forms/page.tsx":
@@ -414,14 +414,23 @@ components:
     externalDependencies[9]: react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/date-range-picker/page.tsx":
-    path: app/gallery/date-range-picker/page.tsx
+  "app/gallery/logic/page.tsx":
+    path: app/gallery/logic/page.tsx
     type: component
     framework: react
-    uses[6]: DateRangePicker,Card,CardContent,CardHeader,CardTitle,CardDescription
+    uses[0]:
     usedBy[0]:
-    externalDependencies[1]: react
+    externalDependencies[0]:
     utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/data-table/page.tsx":
+    path: app/gallery/data-table/page.tsx
+    type: component
+    framework: react
+    uses[2]: DataTable,Button
+    usedBy[0]:
+    externalDependencies[2]: @tanstack/react-table,lucide-react
+    utilityDependencies[1]: @/lib/status
     schemaDependencies[0]:
   "app/gallery/buttons/page.tsx":
     path: app/gallery/buttons/page.tsx
@@ -432,40 +441,40 @@ components:
     externalDependencies[1]: lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/overlays/background/page.tsx":
-    path: app/gallery/overlays/background/page.tsx
+  "app/gallery/header/page.tsx":
+    path: app/gallery/header/page.tsx
     type: component
     framework: react
-    uses[5]: Card,CardContent,CardHeader,CardTitle,CardDescription
+    uses[16]: Badge,Button,DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger,Header,Select,SelectContent,SelectItem,SelectTrigger,SelectValue,Tabs,TabsContent,TabsList,TabsTrigger
     usedBy[0]:
-    externalDependencies[0]:
+    externalDependencies[2]: lucide-react,react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/overlays/dialog/page.tsx":
-    path: app/gallery/overlays/dialog/page.tsx
+  "app/gallery/tables/page.tsx":
+    path: app/gallery/tables/page.tsx
     type: component
     framework: react
-    uses[10]: AlertDialog,AlertDialogAction,AlertDialogCancel,AlertDialogContent,AlertDialogDescription,AlertDialogFooter,AlertDialogHeader,AlertDialogTitle,AlertDialogTrigger,Button
+    uses[7]: Button,Table,TableBody,TableCell,TableHead,TableHeader,TableRow
     usedBy[0]:
-    externalDependencies[0]:
+    externalDependencies[7]: @tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/overlays/sheet/page.tsx":
-    path: app/gallery/overlays/sheet/page.tsx
+  "app/gallery/toggle/page.tsx":
+    path: app/gallery/toggle/page.tsx
     type: component
     framework: react
-    uses[9]: Button,Sheet,SheetBody,SheetContent,SheetDescription,SheetFooter,SheetHeader,SheetTitle,SheetTrigger
+    uses[5]: Toggle,ToggleGroup,ToggleGroupItem,Card,CardContent
     usedBy[0]:
-    externalDependencies[1]: react
+    externalDependencies[8]: react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/logic/page.tsx":
-    path: app/gallery/logic/page.tsx
+  "app/gallery/accordions/page.tsx":
+    path: app/gallery/accordions/page.tsx
     type: component
     framework: react
-    uses[0]:
+    uses[9]: Accordion,AccordionContent,AccordionItem,AccordionTrigger,AccordionGroup,Card,CardContent,Badge,Button
     usedBy[0]:
-    externalDependencies[0]:
+    externalDependencies[5]: lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/empty-state/page.tsx":
@@ -477,6 +486,33 @@ components:
     externalDependencies[13]: lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,react
     utilityDependencies[0]:
     schemaDependencies[0]:
+  "app/gallery/tabs/page.tsx":
+    path: app/gallery/tabs/page.tsx
+    type: component
+    framework: react
+    uses[7]: Tabs,TabsList,TabsTrigger,TabsContent,Card,CardContent,Badge
+    usedBy[0]:
+    externalDependencies[2]: lucide-react,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/stats/page.tsx":
+    path: app/gallery/stats/page.tsx
+    type: component
+    framework: react
+    uses[2]: StatCard,StatsGrid
+    usedBy[0]:
+    externalDependencies[4]: lucide-react,lucide-react,lucide-react,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/date-range-picker/page.tsx":
+    path: app/gallery/date-range-picker/page.tsx
+    type: component
+    framework: react
+    uses[6]: DateRangePicker,Card,CardContent,CardHeader,CardTitle,CardDescription
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
   "app/gallery/foundations/page.tsx":
     path: app/gallery/foundations/page.tsx
     type: component
@@ -485,24 +521,6 @@ components:
     usedBy[0]:
     externalDependencies[1]: react
     utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/command-palette/page.tsx":
-    path: app/gallery/command-palette/page.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[0]:
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/_components/prop-table.tsx":
-    path: app/gallery/_components/prop-table.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[0]:
-    utilityDependencies[1]: @/lib/utils
     schemaDependencies[0]:
   "app/gallery/modules/page.tsx":
     path: app/gallery/modules/page.tsx
@@ -522,43 +540,34 @@ components:
     externalDependencies[4]: lucide-react,lucide-react,lucide-react,react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/header/page.tsx":
-    path: app/gallery/header/page.tsx
+  "app/gallery/overlays/sheet/page.tsx":
+    path: app/gallery/overlays/sheet/page.tsx
     type: component
     framework: react
-    uses[16]: Badge,Button,DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger,Header,Select,SelectContent,SelectItem,SelectTrigger,SelectValue,Tabs,TabsContent,TabsList,TabsTrigger
+    uses[9]: Button,Sheet,SheetBody,SheetContent,SheetDescription,SheetFooter,SheetHeader,SheetTitle,SheetTrigger
     usedBy[0]:
-    externalDependencies[2]: lucide-react,react
+    externalDependencies[1]: react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/stats/page.tsx":
-    path: app/gallery/stats/page.tsx
+  "app/gallery/overlays/dialog/page.tsx":
+    path: app/gallery/overlays/dialog/page.tsx
     type: component
     framework: react
-    uses[2]: StatCard,StatsGrid
+    uses[10]: AlertDialog,AlertDialogAction,AlertDialogCancel,AlertDialogContent,AlertDialogDescription,AlertDialogFooter,AlertDialogHeader,AlertDialogTitle,AlertDialogTrigger,Button
     usedBy[0]:
-    externalDependencies[4]: lucide-react,lucide-react,lucide-react,lucide-react
+    externalDependencies[0]:
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/badge/page.tsx":
-    path: app/gallery/badge/page.tsx
+  "app/gallery/overlays/background/page.tsx":
+    path: app/gallery/overlays/background/page.tsx
     type: component
     framework: react
-    uses[12]: Badge,BadgeAvatar,BadgeAvatarGroup,BadgeDelta,BadgeIcon,BadgeIndicator,BadgeAction,Card,CardContent,CardHeader,CardTitle,CardDescription
+    uses[5]: Card,CardContent,CardHeader,CardTitle,CardDescription
     usedBy[0]:
-    externalDependencies[3]: lucide-react,lucide-react,lucide-react
+    externalDependencies[0]:
     utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/data-table/page.tsx":
-    path: app/gallery/data-table/page.tsx
-    type: component
-    framework: react
-    uses[2]: DataTable,Button
-    usedBy[0]:
-    externalDependencies[2]: @tanstack/react-table,lucide-react
-    utilityDependencies[1]: @/lib/status
     schemaDependencies[0]:
 statistics:
-  totalComponents: 62
+  totalComponents: 63
   ui: 37
-  component: 25
+  component: 26
