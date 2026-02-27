@@ -803,23 +803,25 @@ class CodebaseIndexer:
     def _scan_styles(self):
         """Scan CSS files"""
         for src_dir in self.src_dirs:
+            # Collect css files: directly in src_dir (e.g. app/globals.css)
+            # and inside a styles/ subdirectory (e.g. app/styles/tokens.css)
+            css_files = list(src_dir.glob('*.css'))
             styles_dir = src_dir / "styles"
-            
-            if not styles_dir.exists():
-                continue
-            
-            for css_file in styles_dir.glob('*.css'):
+            if styles_dir.exists():
+                css_files.extend(styles_dir.glob('*.css'))
+
+            for css_file in css_files:
                 try:
                     with open(css_file) as f:
                         content = f.read()
-                    
+
                     relative_path = str(css_file.relative_to(self.project_root))
-                    
+
                     if 'token' in css_file.stem.lower():
                         self._parse_css_tokens(content, relative_path)
                     else:
                         self._parse_css_classes(content, relative_path)
-                        
+
                 except Exception as e:
                     pass
     
