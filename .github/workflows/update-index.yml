@@ -1,8 +1,9 @@
 name: Update Codebase Index
 
-# Runs whenever you push to main and any of these files changed:
+# Runs automatically when you push to main and any of these files changed:
 # - a component file in my-app/components/ui/
 # - a metadata file in primitives/ or patterns/
+# Can also be triggered manually from the GitHub Actions tab.
 on:
   push:
     branches: [main]
@@ -10,6 +11,7 @@ on:
       - "my-app/components/ui/**"
       - "primitives/**"
       - "patterns/**"
+  workflow_dispatch: # enables the "Run workflow" button on GitHub
 
 jobs:
   update-index:
