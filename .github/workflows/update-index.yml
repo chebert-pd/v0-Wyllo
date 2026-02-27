@@ -9,8 +9,8 @@ on:
     branches: [main]
     paths:
       - "my-app/components/ui/**"
-      - "primitives/**"
-      - "patterns/**"
+      - "my-app/primitives/**"
+      - "my-app/patterns/**"
   workflow_dispatch: # enables the "Run workflow" button on GitHub
 
 jobs:

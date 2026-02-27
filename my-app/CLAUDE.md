@@ -8,16 +8,19 @@ This is a **Next.js 16 + React 19 + TypeScript + Tailwind CSS v4** application b
 
 Three complementary sources give you everything you need to understand and generate UI correctly. **Always consult them before writing component code.**
 
-### 1. Component Metadata — `../primitives/` and `../patterns/`
+### 1. Component Metadata — `./primitives/` and `./patterns/`
 
-38 primitive JSON files + 1 pattern JSON file. Each file describes a component in structured, AI-ready format:
+35 primitive metadata files + 4 pattern metadata files. Each file describes a component in structured, AI-ready format:
 
 ```
-../primitives/Button.json       → When/how to use Button, variants, rules
-../primitives/Field.json        → Form layout, sub-components
-../primitives/Select.json       → Structured choice input
-... (38 total)
-../patterns/ChoiceCard.json     → Selectable card pattern
+./primitives/Button.metadata.json       → When/how to use Button, variants, rules
+./primitives/Field.metadata.json        → Form layout, sub-components
+./primitives/Select.metadata.json       → Structured choice input
+... (35 total)
+./patterns/ChoiceCard.metadata.json     → Selectable card pattern
+./patterns/Header.metadata.json         → Page header with slots and scroll behavior
+./patterns/MetricPanel.metadata.json    → Tabbed metric display pattern
+./patterns/Stats.metadata.json          → Stat card and grid pattern
 ```
 
 **Schema overview:**
@@ -35,7 +38,7 @@ Three complementary sources give you everything you need to understand and gener
 - `alternatives` — what to use instead when this component isn't right
 - `aiHints.context` — concise decision guidance
 
-**When to read metadata:** Any time you're choosing a component, picking a variant, composing sub-components, or unsure about a rule — check the relevant JSON first.
+**When to read metadata:** Any time you're choosing a component, picking a variant, composing sub-components, or unsure about a rule — check the relevant metadata file first.
 
 ---
 
@@ -50,7 +53,7 @@ High-level registry of named UI patterns (page-level compositions) and what prim
 Auto-generated relationship map showing what each component imports and what packages it depends on.
 
 ```
-components/.ai/index.toon                         → Summary (62 components, 404 relationships)
+components/.ai/index.toon                         → Summary (components, relationships)
 components/.ai/relationships/component-usage.toon → Import graph per component
 components/.ai/relationships/dependencies.toon    → npm packages and where they're used
 components/.ai/relationships/data-flow.toon       → API/data query patterns
@@ -73,10 +76,13 @@ import { Field, FieldLabel, FieldContent } from "@/components/ui/field"
 Badge, Button, Checkbox, GlassFrame, InlineField, Input, Label, Link, Separator, Slider, Switch, Textarea, Toggle
 
 **Molecules (composed from atoms):**
-Alert, ButtonGroup, Calendar, Card, ChoiceCard, Combobox, ContextMenu, DateRangePicker, DropdownMenu, EmptyState, Field, InputGroup, Popover, RadioGroup, Select, Sheet, Stats (StatCard/StatsGrid), Tabs, ToggleGroup
+Alert, ButtonGroup, Calendar, Card, Combobox, ContextMenu, DateRangePicker, DropdownMenu, Empty, Field, InputGroup, Popover, RadioGroup, Select, Sheet, Tabs, ToggleGroup
 
 **Organisms (complex, self-contained):**
-Accordion, AlertDialog, Chart, DataTable, Header, MetricPanel
+Accordion, AlertDialog, Chart, DataTable
+
+**Patterns (complex compositions with strong layout opinions):**
+ChoiceCard, Header, MetricPanel, Stats (StatCard/StatsGrid)
 
 ---
 
@@ -184,9 +190,10 @@ These are enforced by the design system and must be respected in all generated c
 ## Decision Flow for Generating UI
 
 1. **Identify what the user needs** (action, input, display, navigation, container)
-2. **Check `../primitives/*.json`** for the right component — read `aiHints.context` and `usage.useCases`
-3. **Read `variants.visual.allowed`** — pick the correct variant; never use a `forbidden` one
-4. **Read `composition.slots`** — use the documented sub-components, not custom wrappers
-5. **Check `usage.antiPatterns`** — ensure you're not violating a known bad pattern
-6. **Apply the hard rules** above
-7. **Use `cn()` for className merging**; keep imports clean with `@/` alias
+2. **Check `./primitives/*.metadata.json`** for the right component — read `aiHints.context` and `usage.useCases`
+3. **Check `./patterns/*.metadata.json`** if the UI needs a complex layout (page header, metric display, selectable cards, stat grids)
+4. **Read `variants.visual.allowed`** — pick the correct variant; never use a `forbidden` one
+5. **Read `composition.slots`** — use the documented sub-components, not custom wrappers
+6. **Check `usage.antiPatterns`** — ensure you're not violating a known bad pattern
+7. **Apply the hard rules** above
+8. **Use `cn()` for className merging**; keep imports clean with `@/` alias
