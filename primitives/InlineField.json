@@ -1,0 +1,103 @@
+{
+  "component": {
+    "name": "InlineField",
+    "category": "atoms",
+    "description": "Horizontal label-value pair for compact inline form controls or display fields.",
+    "type": "container"
+  },
+
+  "usage": {
+    "useCases": [
+      "Pairing a label with a small inline control (toggle, select, input)",
+      "Displaying label-value pairs in settings or detail panels",
+      "Compact filter rows with label and control side by side"
+    ],
+    "requiredProps": ["children"],
+    "commonPatterns": [
+      {
+        "name": "with-switch",
+        "description": "Inline label with a toggle switch",
+        "composition": "<InlineField label=\"Notifications\"><Switch checked={enabled} onCheckedChange={setEnabled} /></InlineField>"
+      },
+      {
+        "name": "with-select",
+        "description": "Inline label with a select dropdown",
+        "composition": "<InlineField label=\"Status\"><Select><SelectTrigger size=\"inline\"><SelectValue /></SelectTrigger><SelectContent><SelectItem value=\"active\">Active</SelectItem></SelectContent></Select></InlineField>"
+      },
+      {
+        "name": "with-input",
+        "description": "Inline label with a text input",
+        "composition": "<InlineField label=\"Name\"><Input size=\"inline\" value={name} onChange={(e) => setName(e.target.value)} /></InlineField>"
+      },
+      {
+        "name": "display-only",
+        "description": "Label-value pair for read-only display",
+        "composition": "<InlineField label=\"Created\"><span className=\"p-sm\">Jan 15, 2025</span></InlineField>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using InlineField for full-width form layouts",
+        "reason": "InlineField is designed for compact horizontal label-control pairs",
+        "alternative": "Use Field for standard stacked label-above-input form layouts"
+      },
+      {
+        "scenario": "Nesting multiple controls inside one InlineField",
+        "reason": "The layout assumes a single label and a single control child",
+        "alternative": "Use separate InlineField components for each control"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": { "options": [], "default": "" }
+  },
+
+  "composition": {
+    "slots": {
+      "label": "ReactNode rendered as a muted label-sm span to the left",
+      "children": "ReactNode for the inline control or display value"
+    },
+    "nestedComponents": [],
+    "commonPartners": ["Switch", "Select", "Input", "Toggle", "Checkbox", "Slider"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["default"],
+    "interactions": {},
+    "responsive": {
+      "mobile": "Flexbox layout; wraps if content is too wide",
+      "desktop": "Horizontal label-control pair with gap"
+    }
+  },
+
+  "accessibility": {
+    "role": "group (implicit via label + control pattern)",
+    "keyboardSupport": "Delegates to child control",
+    "screenReader": "Label text is read; child control provides its own accessible name",
+    "focusManagement": "Focus targets the child control directly",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always provide children — the inline control or value",
+    "Label is optional but recommended for accessibility",
+    "Label renders with label-sm and text-muted-foreground styling",
+    "Use for compact settings rows — not for primary form fields",
+    "Pair with size=\"inline\" variants of Input and Select for consistent sizing"
+  ],
+
+  "alternatives": ["Field"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["inline", "field", "label", "horizontal", "setting", "compact", "pair", "control", "toggle row"],
+    "context": "Use InlineField for compact horizontal label-control pairs in settings panels, toolbars, or detail views. For standard stacked form fields with validation and help text, use Field instead. InlineField is intentionally minimal — just a flex row with a label and child."
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "component": {
+    "name": "DateRangePicker",
+    "category": "molecules",
+    "description": "Popover-based date range selector with quick presets and a two-month calendar.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Filtering data by a date range",
+      "Selecting start and end dates for reports or analytics",
+      "Setting time-bounded queries in dashboards"
+    ],
+    "requiredProps": ["onChange"],
+    "commonPatterns": [
+      {
+        "name": "controlled-range",
+        "description": "Controlled date range with clear support",
+        "composition": "<DateRangePicker value={dateRange} onChange={setDateRange} onClear={() => setDateRange(undefined)} />"
+      },
+      {
+        "name": "aligned-end",
+        "description": "Right-aligned popover for top-right placement",
+        "composition": "<DateRangePicker value={dateRange} onChange={setDateRange} align=\"end\" />"
+      },
+      {
+        "name": "in-toolbar",
+        "description": "Date range picker alongside filter controls",
+        "composition": "<div className=\"flex items-center gap-2\"><Button variant=\"outline\">Filter</Button><DateRangePicker value={dateRange} onChange={setDateRange} onClear={() => setDateRange(undefined)} /></div>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using DateRangePicker for single-date selection",
+        "reason": "This component is designed for date ranges with from/to",
+        "alternative": "Use a single Calendar with mode=\"single\" inside a Popover"
+      },
+      {
+        "scenario": "Selecting future date ranges",
+        "reason": "The calendar disables dates after today by default",
+        "alternative": "If future dates are needed, wrap Calendar directly and remove the disabled constraint"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": { "options": [], "default": "" },
+    "align": {
+      "options": ["start", "center", "end"],
+      "default": "end"
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": ["Popover", "PopoverTrigger", "PopoverContent", "Calendar", "Button"],
+    "commonPartners": ["DataTable", "Header", "Button", "Input"],
+    "parentConstraints": ["Typically placed in a toolbar or filter bar alongside other controls"]
+  },
+
+  "behavior": {
+    "states": ["closed", "open", "range-selected", "partial-selection", "cleared"],
+    "interactions": {
+      "open": "Click trigger button to open popover with calendar",
+      "quick-preset": "Click 'Last 7 days', 'Last 30 days', or 'Last 90 days' for instant selection",
+      "select": "Click start date then end date in the two-month calendar",
+      "clear": "Click X icon on trigger or Clear button in footer to reset",
+      "apply": "Click Apply to confirm selection and close popover"
+    },
+    "responsive": {
+      "mobile": "Popover aligns to trigger; calendar may scroll horizontally",
+      "desktop": "Two-month calendar displayed side by side"
+    }
+  },
+
+  "accessibility": {
+    "role": "dialog (via Popover)",
+    "keyboardSupport": "Tab navigates between presets, calendar, and footer buttons; Enter/Space to select dates",
+    "screenReader": "Trigger button announces selected range or 'Pick a range'; clear button has aria-label",
+    "focusManagement": "Focus moves into popover on open; returns to trigger on close",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always provide an onChange handler",
+    "Provide onClear to show the inline clear X on the trigger button",
+    "Future dates are disabled by default — component is designed for historical date ranges",
+    "Quick presets calculate ranges relative to today",
+    "The Apply button is disabled until both from and to dates are selected"
+  ],
+
+  "alternatives": ["Calendar", "Popover"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["date", "range", "calendar", "picker", "from", "to", "period", "time", "filter", "preset", "last 7 days", "last 30 days"],
+    "context": "Use DateRangePicker when the user needs to select a date range for filtering or reporting. It provides built-in quick presets (7/30/90 days) and a two-month calendar. Dates after today are disabled by default."
+  }
+}

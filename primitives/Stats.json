@@ -1,0 +1,116 @@
+{
+  "component": {
+    "name": "Stats",
+    "category": "molecules",
+    "description": "StatCard displays a single key metric with optional icon, trend badge, comparison text, and footer action; StatsGrid arranges multiple StatCards in a responsive grid.",
+    "type": "display"
+  },
+  "usage": {
+    "useCases": [
+      "Dashboard KPI cards showing revenue, users, or conversion rates",
+      "Summary metrics at the top of a report or analytics page",
+      "Single stat highlight with a trend indicator and comparison period",
+      "Metric overview grid that adapts to different surface levels"
+    ],
+    "requiredProps": ["label", "value"],
+    "commonPatterns": [
+      {
+        "name": "default-stat-with-trend",
+        "description": "A standard stat card with an upward trend badge and period comparison.",
+        "composition": "<StatCard label=\"Revenue\" value=\"$12,400\" trend={{ value: \"+12.5%\", direction: \"up\" }} comparison=\"vs. last month\" />"
+      },
+      {
+        "name": "large-variant-with-icon",
+        "description": "Large layout emphasizing the metric with an icon and secondary text.",
+        "composition": "<StatCard variant=\"large\" size=\"lg\" valueSize=\"lg\" icon={<DollarSign />} label=\"Total Revenue\" value=\"$48,200\" description=\"Year to date\" secondary={<span>+8% from last year</span>} />"
+      },
+      {
+        "name": "stats-grid",
+        "description": "A responsive grid of stat cards automatically inheriting surface level.",
+        "composition": "<StatsGrid surfaceLevel={0}><StatCard label=\"Users\" value=\"3,241\" trend={{ value: \"+5.2%\", direction: \"up\" }} /><StatCard label=\"Bounce Rate\" value=\"42%\" trend={{ value: \"+2.1%\", direction: \"down\" }} /><StatCard label=\"Sessions\" value=\"12,847\" /><StatCard label=\"Conversion\" value=\"3.6%\" /></StatsGrid>"
+      },
+      {
+        "name": "stat-with-action",
+        "description": "Stat card with a footer action button.",
+        "composition": "<StatCard label=\"Open Issues\" value=\"24\" action={{ label: \"View all\", onClick: handleViewAll }} />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "too-many-stats-in-grid",
+        "reason": "More than 4-6 stats in a single grid overwhelms the viewer and dilutes focus.",
+        "alternative": "Group related stats into separate StatsGrid sections with headings, or use MetricPanel for expandable detail."
+      },
+      {
+        "scenario": "stat-as-navigation",
+        "reason": "StatCard is a display component, not a link or button. Using it for primary navigation creates confusing interaction patterns.",
+        "alternative": "Use Card with explicit Button or Link elements for navigational surfaces."
+      }
+    ]
+  },
+  "variants": {
+    "visual": {
+      "allowed": ["default", "large"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "default": "Compact card with value and trend on the same line; comparison and action in a footer row",
+        "large": "Stacked layout with label/description on top, large value below; action centered in footer"
+      }
+    },
+    "size": {
+      "options": ["default", "lg"],
+      "default": "default"
+    }
+  },
+  "composition": {
+    "slots": {
+      "icon": "Optional ReactNode rendered top-right of the card (both variants)",
+      "label": "Primary metric label text",
+      "description": "Muted helper text under the label",
+      "value": "The primary metric string",
+      "secondary": "ReactNode below the value (large variant); used for explainer text",
+      "trend": "Object with value string and direction ('up' | 'down'); renders a Badge (default variant)",
+      "comparison": "ReactNode in the footer left (default variant); typically period comparison text",
+      "action": "Object with label and optional onClick; renders a ghost Button in the footer"
+    },
+    "nestedComponents": ["Badge", "Button"],
+    "commonPartners": ["StatsGrid", "MetricPanel", "Card"],
+    "parentConstraints": ["surfaceLevel (0 | 1 | 2) controls the card's background and elevation; StatsGrid propagates surfaceLevel to children automatically"]
+  },
+  "behavior": {
+    "states": ["static display (no interactive states beyond optional action button)"],
+    "interactions": {
+      "action-click": "Optional footer button triggers the action.onClick callback",
+      "surface-adaptation": "surfaceLevel prop adjusts background (bg-card vs bg-secondary) and elevation (shadow vs none) automatically"
+    },
+    "responsive": {
+      "mobile": "StatsGrid stacks to single column",
+      "tablet": "StatsGrid uses 2 columns",
+      "desktop": "StatsGrid uses up to 4 columns"
+    }
+  },
+  "accessibility": {
+    "role": "Presentational container; trend direction conveyed via Badge variant semantics (success/destructive)",
+    "keyboardSupport": "Footer action button is focusable and activatable via Enter/Space",
+    "screenReader": "Label, value, trend value, and comparison text are all readable in DOM order; icons should carry aria-label if meaningful",
+    "focusManagement": "No special focus management; standard tab order",
+    "wcag": "AA"
+  },
+  "rules": [
+    "Always provide label and value props",
+    "Use surfaceLevel to match the parent surface: 0 for page background, 1 for inside a Card, 2 for nested surfaces",
+    "trend is only available in the default variant; the large variant uses secondary for supplementary info",
+    "valueSize controls only the metric text size (sm | md | lg); size controls overall card density",
+    "StatsGrid children that already set surfaceLevel will not be overridden"
+  ],
+  "alternatives": [
+    "MetricPanel for stat rows that expand to show detailed content",
+    "Card with custom layout for metrics that need richer formatting",
+    "Badge standalone for inline trend indicators without a card wrapper"
+  ],
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["stat", "metric", "KPI", "dashboard card", "trend", "analytics", "number card", "stats grid"],
+    "context": "Use StatCard for individual key metrics on dashboards and summary sections. Use StatsGrid to lay out multiple StatCards in a responsive grid. The surfaceLevel system ensures correct visual hierarchy when StatCards are nested inside other surfaces."
+  }
+}

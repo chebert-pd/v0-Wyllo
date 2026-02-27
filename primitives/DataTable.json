@@ -1,0 +1,150 @@
+{
+  "component": {
+    "name": "DataTable",
+    "category": "organisms",
+    "description": "Feature-rich data table with sorting, search, pagination, expandable rows, and footer totals.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "Displaying tabular data with sorting and filtering",
+      "Paginated data lists with server-side or client-side processing",
+      "Financial or reporting tables with footer totals",
+      "Master-detail views using expandable row panels",
+      "Nested hierarchical data with sub-rows"
+    ],
+    "requiredProps": ["columns", "data"],
+    "commonPatterns": [
+      {
+        "name": "basic-client-table",
+        "description": "Simple client-side table with search and pagination",
+        "composition": "<DataTable columns={columns} data={data} title=\"Users\" description=\"Manage your team\" enableSearch enableSorting enablePagination />"
+      },
+      {
+        "name": "table-with-actions",
+        "description": "Table with header actions like add or export buttons",
+        "composition": "<DataTable columns={columns} data={data} title=\"Orders\" actions={<Button variant=\"primary\">Export</Button>} />"
+      },
+      {
+        "name": "table-with-footer",
+        "description": "Financial table displaying a totals row in the footer",
+        "composition": "<DataTable columns={columns} data={data} enableFooter footerRow={totalRow} footerLabel=\"Grand Total\" />"
+      },
+      {
+        "name": "expandable-panel",
+        "description": "Rows expand to reveal a full-width detail panel",
+        "composition": "<DataTable columns={columns} data={data} enableExpansion expansionVariant=\"panel\" renderExpandedPanel={(row) => <DetailView data={row} />} />"
+      },
+      {
+        "name": "nested-rows",
+        "description": "Hierarchical rows with collapsible sub-rows",
+        "composition": "<DataTable columns={columns} data={data} enableExpansion expansionVariant=\"nested\" getSubRows={(row) => row.children} />"
+      },
+      {
+        "name": "server-side-table",
+        "description": "Server-driven pagination, sorting, and search",
+        "composition": "<DataTable columns={columns} data={data} mode=\"server\" search={query} onSearchChange={setQuery} sortingState={sorting} onSortingStateChange={setSorting} paginationState={pagination} onPaginationStateChange={setPagination} pageCount={totalPages} rowCount={totalRows} />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using DataTable for fewer than 5 rows of static data",
+        "reason": "DataTable adds significant overhead for simple lists",
+        "alternative": "Use Table component directly for simple, static tabular data"
+      },
+      {
+        "scenario": "Nesting a DataTable inside another DataTable",
+        "reason": "Creates confusing UX and accessibility issues",
+        "alternative": "Use expandable rows with renderExpandedPanel for detail views"
+      },
+      {
+        "scenario": "Using client mode with large server-side datasets",
+        "reason": "Loading thousands of rows client-side causes poor performance",
+        "alternative": "Use mode=\"server\" with controlled pagination and sorting state"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": { "options": [], "default": "" },
+    "mode": {
+      "options": ["client", "server"],
+      "default": "client",
+      "semanticMeaning": {
+        "client": "All data loaded upfront; sorting, filtering, pagination handled in-browser",
+        "server": "Data fetched per page; sorting, filtering, pagination controlled externally"
+      }
+    },
+    "expansionVariant": {
+      "options": ["panel", "nested"],
+      "default": "panel",
+      "semanticMeaning": {
+        "panel": "Expanded row shows a full-width detail panel below the row",
+        "nested": "Hierarchical sub-rows rendered inline with indent and chevron toggle"
+      }
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "icon": "ReactNode rendered before the title",
+      "title": "String heading for the table card",
+      "description": "String subtitle below the title",
+      "actions": "ReactNode for header action buttons (top-right)",
+      "tabs": "ReactNode for tab navigation below the header",
+      "columnVisibilityControl": "ReactNode replacing default Columns button",
+      "filterTrigger": "ReactNode replacing default Filter button",
+      "appliedFilters": "ReactNode showing active filter chips below the controls row"
+    },
+    "nestedComponents": ["Table", "TableHeader", "TableBody", "TableFooter", "TableRow", "TableHead", "TableCell"],
+    "commonPartners": ["Button", "Input", "Select", "Card", "Badge", "Tabs"],
+    "parentConstraints": ["Renders inside a Card; should be placed in a full-width container"]
+  },
+
+  "behavior": {
+    "states": ["default", "loading", "empty", "sorted-asc", "sorted-desc", "expanded", "paginated"],
+    "interactions": {
+      "search": "Filters rows globally via text input; supports controlled and uncontrolled modes",
+      "sort": "Click column header to cycle through ascending, descending, and unsorted",
+      "paginate": "Previous/Next buttons, rows-per-page select, and go-to-page input",
+      "expand": "Click row to toggle panel or chevron to toggle nested sub-rows",
+      "hover": "Expandable rows show hover background accent"
+    },
+    "responsive": {
+      "mobile": "Table scrolls horizontally within the card; pagination stacks vertically",
+      "desktop": "Full table visible with inline pagination controls"
+    }
+  },
+
+  "accessibility": {
+    "role": "table (via Table primitive)",
+    "keyboardSupport": "Tab navigates between interactive controls; Enter activates sort headers and pagination buttons",
+    "screenReader": "Column headers announce sort state; pagination announces page position",
+    "focusManagement": "Focus moves through search input, filter/column buttons, sort headers, pagination controls",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always provide columns and data props",
+    "Use mode=\"server\" when data exceeds a few hundred rows",
+    "Enable only the features needed — search, sorting, pagination, footer, expansion",
+    "Provide renderExpandedPanel when using expansionVariant=\"panel\"",
+    "Provide getSubRows when using expansionVariant=\"nested\"",
+    "Footer auto-detects total rows by __rowType, rowType, isTotal, _isTotal flags, or a first-column value of \"Total\"",
+    "Numeric columns are automatically right-aligned; override with column meta.align"
+  ],
+
+  "alternatives": ["Table"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["table", "data", "grid", "list", "rows", "columns", "sort", "filter", "search", "paginate", "pagination", "expand", "detail", "totals", "footer", "spreadsheet", "report"],
+    "context": "Use DataTable when displaying structured tabular data that benefits from sorting, searching, or pagination. For simple static tables without interactivity, use the base Table component instead. Wraps TanStack Table internally."
+  }
+}

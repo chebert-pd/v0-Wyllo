@@ -1,0 +1,123 @@
+{
+  "component": {
+    "name": "Chart",
+    "category": "organisms",
+    "description": "Themed chart wrapper providing design-system-integrated colors, tooltips, and legends for Recharts visualizations.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Line charts for time-series data on dashboards",
+      "Bar charts for categorical comparisons",
+      "Area charts for volume or trend visualization",
+      "Pie and donut charts for proportional data",
+      "Radar and radial charts for multi-dimensional data"
+    ],
+    "requiredProps": ["config"],
+    "commonPatterns": [
+      {
+        "name": "bar-chart",
+        "description": "Basic bar chart with tooltip and legend",
+        "composition": "<ChartContainer config={chartConfig}>\n  <BarChart data={data}>\n    <CartesianGrid vertical={false} />\n    <XAxis dataKey=\"month\" />\n    <Bar dataKey=\"revenue\" fill=\"var(--color-revenue)\" />\n    <ChartTooltip content={<ChartTooltipContent />} />\n    <ChartLegend content={<ChartLegendContent />} />\n  </BarChart>\n</ChartContainer>"
+      },
+      {
+        "name": "line-chart",
+        "description": "Time-series line chart with themed colors",
+        "composition": "<ChartContainer config={chartConfig}>\n  <LineChart data={data}>\n    <CartesianGrid vertical={false} />\n    <XAxis dataKey=\"date\" />\n    <Line type=\"monotone\" dataKey=\"visitors\" stroke=\"var(--color-visitors)\" />\n    <ChartTooltip content={<ChartTooltipContent />} />\n  </LineChart>\n</ChartContainer>"
+      },
+      {
+        "name": "tooltip-with-indicator",
+        "description": "Tooltip with different indicator styles",
+        "composition": "<ChartTooltip content={<ChartTooltipContent indicator=\"line\" />} />"
+      },
+      {
+        "name": "chart-config-definition",
+        "description": "Defining a ChartConfig with labels and theme-aware colors",
+        "composition": "const chartConfig: ChartConfig = {\n  revenue: { label: \"Revenue\", color: \"hsl(var(--chart-1))\" },\n  expenses: { label: \"Expenses\", theme: { light: \"#e11d48\", dark: \"#fb7185\" } }\n}"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using raw Recharts without ChartContainer",
+        "reason": "Bypasses design system color theming, tooltip styling, and responsive container",
+        "alternative": "Always wrap Recharts components in ChartContainer with a config"
+      },
+      {
+        "scenario": "Hardcoding colors in chart data",
+        "reason": "Breaks dark mode and design system consistency",
+        "alternative": "Use ChartConfig with color or theme properties and reference via var(--color-key)"
+      },
+      {
+        "scenario": "Using default Recharts Tooltip without ChartTooltipContent",
+        "reason": "Default tooltip does not match design system styling",
+        "alternative": "Use ChartTooltip with content={<ChartTooltipContent />}"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "children": "Any Recharts chart component (BarChart, LineChart, AreaChart, PieChart, etc.)",
+      "tooltip": "ChartTooltip with ChartTooltipContent for themed tooltips",
+      "legend": "ChartLegend with ChartLegendContent for themed legends"
+    },
+    "nestedComponents": ["ChartContainer", "ChartTooltip", "ChartTooltipContent", "ChartLegend", "ChartLegendContent", "ChartStyle"],
+    "commonPartners": ["Card"],
+    "parentConstraints": [
+      "ChartContainer must receive a config prop defining data series labels and colors",
+      "Recharts chart components must be direct children of ChartContainer"
+    ]
+  },
+
+  "behavior": {
+    "states": ["default", "hover (tooltip active)"],
+    "interactions": {
+      "hover": "Tooltip appears showing data values for the hovered data point",
+      "legend": "Legend items display color swatches and labels for each data series"
+    },
+    "responsive": {
+      "mobile": "ResponsiveContainer scales chart to fit parent width; aspect-video ratio by default",
+      "desktop": "ResponsiveContainer scales chart to fit parent width; aspect-video ratio by default"
+    }
+  },
+
+  "accessibility": {
+    "role": "Decorative data visualization; relies on surrounding text for screen reader context",
+    "keyboardSupport": "Recharts internal keyboard navigation for tooltips",
+    "screenReader": "Provide a text summary or data table alongside charts for accessibility",
+    "focusManagement": "Outline hidden on chart surfaces and sectors",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always use ChartContainer as the wrapper for any Recharts visualization",
+    "Define all data series in a ChartConfig object with label and color/theme properties",
+    "Reference colors via var(--color-key) where key matches the ChartConfig property name",
+    "ChartConfig supports per-theme colors via the theme property: { light: string, dark: string }",
+    "ChartTooltipContent supports indicator styles: dot (default), line, and dashed",
+    "ChartTooltipContent supports hideLabel, hideIndicator, nameKey, labelKey, and custom formatter",
+    "ChartLegendContent supports hideIcon and nameKey props",
+    "ChartContainer renders a ResponsiveContainer internally; aspect-video ratio by default via className"
+  ],
+
+  "alternatives": [],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["chart", "graph", "visualization", "bar chart", "line chart", "area chart", "pie chart", "data viz", "recharts", "dashboard"],
+    "context": "Use as the design-system integration layer for Recharts. ChartContainer provides theme-aware CSS custom properties for colors, and ChartTooltipContent/ChartLegendContent provide styled overlays. Always define a ChartConfig and wrap charts in ChartContainer. Place charts inside Card components for dashboard layouts."
+  }
+}

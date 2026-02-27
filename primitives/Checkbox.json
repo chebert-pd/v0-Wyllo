@@ -1,28 +1,104 @@
 {
-  "name": "Checkbox",
-  "type": "primitive",
-  "purpose": "Allow the user to select or deselect one or more independent options.",
-  "useWhen": [
-    "Multiple selections are allowed",
-    "Options are independent",
-    "Selection does not imply immediate system state change"
-  ],
+  "component": {
+    "name": "Checkbox",
+    "category": "atoms",
+    "description": "Allow the user to select or deselect one or more independent options.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Multiple independent selections from a list",
+      "Accepting terms or toggling a boolean preference",
+      "Batch selection in tables or lists",
+      "Filter controls with multiple active criteria"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "labeled-checkbox",
+        "description": "Standard checkbox with a label inside a Field",
+        "composition": "<Field orientation=\"horizontal\">\n  <Checkbox id=\"terms\" />\n  <FieldContent>\n    <FieldLabel htmlFor=\"terms\">Accept terms</FieldLabel>\n    <FieldDescription>You agree to our Terms of Service.</FieldDescription>\n  </FieldContent>\n</Field>"
+      },
+      {
+        "name": "checkbox-group",
+        "description": "Multiple checkboxes for independent multi-select",
+        "composition": "<FieldSet>\n  <FieldLegend>Notifications</FieldLegend>\n  <FieldGroup>\n    <Field orientation=\"horizontal\">\n      <Checkbox id=\"email\" />\n      <FieldLabel htmlFor=\"email\">Email</FieldLabel>\n    </Field>\n    <Field orientation=\"horizontal\">\n      <Checkbox id=\"sms\" />\n      <FieldLabel htmlFor=\"sms\">SMS</FieldLabel>\n    </Field>\n  </FieldGroup>\n</FieldSet>"
+      },
+      {
+        "name": "controlled-checkbox",
+        "description": "Checkbox with external state management",
+        "composition": "<Checkbox checked={isChecked} onCheckedChange={setIsChecked} />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Representing a system on/off state",
+        "reason": "On/off toggles imply immediate effect; checkbox implies deferred action",
+        "alternative": "Use Switch for system enablement toggles"
+      },
+      {
+        "scenario": "Selecting exactly one option from a set",
+        "reason": "Checkboxes allow multiple selections; single-select needs radio semantics",
+        "alternative": "Use RadioGroup for mutually exclusive choices"
+      },
+      {
+        "scenario": "User must search through many options",
+        "reason": "Checkbox lists do not scale well for large option sets",
+        "alternative": "Use Combobox for searchable multi-select"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["Field", "FieldLabel", "FieldDescription", "FieldError", "FieldSet", "FieldGroup"],
+    "parentConstraints": ["Should be wrapped in a Field component when used in forms"]
+  },
+
+  "behavior": {
+    "states": ["unchecked", "checked", "indeterminate", "disabled", "focus-visible", "aria-invalid"],
+    "interactions": {
+      "click": "Toggles between checked and unchecked states",
+      "hover": "Border shifts toward primary color",
+      "focus": "Visible 3px ring via focus-visible"
+    },
+    "responsive": {}
+  },
+
+  "accessibility": {
+    "role": "checkbox",
+    "keyboardSupport": "Space to toggle; Tab to navigate between checkboxes",
+    "screenReader": "Announces checked/unchecked state and associated label",
+    "focusManagement": "Visible 3px focus ring on focus-visible; ring color follows ring token",
+    "wcag": "AA"
+  },
+
   "rules": [
     "Each checkbox represents an independent choice",
-    "Checkboxes may be part of a group or used individually"
+    "Checkboxes may be part of a group or used individually",
+    "Always pair with a label for accessibility",
+    "Checkbox does not imply immediate effect — use Switch for that"
   ],
-  "doNotUseWhen": [
-    "Representing a system on/off state (use Switch)",
-    "Selecting exactly one option from a set (use RadioGroup)",
-    "User must search for options (use Combobox)"
-  ],
-  "alternatives": [
-    "Switch",
-    "RadioGroup",
-    "Combobox"
-  ],
-  "aiHints": [
-    "Use Checkbox for selection, not system enablement",
-    "Checkbox does not imply immediate effect"
-  ]
+
+  "alternatives": ["Switch", "RadioGroup", "Combobox"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["checkbox", "check", "select", "toggle", "multi-select", "boolean", "terms", "agree", "filter"],
+    "context": "Use Checkbox for independent boolean selections. Do not use for system on/off toggles (use Switch) or mutually exclusive choices (use RadioGroup). Checkbox does not imply immediate effect. Always wrap in a Field with a label when used in forms."
+  }
 }

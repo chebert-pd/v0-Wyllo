@@ -1,0 +1,132 @@
+{
+  "component": {
+    "name": "Accordion",
+    "category": "organisms",
+    "description": "Collapsible content sections for progressive disclosure of information.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "FAQ sections with question/answer pairs",
+      "Settings panels with grouped options",
+      "Sidebar navigation with collapsible sections",
+      "Multi-step content that benefits from progressive disclosure",
+      "Data dashboards with expandable stat details"
+    ],
+    "requiredProps": ["value (for controlled) or defaultValue"],
+    "commonPatterns": [
+      {
+        "name": "basic-faq",
+        "description": "Simple collapsible list with line variant",
+        "composition": "<Accordion variant=\"line\">\n  <AccordionItem value=\"q1\">\n    <AccordionTrigger>What is your return policy?</AccordionTrigger>\n    <AccordionContent>You can return items within 30 days.</AccordionContent>\n  </AccordionItem>\n</Accordion>"
+      },
+      {
+        "name": "card-variant",
+        "description": "Bordered card-style accordion for settings or grouped content",
+        "composition": "<Accordion variant=\"card\">\n  <AccordionItem value=\"general\">\n    <AccordionTrigger icon={<Settings />}>General Settings</AccordionTrigger>\n    <AccordionContent>Settings content here.</AccordionContent>\n  </AccordionItem>\n</Accordion>"
+      },
+      {
+        "name": "stat-layout",
+        "description": "Trigger with stat layout showing a label above a large data value",
+        "composition": "<Accordion variant=\"card\">\n  <AccordionItem value=\"revenue\">\n    <AccordionTrigger layout=\"stat\" label=\"Total Revenue\" badge={<Badge>+12%</Badge>}>$48,200</AccordionTrigger>\n    <AccordionContent>Revenue breakdown details.</AccordionContent>\n  </AccordionItem>\n</Accordion>"
+      },
+      {
+        "name": "accordion-group",
+        "description": "Grouped accordion with header, footer, and contained styling",
+        "composition": "<AccordionGroup headerTitle=\"Settings\" headerDescription=\"Manage your preferences\" footerAction={<Button variant=\"primary\" size=\"sm\">Save</Button>}>\n  <AccordionItem value=\"notifications\">\n    <AccordionTrigger>Notifications</AccordionTrigger>\n    <AccordionContent>Notification settings here.</AccordionContent>\n  </AccordionItem>\n</AccordionGroup>"
+      },
+      {
+        "name": "two-column-masonry",
+        "description": "Masonry two-column layout for dense FAQ or settings pages",
+        "composition": "<Accordion variant=\"line\" columns={2} masonry>\n  <AccordionItem value=\"a1\"><AccordionTrigger>Question A</AccordionTrigger><AccordionContent>Answer A</AccordionContent></AccordionItem>\n  <AccordionItem value=\"a2\"><AccordionTrigger>Question B</AccordionTrigger><AccordionContent>Answer B</AccordionContent></AccordionItem>\n</Accordion>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using accordion for a single collapsible section",
+        "reason": "Accordion implies multiple sections; a single collapsible is better served by a Collapsible or details element",
+        "alternative": "Use a Collapsible component or simple show/hide toggle"
+      },
+      {
+        "scenario": "Nesting accordions more than two levels deep",
+        "reason": "Deeply nested accordions create cognitive overload and accessibility issues",
+        "alternative": "Flatten the information architecture or use tabs for top-level grouping"
+      },
+      {
+        "scenario": "Hiding critical information behind accordion triggers",
+        "reason": "Users may miss important content that is collapsed by default",
+        "alternative": "Show critical information inline; use accordion only for supplementary details"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["line", "card", "contained"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "line": "Minimal separator-based style for inline content areas",
+        "card": "Bordered card container with background fill",
+        "contained": "Bordered card with elevation shadow for standalone sections"
+      }
+    },
+    "size": {
+      "options": ["sm", "md", "lg"],
+      "default": "md"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "trigger-icon": "Optional icon rendered before the trigger label",
+      "trigger-subtitle": "Secondary text line below the trigger label",
+      "trigger-badge": "Badge or tag displayed alongside the trigger (stat layout)",
+      "content": "Arbitrary content rendered inside the collapsible panel"
+    },
+    "nestedComponents": ["AccordionItem", "AccordionTrigger", "AccordionContent", "AccordionGroup"],
+    "commonPartners": ["Badge", "Button", "Card"],
+    "parentConstraints": [
+      "AccordionItem must be a direct child of Accordion",
+      "AccordionTrigger and AccordionContent must be inside AccordionItem"
+    ]
+  },
+
+  "behavior": {
+    "states": ["collapsed", "expanded", "hover", "focus-visible", "disabled"],
+    "interactions": {
+      "click": "Toggles the accordion item open/closed",
+      "hover": "Trigger text shifts to primary color",
+      "expand": "Content slides in from top with fade; chevron rotates 180 degrees",
+      "collapse": "Content slides out to top with fade; chevron returns to 0 degrees"
+    },
+    "responsive": {
+      "mobile": "Single column layout; columns prop ignored below md breakpoint",
+      "desktop": "Supports 1 or 2 column grid or masonry layout"
+    }
+  },
+
+  "accessibility": {
+    "role": "Uses Radix Accordion primitive with proper aria-expanded, aria-controls, and role attributes",
+    "keyboardSupport": "Enter/Space to toggle; Tab to navigate between triggers; Arrow keys for sequential navigation",
+    "screenReader": "Announces expanded/collapsed state, trigger labels, and content regions",
+    "focusManagement": "Visible 2px focus ring on triggers via focus-visible",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always provide a unique value prop for each AccordionItem",
+    "Use autoCollapse (default true) for single-expand behavior; set to false for multiple open panels",
+    "AccordionGroup provides header/footer chrome around a line-variant accordion",
+    "The surface prop (0 or 1) controls background alternation in card/contained variants",
+    "Nested accordions automatically indent via depth context"
+  ],
+
+  "alternatives": ["Tabs", "Card", "Sheet"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["accordion", "collapsible", "expand", "collapse", "faq", "toggle section", "progressive disclosure", "settings", "details"],
+    "context": "Use when content needs progressive disclosure in a vertical stack. Prefer line variant for inline content and card/contained for standalone sections. For data dashboards, use layout='stat' on triggers. Use AccordionGroup when the accordion needs a header title and footer actions."
+  }
+}

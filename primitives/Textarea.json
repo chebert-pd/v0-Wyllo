@@ -1,0 +1,106 @@
+{
+  "component": {
+    "name": "Textarea",
+    "category": "atoms",
+    "description": "Allow the user to enter multi-line freeform text.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Multi-line text entry in forms (descriptions, comments, notes)",
+      "Message composition in chat or messaging interfaces",
+      "Feedback or support request forms",
+      "Code or content editing areas",
+      "Any input where line breaks are expected"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "form-textarea",
+        "description": "Standard textarea wrapped in a Field for label and error support",
+        "composition": "<Field>\n  <FieldLabel>Description</FieldLabel>\n  <FieldContent>\n    <Textarea placeholder=\"Enter a description...\" />\n  </FieldContent>\n  <FieldError />\n</Field>"
+      },
+      {
+        "name": "message-input",
+        "description": "Textarea inside an InputGroup with a send button",
+        "composition": "<InputGroup>\n  <InputGroupTextarea placeholder=\"Write a message...\" />\n  <InputGroupAddon align=\"block-end\">\n    <InputGroupButton size=\"xs\">Send</InputGroupButton>\n  </InputGroupAddon>\n</InputGroup>"
+      },
+      {
+        "name": "auto-sizing",
+        "description": "Textarea that grows with content using field-sizing-content",
+        "composition": "<Textarea placeholder=\"Start typing...\" />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Textarea for single-line input",
+        "reason": "Textarea reserves vertical space unnecessarily for single-line values",
+        "alternative": "Use Input for single-line text entry"
+      },
+      {
+        "scenario": "Using Textarea without a Field wrapper in forms",
+        "reason": "Textarea does not manage labels, descriptions, or error messages",
+        "alternative": "Wrap Textarea in Field for complete form semantics"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": null
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["Field", "InputGroup", "Label"],
+    "parentConstraints": [
+      "Wrap in Field for form contexts with label and error support",
+      "Use inside InputGroup (as InputGroupTextarea) when paired with addons"
+    ]
+  },
+
+  "behavior": {
+    "states": ["default", "focus-visible", "disabled", "aria-invalid"],
+    "interactions": {
+      "focus": "Background shifts from bg-secondary to bg-background; border changes to ring; 2px ring appears",
+      "typing": "Uses field-sizing-content CSS — textarea auto-expands as content grows (min-height 64px)",
+      "error": "Border and ring turn destructive on aria-invalid"
+    },
+    "responsive": {
+      "mobile": "Text renders at base size (16px to avoid iOS zoom); full-width",
+      "desktop": "Text renders at sm size (14px)"
+    }
+  },
+
+  "accessibility": {
+    "role": "textbox (native textarea)",
+    "keyboardSupport": "Tab to focus; type to enter text; Enter adds line breaks; standard text editing shortcuts",
+    "screenReader": "Announced as multi-line text input; requires associated label via Field or aria-label",
+    "focusManagement": "Visible 2px focus ring on focus-visible",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Textarea handles multi-line text entry only — it does not manage labels or errors",
+    "Always pair with Field in forms for proper label and error association",
+    "Uses field-sizing-content for auto-expanding height — no manual resize handle needed",
+    "Use inside InputGroup (as InputGroupTextarea) when inline controls are needed"
+  ],
+
+  "alternatives": ["Input"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["textarea", "multi-line", "text-area", "description", "comment", "message", "notes", "feedback", "long-text"],
+    "context": "Use for any multi-line text input. Textarea auto-sizes using field-sizing-content with a 64px minimum height. Always wrap in Field for form semantics. For single-line values, use Input instead."
+  }
+}

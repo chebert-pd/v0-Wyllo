@@ -1,0 +1,98 @@
+{
+  "component": {
+    "name": "MetricPanel",
+    "category": "organisms",
+    "description": "Tabbed card displaying a row of stat summaries that expand to reveal detailed content (charts, tables) when clicked.",
+    "type": "interactive"
+  },
+  "usage": {
+    "useCases": [
+      "Dashboard summary section with expandable detail views per metric",
+      "KPI overview where each metric can reveal a chart or breakdown",
+      "Analytics panels that toggle between collapsed stats and expanded content"
+    ],
+    "requiredProps": ["items"],
+    "commonPatterns": [
+      {
+        "name": "dashboard-metrics",
+        "description": "A titled panel with multiple expandable metrics, each showing a chart when selected.",
+        "composition": "<MetricPanel title=\"Performance\" subtitle=\"Last 30 days\" items={[{ key: \"revenue\", label: \"Revenue\", value: \"$12,400\", icon: <DollarSign />, description: \"Monthly total\", content: <RevenueChart /> }, { key: \"users\", label: \"Active Users\", value: \"3,241\", icon: <Users />, content: <UsersChart /> }]} />"
+      },
+      {
+        "name": "pre-opened-metric",
+        "description": "Panel that opens with a specific metric expanded by default.",
+        "composition": "<MetricPanel items={items} defaultOpenKey=\"revenue\" />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "single-metric",
+        "reason": "A MetricPanel with one item provides no comparative context; the toggle behavior is unnecessary.",
+        "alternative": "Use a standalone StatCard with its own content section below."
+      },
+      {
+        "scenario": "non-collapsible-content",
+        "reason": "If all detail views must be visible simultaneously, the tab-based toggle model hides information.",
+        "alternative": "Use a StatsGrid with separate detail sections laid out vertically."
+      }
+    ]
+  },
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+  "composition": {
+    "slots": {
+      "title": "Optional heading text for the panel",
+      "subtitle": "Optional descriptive text below the title",
+      "items[].icon": "Icon rendered in the stat trigger area",
+      "items[].secondary": "Secondary ReactNode below the metric value",
+      "items[].content": "Expanded content (chart, table, etc.) shown when the metric is selected"
+    },
+    "nestedComponents": ["Card", "CardContent", "Tabs", "TabsList", "TabsTrigger", "TabsContent", "StatCard"],
+    "commonPartners": ["Badge", "Table", "Button"],
+    "parentConstraints": ["Typically placed as a top-level dashboard section; avoid nesting inside other Card components"]
+  },
+  "behavior": {
+    "states": ["collapsed (no metric selected)", "expanded (one metric selected)"],
+    "interactions": {
+      "click-to-expand": "Clicking a stat trigger expands its content panel below the row",
+      "click-to-collapse": "Clicking the already-active stat trigger collapses the panel back to the summary row",
+      "toggle-between": "Clicking a different stat trigger swaps the expanded content without an intermediate collapsed state"
+    },
+    "responsive": {
+      "mobile": "Stat triggers stack vertically with horizontal dividers; content panel remains full-width",
+      "desktop": "Stat triggers display in a single horizontal row with vertical dividers"
+    }
+  },
+  "accessibility": {
+    "role": "tablist with tabpanel pattern (via Radix Tabs)",
+    "keyboardSupport": "Arrow keys navigate between metric triggers; Enter/Space activates; Tab moves focus into expanded content",
+    "screenReader": "Each metric trigger acts as a tab; expanded content is announced as the associated tabpanel",
+    "focusManagement": "Focus follows the active tab trigger; hidden closed-tab trigger is aria-hidden and removed from tab order",
+    "wcag": "AA"
+  },
+  "rules": [
+    "Provide at least 2 items for meaningful comparison",
+    "Keep metric labels short so the horizontal row does not overflow",
+    "Each item.key must be unique",
+    "The content slot should be self-contained since only one is visible at a time"
+  ],
+  "alternatives": [
+    "StatsGrid for non-collapsible side-by-side metrics",
+    "StatCard for a single metric with no toggle behavior",
+    "Tabs for generic tabbed content without built-in stat formatting"
+  ],
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["dashboard", "metrics", "KPI", "expandable stats", "analytics panel", "metric detail"],
+    "context": "Use MetricPanel when a dashboard needs a compact stats overview row where each metric can expand to show detailed content. It combines StatCard visuals with Tabs toggle behavior inside a single Card."
+  }
+}

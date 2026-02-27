@@ -1,0 +1,106 @@
+{
+  "component": {
+    "name": "Table",
+    "category": "atoms",
+    "description": "Semantic HTML table primitives with consistent styling, horizontal scroll support, and composable header/body/footer/caption structure.",
+    "type": "display"
+  },
+  "usage": {
+    "useCases": [
+      "Displaying tabular data such as lists of records, transactions, or inventory",
+      "Data tables with sortable or filterable columns (via DataTable wrapper)",
+      "Pricing comparison tables",
+      "Simple read-only data summaries"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "basic-data-table",
+        "description": "A simple table with header and body rows.",
+        "composition": "<Table><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead><TableHead>Amount</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Alice</TableCell><TableCell>Active</TableCell><TableCell>$250</TableCell></TableRow></TableBody></Table>"
+      },
+      {
+        "name": "table-with-footer-and-caption",
+        "description": "A full table with footer totals and an accessible caption.",
+        "composition": "<Table><TableCaption>Recent transactions</TableCaption><TableHeader><TableRow><TableHead>Invoice</TableHead><TableHead>Amount</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>INV-001</TableCell><TableCell>$250</TableCell></TableRow></TableBody><TableFooter><TableRow><TableCell>Total</TableCell><TableCell>$250</TableCell></TableRow></TableFooter></Table>"
+      },
+      {
+        "name": "table-with-checkbox-column",
+        "description": "A table with a selection checkbox column for bulk actions.",
+        "composition": "<Table><TableHeader><TableRow><TableHead><Checkbox /></TableHead><TableHead>Name</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell><Checkbox /></TableCell><TableCell>Alice</TableCell></TableRow></TableBody></Table>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "non-tabular-layout",
+        "reason": "Tables should not be used for page layout or grid positioning; they are for structured data only.",
+        "alternative": "Use CSS grid or flexbox containers for layout."
+      },
+      {
+        "scenario": "single-column-list",
+        "reason": "A single-column table adds unnecessary structure over a simple list.",
+        "alternative": "Use a styled list or Card-based list layout."
+      }
+    ]
+  },
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+  "composition": {
+    "slots": {
+      "Table": "Root wrapper; renders a scrollable container around a <table> element",
+      "TableHeader": "Contains header rows (<thead>); rows have a subtle bottom border",
+      "TableBody": "Contains data rows (<tbody>); last row has no bottom border",
+      "TableFooter": "Contains summary/total rows (<tfoot>); has a top border",
+      "TableRow": "A single table row (<tr>) with a subtle bottom border and transition on hover",
+      "TableHead": "A header cell (<th>) with label-md typography, left-aligned, nowrap",
+      "TableCell": "A data cell (<td>) with paragraph typography, left-aligned, nowrap",
+      "TableCaption": "An accessible <caption> element below the table"
+    },
+    "nestedComponents": ["TableHeader", "TableBody", "TableFooter", "TableRow", "TableHead", "TableCell", "TableCaption"],
+    "commonPartners": ["Badge", "Button", "Checkbox", "DropdownMenu"],
+    "parentConstraints": ["Table wraps itself in a div with overflow-x-auto for horizontal scrolling on narrow viewports"]
+  },
+  "behavior": {
+    "states": ["static display"],
+    "interactions": {
+      "horizontal-scroll": "The table container enables horizontal scrolling when content exceeds viewport width (min-w-max on the table element)",
+      "checkbox-alignment": "Cells containing checkboxes automatically adjust padding and vertical alignment"
+    },
+    "responsive": {
+      "narrow-viewport": "Table scrolls horizontally rather than collapsing columns; TableHead and TableCell use whitespace-nowrap to prevent text wrapping"
+    }
+  },
+  "accessibility": {
+    "role": "Native <table>, <thead>, <tbody>, <tfoot>, <tr>, <th>, <td>, <caption> semantics",
+    "keyboardSupport": "Standard table navigation; interactive elements within cells (checkboxes, buttons) are individually focusable",
+    "screenReader": "TableCaption provides an accessible table description; TableHead cells associate with their column data automatically",
+    "focusManagement": "No special focus management; relies on native table and interactive element focus order",
+    "wcag": "AA"
+  },
+  "rules": [
+    "Always include TableHeader with TableHead cells for accessible column labeling",
+    "Use TableCaption to describe the table's purpose for screen readers",
+    "Keep cell content concise; use Badge or truncation for status indicators",
+    "For interactive data tables with sorting and filtering, combine with a DataTable wrapper component",
+    "Checkbox columns automatically adjust alignment via [role=checkbox] selectors in TableHead and TableCell"
+  ],
+  "alternatives": [
+    "Card-based list for mobile-friendly record displays",
+    "StatsGrid for numeric summaries without tabular row/column structure",
+    "Accordion for expandable row details"
+  ],
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["table", "data table", "grid", "rows", "columns", "tabular data", "list", "records"],
+    "context": "Use Table and its sub-components for any structured tabular data. These are thin wrappers around native HTML table elements with consistent design-system styling. For advanced features like sorting, filtering, and pagination, pair with a DataTable pattern. The table container handles horizontal overflow automatically."
+  }
+}

@@ -1,34 +1,112 @@
 {
-  "name": "Popover",
-  "type": "primitive",
-  "purpose": "Present interactive, contextual content anchored to a trigger.",
-  "useWhen": [
-    "User needs to interact with controls or inputs",
-    "Configuration or refinement is required",
-    "Context should be preserved without navigation"
-  ],
+  "component": {
+    "name": "Popover",
+    "category": "molecules",
+    "description": "Present interactive, contextual content anchored to a trigger element.",
+    "type": "container"
+  },
+
+  "usage": {
+    "useCases": [
+      "Inline configuration panels (e.g., filter controls, color pickers)",
+      "Date or range pickers anchored to a button trigger",
+      "Quick-edit forms that don't warrant a full modal",
+      "Contextual detail panels preserving page context",
+      "Rich interactive tooltips with buttons or inputs"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "filter-popover",
+        "description": "Popover with form controls for filtering data",
+        "composition": "<Popover>\n  <PopoverTrigger asChild>\n    <Button variant=\"outline\">Filter</Button>\n  </PopoverTrigger>\n  <PopoverContent className=\"w-80\">\n    <div className=\"grid gap-4\">...</div>\n  </PopoverContent>\n</Popover>"
+      },
+      {
+        "name": "date-picker-popover",
+        "description": "Calendar or date range picker inside a popover",
+        "composition": "<Popover>\n  <PopoverTrigger asChild>\n    <Button variant=\"outline\"><CalendarIcon /> Pick a date</Button>\n  </PopoverTrigger>\n  <PopoverContent className=\"w-auto p-0\">\n    <Calendar mode=\"single\" />\n  </PopoverContent>\n</Popover>"
+      },
+      {
+        "name": "quick-edit",
+        "description": "Inline editing panel for a single field or setting",
+        "composition": "<Popover>\n  <PopoverTrigger asChild>\n    <Button variant=\"ghost\" size=\"sm\">Edit</Button>\n  </PopoverTrigger>\n  <PopoverContent>\n    <Field>\n      <FieldLabel>Name</FieldLabel>\n      <FieldContent><Input defaultValue=\"...\" /></FieldContent>\n    </Field>\n  </PopoverContent>\n</Popover>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Popover for a list of actions",
+        "reason": "Menu semantics are lost — actions should use proper menu role and keyboard navigation",
+        "alternative": "Use DropdownMenu for action lists"
+      },
+      {
+        "scenario": "Using Popover for critical confirmations",
+        "reason": "Popovers can be accidentally dismissed; critical decisions need a modal barrier",
+        "alternative": "Use AlertDialog for irreversible confirmations"
+      },
+      {
+        "scenario": "Using Popover for purely informational content",
+        "reason": "Non-interactive previews should use lighter-weight patterns",
+        "alternative": "Use a tooltip or HoverCard for passive information"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": null
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "PopoverTrigger": "Element that opens the popover on click — use asChild to render as a custom element",
+      "PopoverContent": "The floating panel containing interactive content — rendered in a Portal",
+      "PopoverAnchor": "Optional anchor point to position the popover relative to an element other than the trigger"
+    },
+    "nestedComponents": ["PopoverTrigger", "PopoverContent", "PopoverAnchor"],
+    "commonPartners": ["Button", "Calendar", "DateRangePicker", "Field", "Input"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["open", "closed"],
+    "interactions": {
+      "open": "Click trigger to open; content fades and scales in with directional slide animation",
+      "close": "Click outside, press Escape, or interact with closing action to dismiss",
+      "positioning": "Content is anchored to the trigger and aligned via align prop (start, center, end) with configurable sideOffset"
+    },
+    "responsive": {
+      "mobile": "Popover remains anchored; content width should be constrained to avoid overflow",
+      "desktop": "Standard anchored positioning"
+    }
+  },
+
+  "accessibility": {
+    "role": "dialog (implicit via Radix)",
+    "keyboardSupport": "Escape to close; Tab to navigate within popover content; focus is trapped inside when open",
+    "screenReader": "Content is announced when opened; trigger should have descriptive label",
+    "focusManagement": "Focus moves to content on open; returns to trigger on close",
+    "wcag": "AA"
+  },
+
   "rules": [
-    "Content may be arbitrary and interactive",
-    "User may perform multiple actions before closing",
-    "Popover is anchored to a trigger element"
+    "Content may be arbitrary and interactive — users can perform multiple actions before closing",
+    "Popover is anchored to a trigger element and rendered in a Portal",
+    "Use Popover when the user must interact, not just choose from a list",
+    "Popover is not a menu replacement — use DropdownMenu for action lists"
   ],
-  "allowedContent": [
-    "Form fields",
-    "Buttons",
-    "Toggles",
-    "Custom layouts"
-  ],
-  "doNotUseWhen": [
-    "Presenting a list of actions (use DropdownMenu)",
-    "Critical confirmation or irreversible actions (use Modal)",
-    "Purely informational previews (use HoverCard)"
-  ],
-  "alternatives": [
-    "DropdownMenu",
-    "Modal"
-  ],
-  "aiHints": [
-    "Use Popover when the user must interact, not just choose",
-    "Popover is not a menu replacement"
-  ]
+
+  "alternatives": ["DropdownMenu", "AlertDialog", "Sheet"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["popover", "popup", "dropdown", "anchored", "floating", "panel", "picker", "filter", "quick-edit"],
+    "context": "Use for interactive, contextual content anchored to a trigger. The content is rendered in a Portal with animation. For action lists use DropdownMenu; for confirmations use AlertDialog; for large side panels use Sheet."
+  }
 }

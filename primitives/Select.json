@@ -1,32 +1,128 @@
 {
-  "name": "Select",
-  "type": "primitive",
-  "purpose": "Allow the user to choose a single value from a known, finite list of options.",
-  "useWhen": [
-    "Options are known and bounded",
-    "User can recognize the correct option without searching",
-    "Only one option may be selected",
-    "Used within a form field"
-  ],
+  "component": {
+    "name": "Select",
+    "category": "molecules",
+    "description": "Allow the user to choose a single value from a known, finite list of options.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Options are known and bounded",
+      "User can recognize the correct option without searching",
+      "Only one option may be selected",
+      "Used within a form field"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "basic-select",
+        "description": "Standard single-value select with placeholder",
+        "composition": "<Select>\n  <SelectTrigger>\n    <SelectValue placeholder=\"Choose an option\" />\n  </SelectTrigger>\n  <SelectContent>\n    <SelectItem value=\"a\">Option A</SelectItem>\n    <SelectItem value=\"b\">Option B</SelectItem>\n  </SelectContent>\n</Select>"
+      },
+      {
+        "name": "grouped-select",
+        "description": "Options organized into labeled groups with separators",
+        "composition": "<Select>\n  <SelectTrigger>\n    <SelectValue placeholder=\"Select...\" />\n  </SelectTrigger>\n  <SelectContent>\n    <SelectGroup>\n      <SelectLabel>Group 1</SelectLabel>\n      <SelectItem value=\"a\">Item A</SelectItem>\n    </SelectGroup>\n    <SelectSeparator />\n    <SelectGroup>\n      <SelectLabel>Group 2</SelectLabel>\n      <SelectItem value=\"b\">Item B</SelectItem>\n    </SelectGroup>\n  </SelectContent>\n</Select>"
+      },
+      {
+        "name": "small-select",
+        "description": "Compact trigger for tight layouts",
+        "composition": "<Select>\n  <SelectTrigger size=\"sm\">\n    <SelectValue placeholder=\"Pick\" />\n  </SelectTrigger>\n  <SelectContent>\n    <SelectItem value=\"x\">X</SelectItem>\n  </SelectContent>\n</Select>"
+      },
+      {
+        "name": "inline-select",
+        "description": "Borderless inline trigger for tab-like or embedded selection contexts",
+        "composition": "<Select>\n  <SelectTrigger size=\"inline\">\n    <SelectValue placeholder=\"View\" />\n  </SelectTrigger>\n  <SelectContent>\n    <SelectItem value=\"grid\">Grid</SelectItem>\n    <SelectItem value=\"list\">List</SelectItem>\n  </SelectContent>\n</Select>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Select when options are numerous or unbounded",
+        "reason": "Select has no search/filter capability; long lists are hard to scan",
+        "alternative": "Use Combobox for large or dynamic option sets"
+      },
+      {
+        "scenario": "Using Select when user needs to search or filter",
+        "reason": "Select does not support typing to filter options",
+        "alternative": "Use Combobox"
+      },
+      {
+        "scenario": "Using Select for multi-value selection",
+        "reason": "Select only supports single-value selection",
+        "alternative": "Use Combobox with multi-select mode"
+      },
+      {
+        "scenario": "Using Select when options are dynamic or object-based",
+        "reason": "Select works best with static, string-based value lists",
+        "alternative": "Use Combobox for dynamic data"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": ["sm", "default", "inline"],
+      "default": "default"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "select": "Root provider — manages open/close state and value",
+      "select-trigger": "The clickable button that opens the dropdown; accepts size prop",
+      "select-value": "Displays the selected value or placeholder inside the trigger",
+      "select-content": "Popover dropdown that contains the option list",
+      "select-group": "Groups related options under a label",
+      "select-label": "Non-interactive label for a group of options",
+      "select-item": "Individual selectable option row",
+      "select-item-indicator": "Checkmark shown on the selected item",
+      "select-separator": "Visual divider between groups or items",
+      "select-scroll-up-button": "Scroll affordance at the top of overflow content",
+      "select-scroll-down-button": "Scroll affordance at the bottom of overflow content"
+    },
+    "nestedComponents": ["SelectTrigger", "SelectValue", "SelectContent", "SelectItem", "SelectGroup", "SelectLabel", "SelectSeparator", "SelectScrollUpButton", "SelectScrollDownButton"],
+    "commonPartners": ["Label", "Field"],
+    "parentConstraints": ["SelectTrigger and SelectContent must be direct children of Select", "SelectItem must be inside SelectContent"]
+  },
+
+  "behavior": {
+    "states": ["default", "open", "closed", "disabled", "focus-visible", "aria-invalid"],
+    "interactions": {
+      "click": "Opens/closes the dropdown",
+      "select": "Clicking or pressing Enter on an item selects it and closes the dropdown",
+      "keyboard": "Arrow keys navigate items; Enter/Space selects; Escape closes",
+      "focus": "Visible 2px focus ring on trigger; items highlight on focus",
+      "hover": "Items highlight on hover"
+    },
+    "responsive": {}
+  },
+
+  "accessibility": {
+    "role": "listbox",
+    "keyboardSupport": "Arrow keys to navigate options; Enter/Space to select; Escape to close; Tab to move focus away",
+    "screenReader": "Announces trigger label, selected value, expanded/collapsed state, and option labels",
+    "focusManagement": "Focus moves into dropdown on open; returns to trigger on close",
+    "wcag": "AA"
+  },
+
   "rules": [
     "Selection is made from a closed list",
     "User does not type to filter options",
-    "Only one value may be selected"
+    "Only one value may be selected",
+    "Prefer Select over Combobox when options are short and recognizable"
   ],
-  "doNotUseWhen": [
-    "Options are numerous or unbounded",
-    "User needs to search or filter to find an option",
-    "Multiple values may be selected (use Combobox)",
-    "Options are dynamic or object-based"
-  ],
-  "alternatives": [
-    "Combobox",
-    "RadioGroup",
-    "ToggleGroup"
-  ],
-  "aiHints": [
-    "Prefer Select over Combobox when options are short and recognizable",
-    "Do not use Select as a searchable control",
-    "If users must type, use Combobox"
-  ]
+
+  "alternatives": ["Combobox", "RadioGroup", "ToggleGroup"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["select", "dropdown", "pick", "choose", "option", "single-select", "listbox"],
+    "context": "Prefer Select over Combobox when options are short, recognizable, and do not require search. Do not use Select as a searchable control. If users must type to filter, use Combobox. For 2-5 visible options where comparison matters, consider RadioGroup."
+  }
 }

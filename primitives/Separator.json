@@ -1,0 +1,100 @@
+{
+  "component": {
+    "name": "Separator",
+    "category": "atoms",
+    "description": "Thin visual divider line for separating content sections.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Visually dividing sections within a card or panel",
+      "Separating groups of menu items in a dropdown",
+      "Horizontal rule between form sections",
+      "Vertical divider between inline elements in a toolbar"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "horizontal-divider",
+        "description": "Default horizontal line between sections",
+        "composition": "<Separator />"
+      },
+      {
+        "name": "vertical-divider",
+        "description": "Vertical line between inline elements",
+        "composition": "<div className=\"flex items-center gap-4\"><span>Left</span><Separator orientation=\"vertical\" className=\"h-4\" /><span>Right</span></div>"
+      },
+      {
+        "name": "card-section-divider",
+        "description": "Dividing content sections within a card",
+        "composition": "<Card><div className=\"p-6\">Section 1</div><Separator /><div className=\"p-6\">Section 2</div></Card>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Separator for spacing",
+        "reason": "Separator is a visual line, not a spacer",
+        "alternative": "Use margin or padding utilities for spacing without a visible line"
+      },
+      {
+        "scenario": "Using Separator as a border replacement",
+        "reason": "Components like Card already have borders; adding separators creates visual noise",
+        "alternative": "Use the component's built-in border styling"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": { "options": [], "default": "" },
+    "orientation": {
+      "options": ["horizontal", "vertical"],
+      "default": "horizontal"
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["Card", "DropdownMenu", "ContextMenu", "Sheet"],
+    "parentConstraints": ["Horizontal: takes full width of parent. Vertical: set an explicit height via className"]
+  },
+
+  "behavior": {
+    "states": ["default"],
+    "interactions": {},
+    "responsive": {
+      "mobile": "Stretches to container width (horizontal) or height (vertical)",
+      "desktop": "Same behavior"
+    }
+  },
+
+  "accessibility": {
+    "role": "separator (via Radix Separator primitive)",
+    "keyboardSupport": "None — decorative element",
+    "screenReader": "Announced as separator when decorative=false; hidden when decorative=true (default)",
+    "focusManagement": "Not focusable",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Defaults to decorative=true, which hides it from screen readers",
+    "Set decorative=false when the separator conveys meaningful content boundaries",
+    "Horizontal separators are full-width by default (1px height)",
+    "Vertical separators are full-height by default (1px width) — set an explicit height class",
+    "Uses bg-border color token for consistent theming"
+  ],
+
+  "alternatives": [],
+
+  "aiHints": {
+    "priority": "low",
+    "keywords": ["separator", "divider", "line", "hr", "rule", "divide", "border", "split"],
+    "context": "Use Separator to visually divide content sections with a thin line. Defaults to horizontal orientation and decorative mode. Built on the Radix Separator primitive. For vertical use, set orientation=\"vertical\" and provide an explicit height."
+  }
+}

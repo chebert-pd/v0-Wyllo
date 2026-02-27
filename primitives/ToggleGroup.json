@@ -1,42 +1,121 @@
 {
-  "name": "ToggleGroup",
-  "type": "primitive",
-  "purpose": "Represent and manipulate a set of persistent on/off states using button-like controls.",
-  "useWhen": [
-    "Selecting between modes or views",
-    "Applying filters that remain active",
-    "Toggling formatting or display options",
-    "Immediate state change is expected"
-  ],
-  "stateModel": {
-    "single": "Exactly one option may be active at a time",
-    "multiple": "Multiple options may be active simultaneously"
+  "component": {
+    "name": "ToggleGroup",
+    "category": "molecules",
+    "description": "Represent and manipulate a set of persistent on/off states using button-like controls.",
+    "type": "interactive"
   },
+
+  "usage": {
+    "useCases": [
+      "Selecting between modes or views",
+      "Applying filters that remain active",
+      "Toggling formatting or display options",
+      "Immediate state change is expected"
+    ],
+    "requiredProps": ["type"],
+    "commonPatterns": [
+      {
+        "name": "single-select-group",
+        "description": "Exactly one option active at a time (e.g., view switcher)",
+        "composition": "<ToggleGroup type=\"single\" defaultValue=\"grid\">\n  <ToggleGroupItem value=\"grid\">\n    <Grid className=\"size-4\" />\n  </ToggleGroupItem>\n  <ToggleGroupItem value=\"list\">\n    <List className=\"size-4\" />\n  </ToggleGroupItem>\n</ToggleGroup>"
+      },
+      {
+        "name": "multi-select-group",
+        "description": "Multiple options may be active simultaneously (e.g., text formatting)",
+        "composition": "<ToggleGroup type=\"multiple\">\n  <ToggleGroupItem value=\"bold\">\n    <Bold className=\"size-4\" />\n  </ToggleGroupItem>\n  <ToggleGroupItem value=\"italic\">\n    <Italic className=\"size-4\" />\n  </ToggleGroupItem>\n  <ToggleGroupItem value=\"underline\">\n    <Underline className=\"size-4\" />\n  </ToggleGroupItem>\n</ToggleGroup>"
+      },
+      {
+        "name": "sized-group",
+        "description": "Small toggle group for compact layouts",
+        "composition": "<ToggleGroup type=\"single\" size=\"sm\" defaultValue=\"left\">\n  <ToggleGroupItem value=\"left\">Left</ToggleGroupItem>\n  <ToggleGroupItem value=\"center\">Center</ToggleGroupItem>\n  <ToggleGroupItem value=\"right\">Right</ToggleGroupItem>\n</ToggleGroup>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using ToggleGroup to trigger actions",
+        "reason": "ToggleGroup manages persistent state, not one-off actions",
+        "alternative": "Use Button or ButtonGroup for action triggers"
+      },
+      {
+        "scenario": "Using ToggleGroup for page or content navigation",
+        "reason": "Navigation between sections has different semantics and accessibility expectations",
+        "alternative": "Use Tabs or Link for navigation"
+      },
+      {
+        "scenario": "Using ToggleGroup with more than 5-6 items",
+        "reason": "Too many visible options become hard to scan and consume excessive space",
+        "alternative": "Use Select for larger option sets"
+      },
+      {
+        "scenario": "Using ToggleGroup when selection requires confirmation",
+        "reason": "ToggleGroup state changes apply immediately; there is no submit step",
+        "alternative": "Use RadioGroup within a form for deferred selection"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["outline"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "outline": "Bordered items with subtle shadow; preferred for neutral state selection"
+      }
+    },
+    "size": {
+      "options": ["sm", "default", "lg"],
+      "default": "default"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "toggle-group": "Root container; inline-flex with rounded corners; provides variant/size context",
+      "toggle-group-item": "Individual toggle button; inherits variant and size from group context"
+    },
+    "nestedComponents": ["ToggleGroupItem"],
+    "commonPartners": ["Toggle"],
+    "parentConstraints": ["ToggleGroupItem must be a direct child of ToggleGroup"]
+  },
+
+  "behavior": {
+    "states": ["default", "on", "off", "disabled", "hover", "focus-visible"],
+    "stateModel": {
+      "single": "Exactly one option may be active at a time",
+      "multiple": "Multiple options may be active simultaneously"
+    },
+    "interactions": {
+      "click": "Toggles the clicked item; in single mode, deselects the previously active item",
+      "keyboard": "Arrow keys navigate between items; Space/Enter toggles; Tab enters/exits group",
+      "hover": "Background shifts to accent on hover",
+      "focus": "Focused item gains z-index elevation and visible focus ring"
+    },
+    "responsive": {}
+  },
+
+  "accessibility": {
+    "role": "group (with aria-label)",
+    "keyboardSupport": "Arrow keys to navigate between items; Space/Enter to toggle; Tab to enter/exit group",
+    "screenReader": "Announces group label, each item label, and pressed state",
+    "focusManagement": "Roving focus within group; focused items gain z-10 elevation and focus ring",
+    "wcag": "AA"
+  },
+
   "rules": [
-    "ToggleGroup manages selection state",
-    "State changes apply immediately",
+    "ToggleGroup manages selection state — state changes apply immediately",
     "All options are visible at once",
-    "Options should be limited in number"
-  ],
-  "visualRules": [
+    "Options should be limited to 5-6 items maximum",
     "Toggle items visually resemble buttons but behave as stateful controls",
-    "Outline variant is preferred for neutral state selection"
+    "Outline variant is preferred for neutral state selection",
+    "The variant prop is locked to outline at the group level"
   ],
-  "doNotUseWhen": [
-    "Triggering actions (use Button or ButtonGroup)",
-    "Navigating between pages or content sections (use Tabs or Link)",
-    "Options exceed 5–6 items (use Select)",
-    "Selection requires confirmation"
-  ],
-  "alternatives": [
-    "ButtonGroup",
-    "RadioGroup",
-    "Tabs",
-    "Select"
-  ],
-  "aiHints": [
-    "Use ToggleGroup when the user should be able to see and change active states at a glance",
-    "Do not use ToggleGroup for one-off actions",
-    "If the choice affects content hierarchy, prefer Tabs"
-  ]
+
+  "alternatives": ["ButtonGroup", "RadioGroup", "Tabs", "Select"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["toggle-group", "segmented-control", "button-group", "mode-switcher", "view-switcher", "filter-bar", "multi-toggle"],
+    "context": "Use ToggleGroup when the user should be able to see and change active states at a glance. Do not use for one-off actions (use ButtonGroup). If the choice affects content hierarchy or page sections, prefer Tabs. For more than 5-6 options, prefer Select."
+  }
 }

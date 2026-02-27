@@ -1,0 +1,108 @@
+{
+  "component": {
+    "name": "Sheet",
+    "category": "molecules",
+    "description": "Slide-in overlay panel anchored to a screen edge for supplementary content, forms, or navigation without leaving the current page.",
+    "type": "container"
+  },
+  "usage": {
+    "useCases": [
+      "Side panel for editing a record's details",
+      "Mobile navigation drawer",
+      "Filter or settings panel that overlays the main content",
+      "Multi-step forms that should not navigate away from the current view"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "right-side-form",
+        "description": "A sheet sliding from the right with a header, scrollable body, and footer actions.",
+        "composition": "<Sheet><SheetTrigger asChild><Button>Edit</Button></SheetTrigger><SheetContent side=\"right\"><SheetHeader><SheetTitle>Edit Profile</SheetTitle><SheetDescription>Make changes to your profile.</SheetDescription></SheetHeader><SheetBody><form>...</form></SheetBody><SheetFooter><SheetClose asChild><Button variant=\"outline\">Cancel</Button></SheetClose><Button>Save</Button></SheetFooter></SheetContent></Sheet>"
+      },
+      {
+        "name": "bottom-sheet-mobile",
+        "description": "A bottom-anchored sheet for mobile action menus or confirmations.",
+        "composition": "<Sheet><SheetTrigger asChild><Button>Options</Button></SheetTrigger><SheetContent side=\"bottom\"><SheetHeader><SheetTitle>Actions</SheetTitle></SheetHeader><SheetBody>...</SheetBody></SheetContent></Sheet>"
+      },
+      {
+        "name": "controlled-sheet",
+        "description": "Programmatically controlled open/close state.",
+        "composition": "<Sheet open={isOpen} onOpenChange={setIsOpen}><SheetContent side=\"right\"><SheetHeader><SheetTitle>Details</SheetTitle></SheetHeader><SheetBody>...</SheetBody></SheetContent></Sheet>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "critical-confirmation",
+        "reason": "Sheets slide in from an edge and can feel dismissable; critical confirmations need a centered, blocking dialog.",
+        "alternative": "Use AlertDialog for destructive or irreversible confirmations."
+      },
+      {
+        "scenario": "small-simple-content",
+        "reason": "A full slide-in panel is excessive for a tooltip or a few-line popover.",
+        "alternative": "Use Popover or DropdownMenu for lightweight contextual overlays."
+      }
+    ]
+  },
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+  "composition": {
+    "slots": {
+      "SheetTrigger": "The element that opens the sheet (use asChild for custom triggers)",
+      "SheetContent": "The panel container; accepts a side prop",
+      "SheetHeader": "Container for SheetTitle and SheetDescription at the top of the panel",
+      "SheetBody": "Scrollable main content area between header and footer",
+      "SheetFooter": "Sticky bottom bar for action buttons (reverses column order on mobile)",
+      "SheetTitle": "Accessible title text (required for screen readers)",
+      "SheetDescription": "Optional descriptive text below the title",
+      "SheetClose": "Wraps elements that should close the sheet on click"
+    },
+    "nestedComponents": ["SheetTrigger", "SheetContent", "SheetHeader", "SheetBody", "SheetFooter", "SheetTitle", "SheetDescription", "SheetClose", "SheetOverlay", "SheetPortal"],
+    "commonPartners": ["Button", "Input", "Field", "Select", "Textarea", "Table"],
+    "parentConstraints": ["Sheet is a root-level overlay; it portals to the document body via SheetPortal"]
+  },
+  "behavior": {
+    "states": ["closed", "open", "animating-in", "animating-out"],
+    "interactions": {
+      "open": "Triggered by SheetTrigger click or controlled open prop",
+      "close": "Click the X button, SheetClose element, overlay backdrop, or press Escape",
+      "scroll": "SheetBody provides overflow-y scrolling for long content"
+    },
+    "responsive": {
+      "mobile": "Left/right sheets are 75% viewport width; bottom sheets slide up with rounded top corners; footer stacks buttons vertically",
+      "desktop": "Left/right sheets cap at sm (24rem) max width; footer buttons are horizontal and right-aligned"
+    }
+  },
+  "accessibility": {
+    "role": "dialog (via Radix Dialog primitive)",
+    "keyboardSupport": "Escape closes the sheet; Tab traps focus within the open sheet; Shift+Tab cycles backwards",
+    "screenReader": "SheetTitle provides the accessible name; SheetDescription provides the accessible description; close button has 'Close' sr-only label",
+    "focusManagement": "Focus is trapped inside the sheet while open; returns to trigger element on close",
+    "wcag": "AA"
+  },
+  "rules": [
+    "Always include SheetTitle inside SheetContent for accessibility",
+    "Use SheetBody for scrollable content to keep header and footer fixed",
+    "Prefer side='right' for detail/edit panels and side='bottom' for mobile action sheets",
+    "Do not nest sheets inside other sheets"
+  ],
+  "alternatives": [
+    "AlertDialog for destructive confirmations that require explicit user action",
+    "Popover for small contextual overlays anchored to a trigger",
+    "DropdownMenu for action lists",
+    "Tabs for switching content without an overlay"
+  ],
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["sheet", "drawer", "side panel", "slide-in", "overlay panel", "mobile drawer", "detail panel"],
+    "context": "Use Sheet when supplementary content (forms, details, navigation) should overlay the current page from an edge. It provides built-in header/body/footer structure, backdrop overlay, focus trapping, and slide animations for all four sides."
+  }
+}

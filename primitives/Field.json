@@ -1,25 +1,165 @@
 {
-  "name": "Field",
-  "type": "primitive",
-  "purpose": "Provide semantic structure, labeling, validation, and layout for a single form control.",
-  "useWhen": [
-    "An input requires a label",
-    "Validation or error messaging is needed",
-    "Helper or descriptive text is present",
-    "Input participates in a form"
-  ],
+  "component": {
+    "name": "Field",
+    "category": "molecules",
+    "description": "Provide semantic structure, labeling, validation, and layout for a single form control.",
+    "type": "container"
+  },
+
+  "usage": {
+    "useCases": [
+      "Wrapping any form control with a label",
+      "Displaying validation errors for an input",
+      "Adding helper or descriptive text to an input",
+      "Controlling layout orientation of label-input pairs",
+      "Building complete forms with FieldSet and FieldGroup"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "vertical-field",
+        "description": "Standard vertical label-above-input layout (default)",
+        "composition": "<Field>\n  <FieldLabel htmlFor=\"name\">Name</FieldLabel>\n  <Input id=\"name\" placeholder=\"Enter name\" />\n  <FieldDescription>Your full legal name.</FieldDescription>\n</Field>"
+      },
+      {
+        "name": "horizontal-field",
+        "description": "Side-by-side label and input for compact forms",
+        "composition": "<Field orientation=\"horizontal\">\n  <FieldLabel htmlFor=\"email\">Email</FieldLabel>\n  <Input id=\"email\" type=\"email\" />\n</Field>"
+      },
+      {
+        "name": "responsive-field",
+        "description": "Stacks vertically on small screens, horizontal on wider containers",
+        "composition": "<Field orientation=\"responsive\">\n  <FieldLabel htmlFor=\"phone\">Phone</FieldLabel>\n  <Input id=\"phone\" type=\"tel\" />\n</Field>"
+      },
+      {
+        "name": "field-with-error",
+        "description": "Input showing validation error message",
+        "composition": "<Field data-invalid=\"true\">\n  <FieldLabel htmlFor=\"email\">Email</FieldLabel>\n  <Input id=\"email\" aria-invalid=\"true\" />\n  <FieldError>Please enter a valid email address.</FieldError>\n</Field>"
+      },
+      {
+        "name": "field-with-error-objects",
+        "description": "Error component accepting an array of error objects (e.g., from react-hook-form)",
+        "composition": "<FieldError errors={[{ message: 'Required' }, { message: 'Must be at least 3 characters' }]} />"
+      },
+      {
+        "name": "checkbox-field",
+        "description": "Checkbox with label and optional description",
+        "composition": "<Field orientation=\"horizontal\">\n  <Checkbox id=\"terms\" />\n  <FieldContent>\n    <FieldLabel htmlFor=\"terms\">Accept terms</FieldLabel>\n    <FieldDescription>You agree to our Terms of Service.</FieldDescription>\n  </FieldContent>\n</Field>"
+      },
+      {
+        "name": "field-group",
+        "description": "Multiple fields grouped together in a form section",
+        "composition": "<FieldSet>\n  <FieldLegend>Personal Information</FieldLegend>\n  <FieldGroup>\n    <Field>\n      <FieldLabel htmlFor=\"first\">First Name</FieldLabel>\n      <Input id=\"first\" />\n    </Field>\n    <Field>\n      <FieldLabel htmlFor=\"last\">Last Name</FieldLabel>\n      <Input id=\"last\" />\n    </Field>\n  </FieldGroup>\n</FieldSet>"
+      },
+      {
+        "name": "field-with-separator",
+        "description": "Visual separator between fields, optionally with text",
+        "composition": "<FieldGroup>\n  <Field>...</Field>\n  <FieldSeparator>or</FieldSeparator>\n  <Field>...</Field>\n</FieldGroup>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Purely decorative or read-only content",
+        "reason": "Field is for form controls; read-only display does not need form semantics",
+        "alternative": "Use plain text or display components"
+      },
+      {
+        "scenario": "Ephemeral inline controls with no semantic meaning",
+        "reason": "Lightweight inline interactions do not require the overhead of Field structure",
+        "alternative": "Use the control directly without Field wrapping"
+      },
+      {
+        "scenario": "Putting validation logic directly on Input",
+        "reason": "Validation display belongs to Field, not the input primitive",
+        "alternative": "Use FieldError inside Field for validation messages"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    },
+    "orientation": {
+      "options": ["vertical", "horizontal", "responsive"],
+      "default": "vertical"
+    },
+    "legendVariant": {
+      "options": ["legend", "label"],
+      "default": "legend",
+      "description": "Controls the visual size of FieldLegend text"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "children": "FieldLabel, Input/Select/Checkbox/etc., FieldDescription, FieldError, FieldContent"
+    },
+    "nestedComponents": [
+      "FieldLabel",
+      "FieldTitle",
+      "FieldDescription",
+      "FieldError",
+      "FieldContent",
+      "FieldSeparator",
+      "FieldGroup",
+      "FieldSet",
+      "FieldLegend"
+    ],
+    "commonPartners": ["Input", "Checkbox", "Select", "Combobox", "Switch", "RadioGroup", "Textarea", "InputGroup"],
+    "parentConstraints": [],
+    "subComponents": {
+      "Field": "Wrapper for a single logical control with label, description, and error slots; renders role=group",
+      "FieldLabel": "Wraps Label component; visually styled as muted text; includes disabled opacity support",
+      "FieldTitle": "Bold inline label alternative for non-clickable headings within a Field",
+      "FieldDescription": "Helper text rendered as a paragraph below or beside the control",
+      "FieldError": "Validation error display; accepts children or an errors array of { message } objects; renders role=alert",
+      "FieldContent": "Flex column wrapper for pairing label + description beside a checkbox or radio",
+      "FieldSeparator": "Horizontal rule between fields; optionally displays centered text like 'or'",
+      "FieldGroup": "Container for multiple fields; manages spacing and container queries for responsive orientation",
+      "FieldSet": "Semantic fieldset element; groups related fields with FieldLegend",
+      "FieldLegend": "Semantic legend for a FieldSet; supports legend and label size variants"
+    }
+  },
+
+  "behavior": {
+    "states": ["default", "invalid", "disabled"],
+    "interactions": {
+      "click": "FieldLabel click focuses the associated form control"
+    },
+    "responsive": {
+      "orientation": "The responsive orientation variant stacks vertically by default and switches to horizontal at the @md container breakpoint within FieldGroup"
+    }
+  },
+
+  "accessibility": {
+    "role": "group (Field), alert (FieldError), fieldset (FieldSet)",
+    "keyboardSupport": "Tab navigates between form controls; labels are clickable to focus controls",
+    "screenReader": "Labels associated with controls via htmlFor; errors announced via role=alert; FieldSet+FieldLegend provide group context",
+    "focusManagement": "Focus directed to form control via label association",
+    "wcag": "AA"
+  },
+
   "rules": [
     "Field wraps exactly one logical control",
-    "Labels, descriptions, and errors belong to Field",
-    "Field controls orientation and grouping semantics"
+    "Labels, descriptions, and errors belong to Field — not to the input primitive",
+    "Field controls orientation and grouping semantics",
+    "Always use FieldLabel with htmlFor to associate with the form control",
+    "Use FieldSet and FieldLegend for grouping related fields (e.g., address, checkboxes)",
+    "Use FieldError for validation — do not put validation logic on Input directly"
   ],
-  "doNotUseWhen": [
-    "Purely decorative or read-only content",
-    "Ephemeral inline controls with no semantic meaning"
-  ],
+
   "alternatives": [],
-  "aiHints": [
-    "Default to using Field for form inputs",
-    "Do not put validation logic on Input directly"
-  ]
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["field", "form field", "label", "validation", "error", "description", "helper text", "form group", "fieldset", "legend"],
+    "context": "Default to using Field for every form input. Field provides the label, description, error, and layout structure — the input primitive handles only typing and focus. Use FieldGroup to organize multiple fields with consistent spacing. Use FieldSet + FieldLegend for semantic groupings like checkbox groups or address sections. The responsive orientation variant is especially useful inside FieldGroup, where it leverages container queries."
+  }
 }

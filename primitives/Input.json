@@ -1,26 +1,121 @@
 {
-  "name": "Input",
-  "type": "primitive",
-  "purpose": "Allow the user to enter freeform text or numeric values.",
-  "useWhen": [
-    "User needs to type a value",
-    "Single-line text entry is required"
-  ],
+  "component": {
+    "name": "Input",
+    "category": "atoms",
+    "description": "Allow the user to enter freeform text or numeric values.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Single-line text entry in forms",
+      "Numeric input for quantities or values",
+      "Search fields",
+      "Email, URL, or password entry",
+      "Inline editable values in data tables or settings"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "form-input",
+        "description": "Standard text input wrapped in a Field for label and error support",
+        "composition": "<Field>\n  <FieldLabel>Email</FieldLabel>\n  <FieldContent>\n    <Input type=\"email\" placeholder=\"you@example.com\" />\n  </FieldContent>\n  <FieldError />\n</Field>"
+      },
+      {
+        "name": "inline-editable",
+        "description": "Borderless inline input for editable values in data-dense layouts",
+        "composition": "<Input size=\"inline\" defaultValue=\"$1,250.00\" />"
+      },
+      {
+        "name": "small-input",
+        "description": "Compact input for dense UI or inline controls",
+        "composition": "<Input size=\"sm\" placeholder=\"Search...\" />"
+      },
+      {
+        "name": "with-input-group",
+        "description": "Input composed with addons via InputGroup",
+        "composition": "<InputGroup>\n  <InputGroupAddon><Search className=\"size-4\" /></InputGroupAddon>\n  <InputGroupInput placeholder=\"Search...\" />\n</InputGroup>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Input for multi-line text",
+        "reason": "Input is a single-line element and cannot handle line breaks",
+        "alternative": "Use Textarea for multi-line content"
+      },
+      {
+        "scenario": "Using Input without a Field wrapper in forms",
+        "reason": "Input does not manage labels, descriptions, or error messages",
+        "alternative": "Wrap Input in Field for complete form semantics"
+      },
+      {
+        "scenario": "Using Input for structured choices",
+        "reason": "Freeform text is harder to validate and less efficient for known option sets",
+        "alternative": "Use Select, RadioGroup, or Combobox for structured choices"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": ["default", "sm", "inline"],
+      "default": "default",
+      "semanticMeaning": {
+        "default": "Standard form input — h-9, full border and background",
+        "sm": "Compact input — h-8, smaller text, for dense layouts",
+        "inline": "Borderless underline-only input for inline editable values — no ring on focus, uses bottom border highlight"
+      }
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["Field", "InputGroup", "Label", "InlineField"],
+    "parentConstraints": [
+      "Wrap in Field for form contexts with label and error support",
+      "Use inside InputGroup when paired with addons or buttons"
+    ]
+  },
+
+  "behavior": {
+    "states": ["default", "hover", "focus-visible", "disabled", "aria-invalid"],
+    "interactions": {
+      "focus": "Background shifts from bg-secondary to bg-background; 2px ring appears",
+      "hover": "No explicit hover style — defers to focus",
+      "inline-focus": "Bottom border changes to primary color and thickens to 2px; background shifts to accent"
+    },
+    "responsive": {
+      "mobile": "Text renders at base size (16px to avoid iOS zoom)",
+      "desktop": "Text renders at sm size (14px)"
+    }
+  },
+
+  "accessibility": {
+    "role": "textbox (native input)",
+    "keyboardSupport": "Tab to focus; type to enter text; standard text editing shortcuts",
+    "screenReader": "Announced as text input; requires associated label via Field or aria-label",
+    "focusManagement": "Visible 2px focus ring on focus-visible; inline variant uses underline indicator instead",
+    "wcag": "AA"
+  },
+
   "rules": [
-    "Input handles typing and focus only",
-    "Input does not manage labels or errors"
+    "Input handles typing and focus only — it does not manage labels or errors",
+    "Always pair with Field in forms for proper label and error association",
+    "Use InputGroup when adding inline affordances like icons or buttons",
+    "Use the inline size only for editable values in data-dense layouts, not standard forms"
   ],
-  "doNotUseWhen": [
-    "Structured choice is required (use Select, RadioGroup, etc.)",
-    "Multiple lines are required (use Textarea)"
-  ],
-  "alternatives": [
-    "Textarea",
-    "Select",
-    "Combobox"
-  ],
-  "aiHints": [
-    "Wrap Input in Field when used in forms",
-    "Use InputGroup when adding inline affordances"
-  ]
+
+  "alternatives": ["Textarea", "Select", "Combobox"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["input", "text", "field", "type", "enter", "form", "search", "email", "password", "number", "editable"],
+    "context": "Use for any single-line text or numeric entry. Always wrap in Field when used in a form. For inline editable values in tables or settings, use size=\"inline\". For inputs with icons, buttons, or addons, use InputGroup."
+  }
 }

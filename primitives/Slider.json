@@ -1,0 +1,111 @@
+{
+  "component": {
+    "name": "Slider",
+    "category": "atoms",
+    "description": "Draggable range input for selecting numeric values or ranges.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Selecting a single numeric value within a range",
+      "Selecting a min-max range with two thumbs",
+      "Adjusting volume, brightness, or opacity settings",
+      "Filtering by price range or numeric bounds"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "single-value",
+        "description": "Single thumb slider for one value",
+        "composition": "<Slider value={[50]} onValueChange={(val) => setValue(val[0])} min={0} max={100} />"
+      },
+      {
+        "name": "range-selection",
+        "description": "Two-thumb slider for selecting a range",
+        "composition": "<Slider value={[20, 80]} onValueChange={setRange} min={0} max={100} />"
+      },
+      {
+        "name": "with-label",
+        "description": "Slider with an InlineField label",
+        "composition": "<InlineField label=\"Volume\"><Slider value={[volume]} onValueChange={(val) => setVolume(val[0])} min={0} max={100} className=\"w-48\" /></InlineField>"
+      },
+      {
+        "name": "stepped",
+        "description": "Slider with discrete steps",
+        "composition": "<Slider value={[25]} onValueChange={setValue} min={0} max={100} step={25} />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Slider for precise numeric input",
+        "reason": "Sliders are imprecise by nature — users cannot easily select exact values",
+        "alternative": "Use Input type=\"number\" for precise values, or pair Slider with a numeric display"
+      },
+      {
+        "scenario": "Using Slider with a very large range and no step",
+        "reason": "Tiny per-pixel increments make the control unusable for selecting meaningful values",
+        "alternative": "Set an appropriate step value relative to the range"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": { "options": [], "default": "" },
+    "orientation": {
+      "options": ["horizontal", "vertical"],
+      "default": "horizontal"
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["InlineField", "Field", "Input"],
+    "parentConstraints": ["Set an explicit width (horizontal) or height (vertical) on the slider or its parent"]
+  },
+
+  "behavior": {
+    "states": ["default", "hover", "active", "disabled", "focus-visible"],
+    "interactions": {
+      "drag": "Drag thumb(s) along the track to change value",
+      "click-track": "Click on the track to jump the nearest thumb to that position",
+      "hover": "Thumb shows a focus ring preview on hover",
+      "focus": "4px ring appears on thumb via focus-visible"
+    },
+    "responsive": {
+      "mobile": "Touch-friendly thumb size (16px); full-width in containers",
+      "desktop": "Mouse and keyboard control; can be fixed-width"
+    }
+  },
+
+  "accessibility": {
+    "role": "slider (via Radix Slider primitive)",
+    "keyboardSupport": "Arrow keys to increment/decrement; Home/End for min/max; Tab between thumbs",
+    "screenReader": "Announces current value, min, max; each thumb is independently accessible",
+    "focusManagement": "Focus ring on active thumb; Tab moves between multiple thumbs",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Value must be an array — single value as [n], range as [min, max]",
+    "Defaults to min=0 and max=100",
+    "Number of thumbs is determined by the length of the value/defaultValue array",
+    "Vertical orientation requires setting a min-height (min-h-44 applied by default)",
+    "Track uses bg-muted; filled range uses bg-primary; thumb is white with primary border",
+    "Disabled state reduces opacity to 50%"
+  ],
+
+  "alternatives": ["Input"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["slider", "range", "scrubber", "thumb", "track", "drag", "volume", "brightness", "opacity", "min", "max", "numeric"],
+    "context": "Use Slider for selecting numeric values or ranges via drag interaction. Supports single-thumb and multi-thumb configurations. Built on Radix Slider primitive with full keyboard and screen reader support. For precise numeric entry, pair with an Input or use Input type=\"number\" instead."
+  }
+}

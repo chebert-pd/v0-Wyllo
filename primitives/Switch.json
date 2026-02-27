@@ -1,25 +1,106 @@
 {
-  "name": "Switch",
-  "type": "primitive",
-  "purpose": "Enable or disable a binary system setting with immediate effect.",
-  "useWhen": [
-    "Toggling a system feature on or off",
-    "Immediate state change is expected"
-  ],
+  "component": {
+    "name": "Switch",
+    "category": "atoms",
+    "description": "Enable or disable a binary system setting with immediate effect.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Toggling a system feature on or off",
+      "Immediate state change is expected",
+      "Binary preference or setting control"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "labeled-switch",
+        "description": "Switch with an associated label describing the setting",
+        "composition": "<div className=\"flex items-center gap-2\">\n  <Switch id=\"notifications\" />\n  <Label htmlFor=\"notifications\">Enable notifications</Label>\n</div>"
+      },
+      {
+        "name": "small-switch",
+        "description": "Compact switch for dense layouts or secondary settings",
+        "composition": "<div className=\"flex items-center gap-2\">\n  <Switch id=\"compact\" size=\"sm\" />\n  <Label htmlFor=\"compact\">Compact mode</Label>\n</div>"
+      },
+      {
+        "name": "controlled-switch",
+        "description": "Controlled switch with checked state and callback",
+        "composition": "<Switch checked={enabled} onCheckedChange={setEnabled} />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Switch for selecting items",
+        "reason": "Switch implies binary system state, not item selection",
+        "alternative": "Use Checkbox for item selection in lists or forms"
+      },
+      {
+        "scenario": "Using Switch for choosing between more than two options",
+        "reason": "Switch is strictly binary (on/off)",
+        "alternative": "Use RadioGroup or ToggleGroup for multi-option selection"
+      },
+      {
+        "scenario": "Using Switch for mode or tool selection",
+        "reason": "Mode/tool toggling has different interaction semantics",
+        "alternative": "Use Toggle for mode or tool on/off state"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": ["sm", "default"],
+      "default": "default"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "switch": "Root toggle track; manages checked/unchecked state",
+      "switch-thumb": "Sliding circular thumb indicator"
+    },
+    "nestedComponents": [],
+    "commonPartners": ["Label", "Field"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["default", "checked", "unchecked", "disabled", "focus-visible"],
+    "interactions": {
+      "click": "Toggles between checked and unchecked states",
+      "keyboard": "Space to toggle; Tab to navigate",
+      "focus": "Visible 3px focus ring on focus-visible; border changes to ring color",
+      "hover": "No explicit hover style; relies on cursor pointer"
+    },
+    "responsive": {}
+  },
+
+  "accessibility": {
+    "role": "switch",
+    "keyboardSupport": "Space to toggle; Tab to navigate",
+    "screenReader": "Announces label and checked/unchecked state",
+    "focusManagement": "Visible 3px focus ring on focus-visible",
+    "wcag": "AA"
+  },
+
   "rules": [
-    "Switch implies immediate effect",
-    "Label should describe the resulting state"
+    "Switch implies immediate effect — no separate submit step",
+    "Label should describe the resulting state, not the action",
+    "Always pair with a Label for accessibility"
   ],
-  "doNotUseWhen": [
-    "Selecting items",
-    "Choosing between more than two options",
-    "Mode or tool selection (use Toggle)"
-  ],
-  "alternatives": [
-    "Checkbox",
-    "Toggle"
-  ],
-  "aiHints": [
-    "If the label reads as a sentence describing system state, use Switch"
-  ]
+
+  "alternatives": ["Checkbox", "Toggle"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["switch", "toggle", "on-off", "enable", "disable", "setting", "preference", "binary"],
+    "context": "If the label reads as a sentence describing system state (e.g., 'Enable notifications'), use Switch. Switch implies immediate effect. For mode/tool toggling with button-like appearance, use Toggle instead. For form checkboxes that require submission, use Checkbox."
+  }
 }

@@ -1,0 +1,121 @@
+{
+  "component": {
+    "name": "Header",
+    "category": "organisms",
+    "description": "Page-level header with title, badge, metadata, actions, and optional sticky scroll condensation.",
+    "type": "navigation"
+  },
+
+  "usage": {
+    "useCases": [
+      "Top-of-page header for detail or settings pages",
+      "Sticky header that condenses on scroll for long-scrolling views",
+      "Page headers with tab navigation below the title row",
+      "Dashboard headers with summary stats and action buttons"
+    ],
+    "requiredProps": ["title"],
+    "commonPatterns": [
+      {
+        "name": "sticky-with-tabs",
+        "description": "Sticky header with tabs for page-level navigation",
+        "composition": "<Header variant=\"sticky\" title=\"Settings\" badge={<Badge>Pro</Badge>} metadata=\"Last updated 2 hours ago\" actions={<Button variant=\"primary\" size=\"md\">Save</Button>} tabs={<TabsList variant=\"line\"><TabsTrigger value=\"general\">General</TabsTrigger><TabsTrigger value=\"billing\">Billing</TabsTrigger></TabsList>} />"
+      },
+      {
+        "name": "sticky-simple",
+        "description": "Sticky header without tabs — border rendered automatically",
+        "composition": "<Header variant=\"sticky\" title=\"Dashboard\" actions={<Button variant=\"outline\" size=\"md\">Export</Button>} />"
+      },
+      {
+        "name": "fixed-page-title",
+        "description": "Static page header without sticky behavior or background",
+        "composition": "<Header variant=\"fixed\" title=\"Create New Project\" />"
+      },
+      {
+        "name": "with-right-metadata",
+        "description": "Header with a price or summary stat to the left of actions",
+        "composition": "<Header variant=\"sticky\" title=\"Invoice #1234\" badge={<Badge variant=\"success\">Paid</Badge>} rightMetadata=\"$1,250.00\" actions={<Button variant=\"outline\" size=\"md\">Download</Button>} />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using tabs with variant=\"fixed\"",
+        "reason": "Tabs slot only renders in sticky variant",
+        "alternative": "Use variant=\"sticky\" when tabs are needed"
+      },
+      {
+        "scenario": "Placing Header inside a scrollable Card or container without scrollContainerRef",
+        "reason": "Scroll detection defaults to window — sticky behavior will not activate inside nested scrollable containers",
+        "alternative": "Pass scrollContainerRef pointing to the scrollable parent element"
+      },
+      {
+        "scenario": "Multiple Headers on one page",
+        "reason": "Header is a page-level component; multiples create confusing hierarchy",
+        "alternative": "Use one Header at the top; use section headings with h2/h3 elsewhere"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["sticky", "fixed"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "sticky": "Pins to viewport top with background, border, and shadow; condenses title and metadata on scroll",
+        "fixed": "Static page header with no background, border, shadow, or scroll behavior"
+      }
+    },
+    "size": { "options": [], "default": "" }
+  },
+
+  "composition": {
+    "slots": {
+      "title": "String rendered as h1 — required",
+      "badge": "ReactNode displayed inline next to the title",
+      "metadata": "ReactNode below title in default state; shifts inline when condensed (sticky only)",
+      "rightMetadata": "ReactNode to the left of action buttons (e.g., price, stat)",
+      "actions": "ReactNode for action buttons on the right side",
+      "tabs": "ReactNode for tab navigation below the heading row (sticky only)"
+    },
+    "nestedComponents": [],
+    "commonPartners": ["Badge", "Button", "Tabs", "DataTable"],
+    "parentConstraints": ["Should be the first child in the page layout; for sticky, place before scrollable content"]
+  },
+
+  "behavior": {
+    "states": ["default", "scrolled"],
+    "interactions": {
+      "scroll": "In sticky variant, header condenses when scrollY > 10px: padding reduces, title shrinks, metadata moves inline",
+      "hover": "No hover interactions on the header itself"
+    },
+    "responsive": {
+      "mobile": "Actions wrap below the title row; full width layout",
+      "desktop": "Title and actions sit on one row; metadata inline when condensed"
+    }
+  },
+
+  "accessibility": {
+    "role": "banner (implicit via semantic heading structure)",
+    "keyboardSupport": "Tab to navigate action buttons and tab triggers",
+    "screenReader": "Title is h1; metadata and badge are read in document order",
+    "focusManagement": "No special focus management; action buttons and tabs handle their own focus",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always provide a title prop",
+    "Use variant=\"sticky\" for most page headers; use variant=\"fixed\" for simple page titles without scroll behavior",
+    "Tabs only render in sticky variant",
+    "When tabs are present, they provide the bottom border; without tabs, a subtle border is added automatically",
+    "Use Button size=\"md\" for action buttons in the header",
+    "Use TabsList variant=\"line\" for the tabs slot",
+    "Pass scrollContainerRef if the header is inside a scrollable container other than window"
+  ],
+
+  "alternatives": [],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["header", "page header", "page title", "sticky", "navigation", "tabs", "breadcrumb", "actions", "title bar", "top bar"],
+    "context": "Use Header as the primary page-level heading component. Default to variant=\"sticky\" for pages with scrollable content. It supports scroll condensation, inline badge and metadata, right-side actions, and tab navigation. Only one Header should appear per page."
+  }
+}

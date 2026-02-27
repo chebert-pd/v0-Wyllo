@@ -1,24 +1,103 @@
 {
-  "name": "Toggle",
-  "type": "primitive",
-  "purpose": "Represent a two-state control used for modes or tools.",
-  "useWhen": [
-    "Toggling a mode or tool on/off",
-    "Button-like interaction is appropriate"
-  ],
+  "component": {
+    "name": "Toggle",
+    "category": "atoms",
+    "description": "Represent a two-state control used for modes or tools.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "Toggling a mode or tool on/off",
+      "Button-like interaction with persistent state",
+      "Toolbar controls (bold, italic, alignment, etc.)"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "icon-toggle",
+        "description": "Icon-only toggle for toolbar use",
+        "composition": "<Toggle aria-label=\"Toggle bold\">\n  <Bold className=\"size-4\" />\n</Toggle>"
+      },
+      {
+        "name": "text-toggle",
+        "description": "Toggle with text label",
+        "composition": "<Toggle variant=\"outline\">Preview</Toggle>"
+      },
+      {
+        "name": "controlled-toggle",
+        "description": "Controlled toggle with pressed state",
+        "composition": "<Toggle pressed={isActive} onPressedChange={setIsActive}>\n  <Eye className=\"size-4\" />\n</Toggle>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Toggle for system settings",
+        "reason": "System settings have immediate-effect semantics that Switch communicates better",
+        "alternative": "Use Switch for on/off system preferences"
+      },
+      {
+        "scenario": "Using Toggle for form field selection",
+        "reason": "Toggle is not a form control; it lacks form submission semantics",
+        "alternative": "Use Checkbox or RadioGroup for form fields"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["default", "outline"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "default": "Transparent background; minimal chrome for toolbar contexts",
+        "outline": "Bordered with subtle shadow; used for standalone or grouped toggles"
+      }
+    },
+    "size": {
+      "options": ["sm", "default", "lg"],
+      "default": "default"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "toggle": "Root pressable element; manages on/off state"
+    },
+    "nestedComponents": [],
+    "commonPartners": ["ToggleGroup"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["default", "on", "off", "disabled", "hover", "focus-visible", "aria-invalid"],
+    "interactions": {
+      "click": "Toggles between on and off states",
+      "keyboard": "Space/Enter to toggle; Tab to navigate",
+      "hover": "Background shifts to muted; text shifts to muted-foreground",
+      "focus": "Visible 3px focus ring on focus-visible"
+    },
+    "responsive": {}
+  },
+
+  "accessibility": {
+    "role": "button (with aria-pressed)",
+    "keyboardSupport": "Space/Enter to toggle; Tab to navigate",
+    "screenReader": "Announces label and pressed/not-pressed state",
+    "focusManagement": "Visible 3px focus ring on focus-visible",
+    "wcag": "AA"
+  },
+
   "rules": [
-    "Toggle behaves like a button with state",
-    "Often used in toolbars or compact controls"
-  ],
-  "doNotUseWhen": [
-    "System settings (use Switch)",
-    "Form field selection (use Checkbox or RadioGroup)"
-  ],
-  "alternatives": [
-    "Switch",
-    "ToggleGroup"
-  ],
-  "aiHints": [
+    "Toggle behaves like a button with persistent state",
+    "Often used in toolbars or compact control groups",
     "Toggle is for tools and modes, not settings"
-  ]
+  ],
+
+  "alternatives": ["Switch", "ToggleGroup"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["toggle", "pressed", "mode", "tool", "toolbar", "on-off", "stateful-button"],
+    "context": "Toggle is for tools and modes, not settings. Use when a button-like control needs to persist an on/off state (e.g., bold formatting, view mode). For system settings, use Switch. For grouping multiple toggles, use ToggleGroup."
+  }
 }

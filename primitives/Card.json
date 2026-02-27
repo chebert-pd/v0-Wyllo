@@ -1,0 +1,134 @@
+{
+  "component": {
+    "name": "Card",
+    "category": "molecules",
+    "description": "Contained surface for grouping related content with header, body, and footer regions.",
+    "type": "container"
+  },
+
+  "usage": {
+    "useCases": [
+      "Grouping related content into a visual container",
+      "Dashboard widgets and metric cards",
+      "Form sections with header and action buttons",
+      "Product or feature cards in grid layouts",
+      "Settings panels with descriptions and controls"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "basic-card",
+        "description": "Simple card with header, content, and footer",
+        "composition": "<Card>\n  <CardHeader>\n    <CardTitle>Card Title</CardTitle>\n    <CardDescription>Brief description of the card content.</CardDescription>\n  </CardHeader>\n  <CardContent>Main body content goes here.</CardContent>\n  <CardFooter><Button variant=\"primary\" size=\"sm\">Save</Button></CardFooter>\n</Card>"
+      },
+      {
+        "name": "card-with-action",
+        "description": "Card with a header action button (e.g., menu or settings)",
+        "composition": "<Card>\n  <CardHeader>\n    <CardTitle>Settings</CardTitle>\n    <CardDescription>Manage your preferences.</CardDescription>\n    <CardAction><Button variant=\"ghost\" size=\"sm\" iconOnly><MoreHorizontal className=\"size-4\" /></Button></CardAction>\n  </CardHeader>\n  <CardContent>Content here.</CardContent>\n</Card>"
+      },
+      {
+        "name": "nested-card",
+        "description": "Card nested inside another card with automatic tone alternation",
+        "composition": "<Card level={1}>\n  <CardHeader><CardTitle>Parent</CardTitle></CardHeader>\n  <CardContent>\n    <Card level={2}>\n      <CardHeader><CardTitle>Nested Child</CardTitle></CardHeader>\n      <CardContent>Nested content.</CardContent>\n    </Card>\n  </CardContent>\n</Card>"
+      },
+      {
+        "name": "card-with-dividers",
+        "description": "Card with header and footer divider borders for clear section separation",
+        "composition": "<Card>\n  <CardHeader divider>\n    <CardTitle>Section</CardTitle>\n  </CardHeader>\n  <CardContent>Content between dividers.</CardContent>\n  <CardFooter divider><Button variant=\"outline\" size=\"sm\">Cancel</Button></CardFooter>\n</Card>"
+      },
+      {
+        "name": "small-card",
+        "description": "Compact card with reduced padding for dense layouts",
+        "composition": "<Card size=\"sm\">\n  <CardHeader><CardTitle>Compact Card</CardTitle></CardHeader>\n  <CardContent>Tight content.</CardContent>\n</Card>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Card purely as a visual border without semantic grouping",
+        "reason": "Cards imply related content; using them as decorative borders adds unnecessary nesting",
+        "alternative": "Use a simple div with border classes"
+      },
+      {
+        "scenario": "Nesting cards more than 2 levels deep",
+        "reason": "Excessive nesting creates visual confusion and reduces readability",
+        "alternative": "Flatten the layout or use Accordion for progressive disclosure"
+      },
+      {
+        "scenario": "Using Card for full-page layout containers",
+        "reason": "Cards are for discrete content groups, not page-level layout",
+        "alternative": "Use layout primitives or section elements"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": ["default", "sm"],
+      "default": "default (auto-selects sm when level > 1)"
+    },
+    "tone": {
+      "options": ["primary", "secondary"],
+      "default": "Alternates based on level: odd levels = primary (bg-card), even levels = secondary (bg-secondary)"
+    },
+    "borderTone": {
+      "options": ["primary", "subtle"],
+      "default": "primary at level 1, subtle at deeper levels"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "header": "CardHeader with title, description, and optional action",
+      "title": "CardTitle for the heading text",
+      "description": "CardDescription for secondary descriptive text",
+      "action": "CardAction positioned in the top-right of the header",
+      "content": "CardContent for the main body area",
+      "footer": "CardFooter with accent background for actions or metadata"
+    },
+    "nestedComponents": ["CardHeader", "CardTitle", "CardDescription", "CardAction", "CardContent", "CardFooter"],
+    "commonPartners": ["Button", "Badge", "Accordion", "Table", "DropdownMenu"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["default"],
+    "interactions": {
+      "static": "Card is a non-interactive container by default"
+    },
+    "responsive": {
+      "mobile": "Full-width; padding scales with size prop",
+      "desktop": "Width determined by parent layout; internal padding follows size prop"
+    }
+  },
+
+  "accessibility": {
+    "role": "Generic div container; no implicit ARIA role",
+    "keyboardSupport": "Not keyboard-interactive; interactive children (buttons, links) are individually tabbable",
+    "screenReader": "No special announcement; title and description read as standard content",
+    "focusManagement": "No focus management on the card itself",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Level prop controls automatic tone alternation: level 1 = primary bg, level 2 = secondary bg",
+    "Level 1 cards have elevation shadow; deeper levels do not",
+    "CardFooter has an accent background tint for visual separation from content",
+    "CardHeader supports a data-divider attribute to add a bottom border",
+    "CardFooter supports a data-divider attribute to add a top border",
+    "Size auto-selects to sm for nested cards (level > 1); override with explicit size prop",
+    "CardAction is positioned in the grid's second column, spanning both title and description rows"
+  ],
+
+  "alternatives": ["Accordion", "Sheet"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["card", "container", "panel", "widget", "surface", "section", "group", "box", "tile"],
+    "context": "Use as the primary container for grouping related content. Level prop enables nested card alternation for visual hierarchy. Use size='sm' for compact dashboard widgets. Pair with Button in CardFooter for actionable cards. For collapsible content, consider Accordion inside a Card."
+  }
+}

@@ -1,45 +1,141 @@
 {
-  "name": "Button",
-  "type": "primitive",
-  "purpose": "Trigger a user action.",
-  "useWhen": [
-    "Completing or confirming an action",
-    "Submitting a form",
-    "Triggering a UI change"
-  ],
-  "doNotUseWhen": [
-    "Navigation between pages (use Link)"
-  ],
-  "contentVariants": [
-    "text",
-    "icon",
-    "textAndIcon"
-  ],
-  "visualVariants": {
-    "allowed": [
-      "primary",
-      "outline",
-      "ghost",
-      "destructivePrimary",
-      "destructiveSecondary"
+  "component": {
+    "name": "Button",
+    "category": "atoms",
+    "description": "Trigger a user action.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "Completing or confirming an action",
+      "Submitting a form",
+      "Triggering a UI change",
+      "Dialog confirmations",
+      "Inline actions within content"
     ],
-    "forbidden": [
-      "secondary"
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "primary-action",
+        "description": "Single most important action on the page",
+        "composition": "<Button variant=\"primary\">Save Changes</Button>"
+      },
+      {
+        "name": "default-action",
+        "description": "Standard action — most commonly used variant",
+        "composition": "<Button variant=\"outline\">Cancel</Button>"
+      },
+      {
+        "name": "icon-and-text",
+        "description": "Button with leading icon and text label",
+        "composition": "<Button variant=\"outline\"><Plus className=\"size-4\" /> Add Item</Button>"
+      },
+      {
+        "name": "icon-only",
+        "description": "Compact icon-only button for toolbars or inline actions",
+        "composition": "<Button variant=\"ghost\" size=\"sm\" iconOnly><Settings className=\"size-4\" /></Button>"
+      },
+      {
+        "name": "destructive-confirmation",
+        "description": "High-impact or irreversible action requiring emphasis",
+        "composition": "<Button variant=\"destructive\">Delete Account</Button>"
+      },
+      {
+        "name": "button-pair",
+        "description": "Primary + outline pairing for confirm/cancel flows",
+        "composition": "<div className=\"flex gap-2\"><Button variant=\"outline\">Cancel</Button><Button variant=\"primary\">Confirm</Button></div>"
+      }
     ],
-    "semanticMeaning": {
-      "primary": "Single most important action on a page",
-      "outline": "Default, most commonly used action",
-      "ghost": "Low-importance or optional action",
-      "destructivePrimary": "High-impact or irreversible action",
-      "destructiveSecondary": "Destructive intent without visual dominance"
+    "antiPatterns": [
+      {
+        "scenario": "Multiple primary buttons on one page",
+        "reason": "Confuses visual hierarchy and user decision-making",
+        "alternative": "Use one primary button; others should be outline or ghost"
+      },
+      {
+        "scenario": "Using Button for page navigation",
+        "reason": "Buttons trigger actions, links navigate — mixing them breaks semantics and accessibility",
+        "alternative": "Use Link component for navigation"
+      },
+      {
+        "scenario": "Using the secondary variant",
+        "reason": "The secondary variant is forbidden in this design system",
+        "alternative": "Use outline for standard actions or ghost for low-emphasis"
+      },
+      {
+        "scenario": "Destructive action without destructive variant",
+        "reason": "Users must have clear visual warning before irreversible actions",
+        "alternative": "Always use the destructive variant for delete, remove, or irreversible operations"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["primary", "destructive", "outline", "ghost", "link"],
+      "forbidden": ["secondary"],
+      "semanticMeaning": {
+        "primary": "Single most important action on a page",
+        "outline": "Default, most commonly used action",
+        "ghost": "Low-importance or optional action",
+        "destructive": "High-impact or irreversible action",
+        "link": "Inline text-level action styled as a hyperlink"
+      }
+    },
+    "size": {
+      "options": ["xs", "sm", "md", "lg"],
+      "default": "md"
+    },
+    "content": ["text", "icon", "textAndIcon"],
+    "iconOnly": {
+      "description": "Renders as a square button for icon-only use",
+      "default": false
     }
   },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["ButtonGroup", "Field", "AlertDialog", "Sheet", "DropdownMenu"],
+    "parentConstraints": [],
+    "asChild": "Supports Radix Slot via asChild prop to render as a different element"
+  },
+
+  "behavior": {
+    "states": ["default", "hover", "active", "disabled", "focus-visible", "aria-invalid"],
+    "interactions": {
+      "click": "Executes the bound action",
+      "hover": "Subtle background shift; primary/outline/secondary gain elevation shadow",
+      "active": "Translates down 0.5px and flattens shadow to simulate press",
+      "focus": "Visible 3px ring via focus-visible"
+    },
+    "responsive": {
+      "mobile": "Typically full-width in stacked layouts",
+      "desktop": "Inline with auto width"
+    }
+  },
+
+  "accessibility": {
+    "role": "button",
+    "keyboardSupport": "Space/Enter to activate; Tab to navigate",
+    "screenReader": "Announces button label, variant is visual-only",
+    "focusManagement": "Visible 3px focus ring on focus-visible, ring color matches variant",
+    "wcag": "AA"
+  },
+
   "rules": [
     "Only one primary button per page",
-    "Destructive actions must use destructive variants",
-    "Buttons may be used inline when action intent is clear"
+    "Destructive actions must use destructive variant",
+    "Buttons may be used inline when action intent is clear",
+    "Never use the secondary variant — it is forbidden in this design system"
   ],
-  "alternatives": [
-    "Link"
-  ]
+
+  "alternatives": ["Link"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["button", "action", "click", "submit", "cta", "trigger", "confirm", "cancel", "save", "delete"],
+    "context": "Use for any interactive action that changes state or triggers behavior. Default to outline variant unless the action is the single most important on the page (primary) or destructive."
+  }
 }

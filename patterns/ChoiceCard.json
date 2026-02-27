@@ -1,47 +1,126 @@
 {
-  "name": "ChoiceCard",
-  "type": "pattern",
-  "purpose": "Present a short set of options as selectable cards to support comparison and deliberate decision-making.",
-  "useWhen": [
-    "User must choose from a small number of meaningful options",
-    "Options require description or explanation",
-    "Visual comparison improves understanding",
-    "Selection represents a configuration or mode choice"
-  ],
+  "component": {
+    "name": "ChoiceCard",
+    "category": "molecules",
+    "description": "Present a short set of options as selectable cards to support comparison and deliberate decision-making.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Selecting a plan or pricing tier",
+      "Choosing a configuration mode or template",
+      "Picking a payment method or shipping option",
+      "Selecting a role or permission level",
+      "Any decision where options benefit from description and visual comparison"
+    ],
+    "requiredProps": ["htmlFor", "title"],
+    "commonPatterns": [
+      {
+        "name": "single-select-radio",
+        "description": "Radio-based choice cards for single selection within a group",
+        "composition": "<RadioGroup>\n  <ChoiceCard\n    htmlFor=\"plan-starter\"\n    icon={<Zap className=\"size-5\" />}\n    title=\"Starter\"\n    description=\"Best for individuals\"\n    control={<RadioGroupItem value=\"starter\" id=\"plan-starter\" />}\n  />\n  <ChoiceCard\n    htmlFor=\"plan-pro\"\n    icon={<Rocket className=\"size-5\" />}\n    title=\"Pro\"\n    description=\"Best for teams\"\n    control={<RadioGroupItem value=\"pro\" id=\"plan-pro\" />}\n  />\n</RadioGroup>"
+      },
+      {
+        "name": "multi-select-checkbox",
+        "description": "Checkbox-based choice cards for multiple selections",
+        "composition": "<ChoiceCard\n  htmlFor=\"feature-analytics\"\n  title=\"Analytics\"\n  description=\"Track usage and performance\"\n  control={<Checkbox id=\"feature-analytics\" />}\n/>"
+      },
+      {
+        "name": "control-left",
+        "description": "Choice card with the selection control on the left side",
+        "composition": "<ChoiceCard\n  htmlFor=\"option-a\"\n  controlPosition=\"left\"\n  title=\"Option A\"\n  description=\"Description of option A\"\n  control={<RadioGroupItem value=\"a\" id=\"option-a\" />}\n/>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using ChoiceCard for large option sets",
+        "reason": "Cards take significant space — large sets become unwieldy and hard to scan",
+        "alternative": "Use Select or Combobox for more than 4–5 options"
+      },
+      {
+        "scenario": "Using ChoiceCard for low-stakes incidental selections",
+        "reason": "ChoiceCards imply deliberation — trivial toggles should use simpler controls",
+        "alternative": "Use a simple Checkbox, Switch, or RadioGroup for quick selections"
+      },
+      {
+        "scenario": "Nesting ChoiceCards inside other cards",
+        "reason": "Nested card-in-card creates confusing visual depth and interaction targets",
+        "alternative": "Place ChoiceCards directly on the page surface or inside a flat container"
+      },
+      {
+        "scenario": "Mixing ChoiceCards with plain radio lists in the same decision set",
+        "reason": "Inconsistent selection patterns confuse users about interaction model",
+        "alternative": "Use ChoiceCards consistently for all options in a set"
+      }
+    ]
+  },
+
+  "variants": {
+    "controlPosition": {
+      "options": ["left", "right"],
+      "default": "right",
+      "semanticMeaning": {
+        "left": "Selection control appears on the left — traditional form layout",
+        "right": "Selection control appears on the right — card-first layout emphasizing content"
+      }
+    },
+    "selectionModel": {
+      "options": ["single (radio)", "multiple (checkbox)", "binary (switch)"],
+      "description": "Determined by the control passed to the control prop"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "icon": "Optional icon displayed above the title for visual distinction",
+      "title": "Primary label for the option (required)",
+      "description": "Secondary text explaining the option",
+      "control": "The selection control — RadioGroupItem, Checkbox, or Switch"
+    },
+    "nestedComponents": [],
+    "commonPartners": ["RadioGroup", "Checkbox", "Switch", "Field", "FieldLabel", "FieldContent", "FieldTitle", "FieldDescription"],
+    "parentConstraints": [
+      "Single-select ChoiceCards must be wrapped in a RadioGroup",
+      "Uses Field, FieldLabel, FieldContent, FieldTitle, and FieldDescription internally for its layout"
+    ]
+  },
+
+  "behavior": {
+    "states": ["default", "hover", "selected", "disabled"],
+    "interactions": {
+      "click": "Clicking anywhere on the card toggles or selects the control",
+      "hover": "Card background shifts to accent; text shifts to accent-foreground",
+      "selected": "Border changes to primary; 2px primary ring appears; icon and title colors shift to accent-foreground"
+    },
+    "responsive": {
+      "mobile": "Cards stack vertically at full width",
+      "desktop": "Cards can be placed in a grid for side-by-side comparison"
+    }
+  },
+
+  "accessibility": {
+    "role": "Uses FieldLabel as the card container — the entire card is a label for the control",
+    "keyboardSupport": "Space/Enter to toggle when control is focused; Tab navigates between cards",
+    "screenReader": "Card title and description are announced as part of the control label",
+    "focusManagement": "Focus is on the embedded control (radio, checkbox, switch), not the card itself",
+    "wcag": "AA"
+  },
+
   "rules": [
-    "Options are presented as visually consistent cards",
-    "Entire card is selectable",
-    "All options have equal visual weight",
-    "Selection control (radio, switch, checkbox) is integrated into the card"
-  ],
-  "composition": [
-    "Field",
-    "FieldGroup",
-    "FieldSet",
-    "FieldLabel",
-    "FieldContent",
-    "FieldTitle",
-    "FieldDescription",
-    "RadioGroup | Checkbox | Switch"
-  ],
-  "selectionModels": [
-    "single (radio)",
-    "multiple (checkbox)",
-    "binary (switch)"
-  ],
-  "doNotUseWhen": [
-    "Options are numerous (use Select or Combobox)",
-    "Selection is low-stakes or incidental",
-    "Purely navigational choices are needed"
-  ],
-  "alternatives": [
-    "RadioGroup",
-    "ToggleGroup",
-    "Select"
-  ],
-  "aiHints": [
+    "Options are presented as visually consistent cards with equal visual weight",
+    "The entire card is selectable — it acts as a label for the embedded control",
+    "Selection control (radio, switch, checkbox) is always integrated into the card",
     "Use ChoiceCard when comparison and clarity matter more than compactness",
     "Do not mix ChoiceCard with plain radio lists in the same decision set",
     "Avoid nesting ChoiceCards inside other cards"
-  ]
+  ],
+
+  "alternatives": ["RadioGroup", "ToggleGroup", "Select"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["choice-card", "selection-card", "option-card", "plan-selector", "tier-picker", "radio-card", "card-select"],
+    "context": "Use when presenting a small set of options (2–5) that benefit from visual comparison with titles, descriptions, and optional icons. Always wrap single-select ChoiceCards in a RadioGroup. The card uses Field sub-components internally and detects selection via :has([data-state=checked]) CSS."
+  }
 }

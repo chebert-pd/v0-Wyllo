@@ -1,0 +1,108 @@
+{
+  "component": {
+    "name": "Label",
+    "category": "atoms",
+    "description": "Accessible text label associated with a form control.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Labeling form inputs, selects, checkboxes, and radio buttons",
+      "Providing accessible names for interactive form controls",
+      "Displaying field labels in form layouts"
+    ],
+    "requiredProps": ["htmlFor (when not wrapping the control)"],
+    "commonPatterns": [
+      {
+        "name": "input-label",
+        "description": "Label above a text input",
+        "composition": "<div className=\"grid gap-2\">\n  <Label htmlFor=\"email\">Email Address</Label>\n  <Input id=\"email\" type=\"email\" placeholder=\"you@example.com\" />\n</div>"
+      },
+      {
+        "name": "checkbox-label",
+        "description": "Label beside a checkbox using peer association",
+        "composition": "<div className=\"flex items-center gap-2\">\n  <Checkbox id=\"terms\" />\n  <Label htmlFor=\"terms\">Accept terms and conditions</Label>\n</div>"
+      },
+      {
+        "name": "with-field-component",
+        "description": "Label used inside the Field component for structured form layouts",
+        "composition": "<Field>\n  <Label>Username</Label>\n  <Input placeholder=\"Enter username\" />\n</Field>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Label without associating it to a form control",
+        "reason": "An unassociated label provides no accessibility benefit",
+        "alternative": "Always use htmlFor matching the control's id, or wrap the control inside the Label"
+      },
+      {
+        "scenario": "Using Label for non-form text headings",
+        "reason": "Label has semantic meaning for form controls; headings should use heading elements",
+        "alternative": "Use h1-h6 or CardTitle for headings; use p or span for descriptive text"
+      },
+      {
+        "scenario": "Hiding the Label visually without sr-only",
+        "reason": "Form controls always need accessible names; hiding without sr-only removes accessibility",
+        "alternative": "Use className='sr-only' to visually hide while preserving screen reader access"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["Input", "Select", "Checkbox", "Switch", "RadioGroup", "Field"],
+    "parentConstraints": [
+      "Typically used inside a Field component or a manual form-field wrapper"
+    ]
+  },
+
+  "behavior": {
+    "states": ["default", "disabled (via group-data-disabled or peer-disabled)"],
+    "interactions": {
+      "click": "Clicking the label focuses its associated form control (native label behavior)",
+      "disabled": "Reduces opacity to 50% and disables pointer events when the associated control or parent group is disabled"
+    },
+    "responsive": {
+      "mobile": "Block-level label above the form control",
+      "desktop": "Block-level label above the form control; can be placed inline in horizontal form layouts"
+    }
+  },
+
+  "accessibility": {
+    "role": "label (native HTML label via Radix Label primitive)",
+    "keyboardSupport": "Clicking label focuses associated control; no direct keyboard interaction on the label itself",
+    "screenReader": "Announces label text as the accessible name for the associated form control",
+    "focusManagement": "Label itself is not focusable; transfers focus to associated control on click",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always associate Label with a form control via htmlFor or by wrapping",
+    "Uses Radix Label primitive for consistent cross-browser behavior",
+    "Styled as text-sm, font-medium with user-select none to prevent text selection",
+    "Inherits disabled styling from parent group-data-disabled or peer-disabled",
+    "Supports inline content alongside text via flex layout with gap-2"
+  ],
+
+  "alternatives": [],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["label", "form label", "input label", "field label", "accessible name"],
+    "context": "Use for every visible form control to provide an accessible name. Pair with Input, Select, Checkbox, Switch, or RadioGroup. When using the Field component, Label is typically the first child. For icon-only or visually hidden labels, apply sr-only class."
+  }
+}

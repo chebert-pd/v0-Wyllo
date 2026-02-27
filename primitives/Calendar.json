@@ -1,0 +1,119 @@
+{
+  "component": {
+    "name": "Calendar",
+    "category": "molecules",
+    "description": "Date picker grid for selecting single dates or date ranges.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Selecting a single date in a form",
+      "Choosing a date range for filtering or scheduling",
+      "Inline calendar display for date-centric interfaces",
+      "Popover-based date picker when paired with Popover"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "single-date-picker",
+        "description": "Basic single date selection calendar",
+        "composition": "<Calendar mode=\"single\" selected={date} onSelect={setDate} />"
+      },
+      {
+        "name": "date-range-picker",
+        "description": "Calendar for selecting a start and end date range",
+        "composition": "<Calendar mode=\"range\" selected={dateRange} onSelect={setDateRange} numberOfMonths={2} />"
+      },
+      {
+        "name": "popover-date-picker",
+        "description": "Calendar inside a Popover triggered by a button for compact form fields",
+        "composition": "<Popover>\n  <PopoverTrigger asChild>\n    <Button variant=\"outline\">{format(date, 'PPP')}</Button>\n  </PopoverTrigger>\n  <PopoverContent className=\"w-auto p-0\">\n    <Calendar mode=\"single\" selected={date} onSelect={setDate} />\n  </PopoverContent>\n</Popover>"
+      },
+      {
+        "name": "disabled-dates",
+        "description": "Calendar with disabled past dates",
+        "composition": "<Calendar mode=\"single\" selected={date} onSelect={setDate} disabled={(date) => date < new Date()} />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Calendar for time selection",
+        "reason": "Calendar only supports date selection, not time",
+        "alternative": "Pair Calendar with a separate time picker input"
+      },
+      {
+        "scenario": "Embedding Calendar inline when space is limited",
+        "reason": "Calendar takes significant vertical space; it can crowd compact forms",
+        "alternative": "Wrap Calendar in a Popover for compact layouts"
+      },
+      {
+        "scenario": "Using Calendar without controlled state",
+        "reason": "Uncontrolled calendars make it difficult to integrate with form state",
+        "alternative": "Always use selected and onSelect for controlled behavior"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "children": "No child slots; Calendar is self-contained with internal day grid"
+    },
+    "nestedComponents": [],
+    "commonPartners": ["Popover", "Button", "Field", "Input"],
+    "parentConstraints": [
+      "Often placed inside PopoverContent for popover-based date pickers"
+    ]
+  },
+
+  "behavior": {
+    "states": ["default", "selected", "range-start", "range-middle", "range-end", "today", "outside", "disabled", "hidden"],
+    "interactions": {
+      "click": "Selects a day; in range mode, first click sets start, second click sets end",
+      "hover": "Day cell gains muted background on hover",
+      "navigate": "Previous/next month buttons with chevron icons; multi-month display via numberOfMonths prop"
+    },
+    "responsive": {
+      "mobile": "Months stack vertically in multi-month mode (flex-col)",
+      "desktop": "Months display side-by-side in multi-month mode (flex-row)"
+    }
+  },
+
+  "accessibility": {
+    "role": "Uses react-day-picker with proper grid, gridcell, and button roles",
+    "keyboardSupport": "Arrow keys to navigate days; Enter/Space to select; Tab to move between navigation buttons",
+    "screenReader": "Announces month/year caption, selected state, today indicator, and disabled dates",
+    "focusManagement": "Visible 2px focus ring on day buttons and navigation buttons",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "showOutsideDays is true by default to prevent layout shifts",
+    "Selected dates use primary background with primary-foreground text",
+    "Range middle days use 15% opacity primary fill with no border radius",
+    "Range start days have right border radius removed; range end days have left border radius removed",
+    "Today is indicated by font-weight semibold",
+    "Navigation buttons have border, background, and hover styles matching the design system",
+    "Custom classNames can be merged via the classNames prop"
+  ],
+
+  "alternatives": ["Input"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["calendar", "date picker", "date selection", "date range", "schedule", "booking", "day picker"],
+    "context": "Use for any date selection need. For compact forms, wrap in a Popover with a Button trigger. For date range selection, use mode='range' with numberOfMonths={2}. Built on react-day-picker; accepts all DayPicker props."
+  }
+}

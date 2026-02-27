@@ -1,26 +1,101 @@
 {
-  "name": "RadioGroup",
-  "type": "primitive",
-  "purpose": "Allow the user to select exactly one option from a visible set.",
-  "useWhen": [
-    "Only one option may be selected",
-    "Options should be compared",
-    "Choice is deliberate or high-consequence"
-  ],
+  "component": {
+    "name": "RadioGroup",
+    "category": "molecules",
+    "description": "Allow the user to select exactly one option from a visible set.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Only one option may be selected from a small set",
+      "Options should be compared side-by-side",
+      "Choice is deliberate or high-consequence"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "labeled-radio-group",
+        "description": "Standard vertical list of labeled radio options",
+        "composition": "<RadioGroup defaultValue=\"option-1\">\n  <div className=\"flex items-center gap-2\">\n    <RadioGroupItem value=\"option-1\" id=\"option-1\" />\n    <Label htmlFor=\"option-1\">Option 1</Label>\n  </div>\n  <div className=\"flex items-center gap-2\">\n    <RadioGroupItem value=\"option-2\" id=\"option-2\" />\n    <Label htmlFor=\"option-2\">Option 2</Label>\n  </div>\n</RadioGroup>"
+      },
+      {
+        "name": "controlled-radio-group",
+        "description": "Controlled selection with onValueChange callback",
+        "composition": "<RadioGroup value={selected} onValueChange={setSelected}>\n  <div className=\"flex items-center gap-2\">\n    <RadioGroupItem value=\"a\" id=\"a\" />\n    <Label htmlFor=\"a\">Choice A</Label>\n  </div>\n</RadioGroup>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using RadioGroup for binary enable/disable",
+        "reason": "Binary on/off states are better communicated by a Switch with immediate effect semantics",
+        "alternative": "Use Switch"
+      },
+      {
+        "scenario": "Using RadioGroup when options are numerous",
+        "reason": "Long visible lists waste space and overwhelm the user",
+        "alternative": "Use Select for more than 5-6 options"
+      },
+      {
+        "scenario": "Using RadioGroup when user must search or filter",
+        "reason": "RadioGroup has no built-in search capability",
+        "alternative": "Use Combobox"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "radio-group": "Root container; renders as a vertical flex column with gap-2",
+      "radio-group-item": "Individual radio circle; renders the indicator dot when checked",
+      "radio-group-indicator": "Inner checked-state dot indicator"
+    },
+    "nestedComponents": ["RadioGroupItem"],
+    "commonPartners": ["Label", "Field"],
+    "parentConstraints": ["RadioGroupItem must be a direct child of RadioGroup"]
+  },
+
+  "behavior": {
+    "states": ["default", "checked", "unchecked", "disabled", "focus-visible"],
+    "interactions": {
+      "click": "Selects the clicked radio item, deselects all others",
+      "keyboard": "Arrow keys navigate between items; Space selects the focused item",
+      "focus": "Visible 3px focus ring on focus-visible"
+    },
+    "responsive": {}
+  },
+
+  "accessibility": {
+    "role": "radiogroup",
+    "keyboardSupport": "Arrow keys to move between options; Space to select; Tab to enter/exit group",
+    "screenReader": "Announces group label, each item label, and checked state",
+    "focusManagement": "Roving focus within group; focus ring visible on focus-visible",
+    "wcag": "AA"
+  },
+
   "rules": [
-    "All options are visible",
-    "Selection is exclusive"
+    "All options must be visible at the same time",
+    "Selection is exclusive — only one option may be selected",
+    "Each RadioGroupItem must have an associated Label"
   ],
-  "doNotUseWhen": [
-    "Binary enable/disable (use Switch)",
-    "Options are numerous (use Select)",
-    "User must search (use Combobox)"
-  ],
-  "alternatives": [
-    "Select",
-    "ToggleGroup"
-  ],
-  "aiHints": [
-    "Use RadioGroup when comparison matters"
-  ]
+
+  "alternatives": ["Select", "ToggleGroup"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["radio", "single-select", "exclusive", "choice", "option", "pick-one"],
+    "context": "Use RadioGroup when comparison between a small number of options matters and all choices should be visible. For more than 5-6 options, prefer Select. For binary on/off, prefer Switch."
+  }
 }

@@ -1,24 +1,122 @@
 {
-  "name": "InputGroup",
-  "type": "primitive",
-  "purpose": "Compose inputs with inline addons, buttons, icons, or helper controls.",
-  "useWhen": [
-    "Input needs inline icons or text",
-    "Input is paired with a button or dropdown",
-    "Additional context is embedded within the input"
-  ],
+  "component": {
+    "name": "InputGroup",
+    "category": "molecules",
+    "description": "Compose inputs with inline addons, buttons, icons, or helper controls.",
+    "type": "container"
+  },
+
+  "usage": {
+    "useCases": [
+      "Adding a search icon inside an input",
+      "Pairing an input with an inline action button",
+      "Displaying units, currency symbols, or helper text alongside an input",
+      "Combining a textarea with inline controls",
+      "Building compound input fields with block-level addons above or below"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "search-input",
+        "description": "Input with a leading search icon",
+        "composition": "<InputGroup>\n  <InputGroupAddon align=\"inline-start\">\n    <Search className=\"size-4\" />\n  </InputGroupAddon>\n  <InputGroupInput placeholder=\"Search...\" />\n</InputGroup>"
+      },
+      {
+        "name": "input-with-button",
+        "description": "Input with a trailing action button",
+        "composition": "<InputGroup>\n  <InputGroupInput placeholder=\"Enter URL\" />\n  <InputGroupAddon align=\"inline-end\">\n    <InputGroupButton size=\"xs\">Go</InputGroupButton>\n  </InputGroupAddon>\n</InputGroup>"
+      },
+      {
+        "name": "currency-input",
+        "description": "Input with a leading currency symbol",
+        "composition": "<InputGroup>\n  <InputGroupAddon align=\"inline-start\">\n    <InputGroupText>$</InputGroupText>\n  </InputGroupAddon>\n  <InputGroupInput type=\"number\" placeholder=\"0.00\" />\n</InputGroup>"
+      },
+      {
+        "name": "textarea-with-addon",
+        "description": "Textarea with a block-end addon for actions",
+        "composition": "<InputGroup>\n  <InputGroupTextarea placeholder=\"Write a message...\" />\n  <InputGroupAddon align=\"block-end\">\n    <InputGroupButton size=\"xs\">Send</InputGroupButton>\n  </InputGroupAddon>\n</InputGroup>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using InputGroup without any addons",
+        "reason": "InputGroup adds wrapper chrome — a plain Input is simpler and more semantic",
+        "alternative": "Use Input directly when no inline affordances are needed"
+      },
+      {
+        "scenario": "Using InputGroup as a replacement for Field",
+        "reason": "InputGroup handles visual composition, not form semantics like labels or error messages",
+        "alternative": "Wrap InputGroup inside Field for form label and error support"
+      }
+    ]
+  },
+
+  "variants": {
+    "addonAlign": {
+      "options": ["inline-start", "inline-end", "block-start", "block-end"],
+      "default": "inline-start",
+      "semanticMeaning": {
+        "inline-start": "Addon appears to the left of the input (icons, text, buttons)",
+        "inline-end": "Addon appears to the right of the input (actions, units)",
+        "block-start": "Addon spans full width above the input (labels, context)",
+        "block-end": "Addon spans full width below the input (actions, counters)"
+      }
+    },
+    "buttonSize": {
+      "options": ["xs", "sm", "icon-xs", "icon-sm"],
+      "default": "xs"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "InputGroupAddon": "Container for icons, text, buttons, or keyboard shortcuts positioned relative to the input",
+      "InputGroupButton": "Action button sized to fit within the group chrome",
+      "InputGroupText": "Static text label (units, symbols) within an addon",
+      "InputGroupInput": "Styled Input that strips its own border/shadow to inherit from the group",
+      "InputGroupTextarea": "Styled Textarea that strips its own border/shadow to inherit from the group"
+    },
+    "nestedComponents": ["InputGroupAddon", "InputGroupButton", "InputGroupText", "InputGroupInput", "InputGroupTextarea"],
+    "commonPartners": ["Field", "Input", "Textarea", "Button"],
+    "parentConstraints": [
+      "Wrap in Field for form contexts with label and error support"
+    ]
+  },
+
+  "behavior": {
+    "states": ["default", "focus-within", "error"],
+    "interactions": {
+      "focus": "When the inner input receives focus, the group border changes to ring color and gains a 2px ring",
+      "click-addon": "Clicking a non-button addon area focuses the input automatically",
+      "error": "When inner control has aria-invalid, group border and ring turn destructive"
+    },
+    "responsive": {
+      "mobile": "Full-width; block-aligned addons stack naturally",
+      "desktop": "Inline addons sit beside the input within the same row"
+    }
+  },
+
+  "accessibility": {
+    "role": "group",
+    "keyboardSupport": "Tab focuses the input or textarea within the group; addon buttons are focusable separately",
+    "screenReader": "Group role associates addons with the input; labels come from the wrapping Field",
+    "focusManagement": "Focus ring appears on the entire group container when the inner control is focused",
+    "wcag": "AA"
+  },
+
   "rules": [
-    "InputGroup enhances a single input or textarea",
-    "InputGroup does not provide semantic meaning",
-    "Focus should remain on the input control"
-  ],
-  "doNotUseWhen": [
-    "No inline affordances are needed",
-    "Used as a replacement for Field"
-  ],
-  "alternatives": [],
-  "aiHints": [
+    "InputGroup enhances a single input or textarea — it does not provide semantic meaning",
+    "Focus should remain on the input control, not the addons",
     "Use InputGroup for composition, not validation",
-    "Combine InputGroup with Field for full form inputs"
-  ]
+    "Combine InputGroup with Field for complete form inputs",
+    "Block-aligned addons (block-start/block-end) switch the group to a column layout"
+  ],
+
+  "alternatives": [],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["input-group", "addon", "icon-input", "search-input", "prefix", "suffix", "inline-button", "compound-input"],
+    "context": "Use when an input needs inline visual affordances like icons, buttons, text labels, or keyboard shortcut hints. Always use InputGroupInput or InputGroupTextarea as the inner control (not plain Input) to ensure styles merge correctly. Wrap in Field for form semantics."
+  }
 }

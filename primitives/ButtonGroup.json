@@ -1,47 +1,127 @@
 {
-  "name": "ButtonGroup",
-  "type": "primitive",
-  "purpose": "Visually and functionally group buttons and button-adjacent controls into a single cohesive control surface.",
-  "useWhen": [
-    "Grouping multiple action buttons together",
-    "Creating split buttons",
-    "Pairing buttons with inputs, selects, dropdowns, or popovers",
-    "Presenting compact, inline action clusters"
-  ],
-  "allowedChildren": [
-    "Button",
-    "Input",
-    "InputGroup",
-    "Select",
-    "DropdownMenu",
-    "Popover",
-    "ButtonGroupText",
-    "ButtonGroupSeparator"
-  ],
+  "component": {
+    "name": "ButtonGroup",
+    "category": "molecules",
+    "description": "Visually and functionally group buttons and button-adjacent controls into a single cohesive control surface.",
+    "type": "container"
+  },
+
+  "usage": {
+    "useCases": [
+      "Grouping multiple action buttons together",
+      "Creating split buttons with a primary action and a dropdown",
+      "Pairing buttons with inputs, selects, dropdowns, or popovers",
+      "Presenting compact, inline action clusters"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "horizontal-button-group",
+        "description": "Standard horizontal grouping of related action buttons",
+        "composition": "<ButtonGroup>\n  <Button variant=\"outline\">Left</Button>\n  <Button variant=\"outline\">Center</Button>\n  <Button variant=\"outline\">Right</Button>\n</ButtonGroup>"
+      },
+      {
+        "name": "split-button",
+        "description": "Primary action paired with a dropdown for secondary actions",
+        "composition": "<ButtonGroup>\n  <Button variant=\"primary\">Save</Button>\n  <DropdownMenu>\n    <DropdownMenuTrigger asChild>\n      <Button variant=\"primary\" iconOnly><ChevronDown /></Button>\n    </DropdownMenuTrigger>\n    <DropdownMenuContent>...</DropdownMenuContent>\n  </DropdownMenu>\n</ButtonGroup>"
+      },
+      {
+        "name": "button-with-separator",
+        "description": "Buttons separated by a visual divider for non-outline variants",
+        "composition": "<ButtonGroup>\n  <Button variant=\"outline\">Copy</Button>\n  <ButtonGroupSeparator />\n  <Button variant=\"outline\">Paste</Button>\n</ButtonGroup>"
+      },
+      {
+        "name": "vertical-button-group",
+        "description": "Vertically stacked group for sidebar or toolbar layouts",
+        "composition": "<ButtonGroup orientation=\"vertical\">\n  <Button variant=\"outline\">Option A</Button>\n  <Button variant=\"outline\">Option B</Button>\n  <Button variant=\"outline\">Option C</Button>\n</ButtonGroup>"
+      },
+      {
+        "name": "button-with-text-label",
+        "description": "Static text label alongside grouped buttons",
+        "composition": "<ButtonGroup>\n  <ButtonGroupText>Filter:</ButtonGroupText>\n  <Button variant=\"outline\">All</Button>\n  <Button variant=\"outline\">Active</Button>\n</ButtonGroup>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Selecting between mutually exclusive options",
+        "reason": "ButtonGroup does not manage selection state",
+        "alternative": "Use ToggleGroup for mutually exclusive choices"
+      },
+      {
+        "scenario": "Managing persistent state selection",
+        "reason": "ButtonGroup actions execute immediately and do not track selected state",
+        "alternative": "Use ToggleGroup or RadioGroup for stateful selection"
+      },
+      {
+        "scenario": "Presenting unrelated actions together",
+        "reason": "Visual grouping implies related functionality",
+        "alternative": "Place unrelated actions in separate containers"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    },
+    "orientation": {
+      "options": ["horizontal", "vertical"],
+      "default": "horizontal"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "children": "Button, Input, InputGroup, Select, DropdownMenu, Popover, ButtonGroupText, ButtonGroupSeparator"
+    },
+    "nestedComponents": ["ButtonGroupText", "ButtonGroupSeparator"],
+    "commonPartners": ["Button", "DropdownMenu", "Input", "Select", "Popover", "InputGroup"],
+    "parentConstraints": [],
+    "subComponents": {
+      "ButtonGroupText": "Static label element with muted background; supports asChild via Radix Slot",
+      "ButtonGroupSeparator": "Visual divider between grouped controls; wraps Separator with vertical orientation by default"
+    }
+  },
+
+  "behavior": {
+    "states": ["default"],
+    "interactions": {
+      "click": "Delegated to child controls; ButtonGroup itself is inert"
+    },
+    "responsive": {
+      "mobile": "Consider vertical orientation for narrow viewports",
+      "desktop": "Horizontal orientation is the default"
+    }
+  },
+
+  "accessibility": {
+    "role": "group",
+    "keyboardSupport": "Tab navigates between child controls; individual children handle their own keyboard interactions",
+    "screenReader": "Announced as a group; child controls announce their own labels",
+    "focusManagement": "Focus is managed per-child; focused child gets z-index elevation to show focus ring above siblings",
+    "wcag": "AA"
+  },
+
   "rules": [
     "ButtonGroup does not manage selection state",
     "Actions inside a ButtonGroup execute immediately",
     "Visual grouping implies related functionality, not shared state",
-    "Orientation may be horizontal or vertical"
-  ],
-  "visualRules": [
-    "Buttons retain their individual semantic variants",
+    "Buttons retain their individual semantic variants inside a ButtonGroup",
     "Separators are recommended for non-outline button variants",
     "Outline buttons do not require separators due to visible borders"
   ],
-  "doNotUseWhen": [
-    "Selecting between mutually exclusive options (use ToggleGroup)",
-    "Managing persistent state selection",
-    "Presenting unrelated actions"
-  ],
-  "alternatives": [
-    "ToggleGroup",
-    "Select",
-    "InlineAction"
-  ],
-  "aiHints": [
-    "Use ButtonGroup for split buttons and compound controls",
-    "Do not replace ToggleGroup with ButtonGroup when state selection is required",
-    "ButtonGroup may wrap non-button controls when they participate in a single action cluster"
-  ]
+
+  "alternatives": ["ToggleGroup", "Select"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["button group", "split button", "grouped actions", "toolbar", "action cluster", "compound control"],
+    "context": "Use ButtonGroup for split buttons and compound controls where multiple related actions sit together. Do not replace ToggleGroup with ButtonGroup when state selection is required. ButtonGroup may wrap non-button controls (Input, Select, Popover) when they participate in a single action cluster."
+  }
 }

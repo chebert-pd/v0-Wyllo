@@ -1,0 +1,131 @@
+{
+  "component": {
+    "name": "AlertDialog",
+    "category": "organisms",
+    "description": "Modal dialog for confirming destructive or critical actions before proceeding.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "Confirming destructive actions like deletion or account removal",
+      "Requiring user acknowledgment before irreversible operations",
+      "Presenting critical information that must be dismissed before continuing",
+      "Two-step confirmation flows for sensitive changes"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "delete-confirmation",
+        "description": "Standard destructive action confirmation with cancel and delete buttons",
+        "composition": "<AlertDialog>\n  <AlertDialogTrigger asChild><Button variant=\"destructive\">Delete Item</Button></AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogHeader>\n      <AlertDialogTitle>Are you sure?</AlertDialogTitle>\n      <AlertDialogDescription>This action cannot be undone. This will permanently delete the item.</AlertDialogDescription>\n    </AlertDialogHeader>\n    <AlertDialogFooter>\n      <AlertDialogCancel>Cancel</AlertDialogCancel>\n      <AlertDialogAction variant=\"destructive\">Delete</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>"
+      },
+      {
+        "name": "with-media-icon",
+        "description": "Alert dialog with a media icon for visual context",
+        "composition": "<AlertDialog>\n  <AlertDialogTrigger asChild><Button variant=\"outline\">Disconnect</Button></AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogHeader>\n      <AlertDialogMedia><Unplug /></AlertDialogMedia>\n      <AlertDialogTitle>Disconnect account?</AlertDialogTitle>\n      <AlertDialogDescription>You will need to re-authenticate to reconnect.</AlertDialogDescription>\n    </AlertDialogHeader>\n    <AlertDialogFooter>\n      <AlertDialogCancel>Keep Connected</AlertDialogCancel>\n      <AlertDialogAction variant=\"destructive\">Disconnect</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>"
+      },
+      {
+        "name": "small-size",
+        "description": "Compact dialog for simple yes/no confirmations",
+        "composition": "<AlertDialog>\n  <AlertDialogTrigger asChild><Button variant=\"ghost\" size=\"sm\">Remove</Button></AlertDialogTrigger>\n  <AlertDialogContent size=\"sm\">\n    <AlertDialogHeader>\n      <AlertDialogTitle>Remove this item?</AlertDialogTitle>\n      <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>\n    </AlertDialogHeader>\n    <AlertDialogFooter>\n      <AlertDialogCancel>No</AlertDialogCancel>\n      <AlertDialogAction variant=\"destructive\">Yes, Remove</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using AlertDialog for non-destructive information display",
+        "reason": "AlertDialog forces user interaction; informational content should not block the user",
+        "alternative": "Use a standard Dialog or Sheet for non-blocking information"
+      },
+      {
+        "scenario": "Using AlertDialog for forms or complex input",
+        "reason": "AlertDialog is designed for simple confirm/cancel flows, not multi-field forms",
+        "alternative": "Use Dialog or Sheet for forms"
+      },
+      {
+        "scenario": "Omitting the cancel option",
+        "reason": "Users must always have a way to back out of destructive actions",
+        "alternative": "Always include AlertDialogCancel alongside AlertDialogAction"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": ["default", "sm"],
+      "default": "default"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "trigger": "AlertDialogTrigger wrapping the element that opens the dialog",
+      "media": "AlertDialogMedia for an icon or image in the header",
+      "title": "AlertDialogTitle for the dialog heading",
+      "description": "AlertDialogDescription for explanatory body text",
+      "footer": "AlertDialogFooter containing action and cancel buttons"
+    },
+    "nestedComponents": [
+      "AlertDialogTrigger",
+      "AlertDialogContent",
+      "AlertDialogHeader",
+      "AlertDialogFooter",
+      "AlertDialogTitle",
+      "AlertDialogDescription",
+      "AlertDialogMedia",
+      "AlertDialogAction",
+      "AlertDialogCancel",
+      "AlertDialogOverlay",
+      "AlertDialogPortal"
+    ],
+    "commonPartners": ["Button"],
+    "parentConstraints": [
+      "AlertDialogContent must be inside AlertDialog",
+      "AlertDialogAction and AlertDialogCancel must be inside AlertDialogFooter"
+    ]
+  },
+
+  "behavior": {
+    "states": ["open", "closed"],
+    "interactions": {
+      "open": "Overlay fades in with backdrop blur; content zooms in with fade",
+      "close": "Content zooms out with fade; overlay fades out",
+      "cancel": "Dismisses the dialog without executing the action",
+      "action": "Executes the confirmed action and closes the dialog"
+    },
+    "responsive": {
+      "mobile": "Centered modal; footer stacks buttons vertically (column-reverse)",
+      "desktop": "Centered modal; sm size max-width xs, default size max-width lg; footer buttons inline"
+    }
+  },
+
+  "accessibility": {
+    "role": "alertdialog (Radix AlertDialog primitive)",
+    "keyboardSupport": "Escape to close (cancel); Tab to cycle focus within dialog; Enter/Space to activate buttons",
+    "screenReader": "Announced as an alert dialog with title and description; focus trapped within content",
+    "focusManagement": "Focus is trapped inside the dialog when open; returns to trigger element on close",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always pair AlertDialogAction with AlertDialogCancel for user safety",
+    "Use variant='destructive' on AlertDialogAction for destructive confirmations",
+    "AlertDialogAction defaults to variant='primary' and size='sm'; AlertDialogCancel defaults to variant='outline' and size='sm'",
+    "Use size='sm' for simple yes/no confirmations; default size for detailed explanations",
+    "Include AlertDialogDescription for screen reader context even if visually brief",
+    "Uses GlassFrame wrapper for frosted glass container effect"
+  ],
+
+  "alternatives": ["Alert", "Sheet"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["confirm", "confirmation", "destructive", "delete", "remove", "alert dialog", "modal", "acknowledge", "irreversible"],
+    "context": "Use exclusively for confirming destructive or irreversible actions. This is a blocking modal that requires explicit user acknowledgment. For non-destructive modals, use Dialog or Sheet. For inline messages, use Alert."
+  }
+}

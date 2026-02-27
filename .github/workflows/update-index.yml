@@ -1,0 +1,41 @@
+name: Update Codebase Index
+
+# Runs whenever you push to main and any of these files changed:
+# - a component file in my-app/components/ui/
+# - a metadata file in primitives/ or patterns/
+on:
+  push:
+    branches: [main]
+    paths:
+      - "my-app/components/ui/**"
+      - "primitives/**"
+      - "patterns/**"
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # needed to commit the updated index back
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Run codebase indexer
+        run: python my-app/scripts/index_codebase.py my-app
+
+      - name: Commit updated index (if anything changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add my-app/components/.ai/
+          git diff --staged --quiet || git commit -m "chore: update codebase index [skip ci]"
+          git push

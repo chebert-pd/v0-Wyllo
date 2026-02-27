@@ -1,0 +1,148 @@
+{
+  "component": {
+    "name": "Badge",
+    "category": "atoms",
+    "description": "Compact label for status, category, count, or metadata display.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Displaying status indicators (active, pending, error)",
+      "Labeling categories or tags",
+      "Showing counts or numeric deltas",
+      "Inline metadata alongside text or data rows",
+      "Accordion trigger annotations",
+      "Table cell status indicators"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "status-badge",
+        "description": "Semantic status label with color variant",
+        "composition": "<Badge variant=\"success\">Active</Badge>"
+      },
+      {
+        "name": "badge-with-indicator",
+        "description": "Badge with a pulsing status dot",
+        "composition": "<Badge variant=\"outline\"><BadgeIndicator variant=\"success\" pulse /> Online</Badge>"
+      },
+      {
+        "name": "badge-with-icon",
+        "description": "Badge with a leading icon for category labeling",
+        "composition": "<Badge variant=\"secondary\"><BadgeIcon icon={Tag} /> Category</Badge>"
+      },
+      {
+        "name": "badge-with-avatar",
+        "description": "Badge showing a user avatar and name",
+        "composition": "<Badge variant=\"outline\"><BadgeAvatar src=\"/avatar.jpg\" alt=\"Jane\" size=\"sm\" /> Jane Doe</Badge>"
+      },
+      {
+        "name": "badge-with-delta",
+        "description": "Numeric change indicator for dashboards",
+        "composition": "<Badge variant=\"outline\"><BadgeDelta delta={12} />%</Badge>"
+      },
+      {
+        "name": "dismissible-badge",
+        "description": "Badge with a close/remove action button",
+        "composition": "<Badge variant=\"secondary\">Tag <BadgeAction><X className=\"size-3\" /></BadgeAction></Badge>"
+      },
+      {
+        "name": "avatar-group-badge",
+        "description": "Badge with overlapping avatar group",
+        "composition": "<Badge variant=\"outline\"><BadgeAvatarGroup><BadgeAvatar src=\"/a.jpg\" /><BadgeAvatar src=\"/b.jpg\" /><BadgeAvatar fallback=\"+3\" /></BadgeAvatarGroup> Team</Badge>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Badge as a clickable button",
+        "reason": "Badge is a display element; clickable actions need Button or a link",
+        "alternative": "Use Button with size='xs' for small interactive elements"
+      },
+      {
+        "scenario": "Using destructive variant for non-error content",
+        "reason": "Destructive communicates error or danger; misuse dilutes its meaning",
+        "alternative": "Use secondary or outline for neutral metadata"
+      },
+      {
+        "scenario": "Overloading a badge with too much text",
+        "reason": "Badges should be scannable at a glance; long text defeats the purpose",
+        "alternative": "Keep badge text under 3-4 words; use a tooltip or description for details"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["default", "secondary", "destructive", "outline", "ghost", "link", "success", "warning", "info"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "default": "Primary-tinted accent badge for default emphasis",
+        "secondary": "Muted neutral badge for low-emphasis metadata",
+        "destructive": "Error or danger state",
+        "outline": "Bordered badge on card background for subtle labeling",
+        "ghost": "No background; appears only on hover when linked",
+        "link": "Text-only underlined link style",
+        "success": "Positive status or confirmation",
+        "warning": "Cautionary or pending status",
+        "info": "Informational or neutral highlight"
+      }
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "icon": "BadgeIcon for a leading icon element",
+      "indicator": "BadgeIndicator for a status dot with optional pulse animation",
+      "avatar": "BadgeAvatar for user/entity thumbnail",
+      "avatarGroup": "BadgeAvatarGroup for overlapping avatar stack",
+      "delta": "BadgeDelta for numeric change with up/down/neutral chevron",
+      "action": "BadgeAction for a small interactive button (e.g., dismiss)"
+    },
+    "nestedComponents": ["BadgeIcon", "BadgeIndicator", "BadgeAvatar", "BadgeAvatarGroup", "BadgeDelta", "BadgeAction"],
+    "commonPartners": ["Accordion", "Card", "Table", "DropdownMenu"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["default", "hover (when linked)", "focus-visible (when linked)", "aria-invalid"],
+    "interactions": {
+      "static": "Badge is non-interactive by default",
+      "linked": "When rendered as an anchor (asChild), gains hover and focus styles",
+      "action": "BadgeAction provides a small interactive dismiss/action target within the badge"
+    },
+    "responsive": {
+      "mobile": "Inline display; wraps with text flow",
+      "desktop": "Inline display; wraps with text flow"
+    }
+  },
+
+  "accessibility": {
+    "role": "Rendered as span by default; inherits role from child when using asChild",
+    "keyboardSupport": "Not keyboard-interactive unless linked or containing BadgeAction; BadgeAction is focusable via Tab",
+    "screenReader": "Reads badge text content; BadgeIndicator and BadgeDelta icons are aria-hidden",
+    "focusManagement": "Focus ring on BadgeAction and linked badges via focus-visible",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Match variant to semantic meaning: success for positive, destructive for errors, warning for caution",
+    "Use BadgeIndicator for live status with optional pulse animation",
+    "BadgeDelta auto-selects chevron direction and color based on positive/negative/zero delta value",
+    "BadgeAvatar supports src for images or fallback for initials; size can be sm or md",
+    "Keep badge text concise — 1-4 words maximum",
+    "asChild prop allows rendering Badge as a different element via Radix Slot"
+  ],
+
+  "alternatives": ["Alert", "Button"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["badge", "tag", "label", "status", "indicator", "count", "chip", "pill", "category", "metadata", "delta"],
+    "context": "Use for compact inline status labels, category tags, or metadata chips. Choose variant based on semantic meaning. For interactive tag management (add/remove), combine with BadgeAction. For numeric change display, use BadgeDelta sub-component."
+  }
+}

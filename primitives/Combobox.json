@@ -1,31 +1,150 @@
 {
-  "name": "Combobox",
-  "type": "primitive",
-  "purpose": "Allow the user to search, filter, and select from a potentially large or dynamic set of options.",
-  "useWhen": [
-    "Options are numerous or unbounded",
-    "User needs to type to find an option",
-    "Options are dynamic or object-based",
-    "Multiple selections are required",
-    "Chips or tags are needed to display selections"
-  ],
+  "component": {
+    "name": "Combobox",
+    "category": "molecules",
+    "description": "Allow the user to search, filter, and select from a potentially large or dynamic set of options.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Options are numerous or unbounded",
+      "User needs to type to find an option",
+      "Options are dynamic or fetched asynchronously",
+      "Multiple selections are required with chip display",
+      "Tags or tokens are needed to represent selections"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "simple-combobox",
+        "description": "Quick setup with a flat options array — renders input, trigger, and list automatically",
+        "composition": "<Combobox options={[{ label: 'Apple', value: 'apple' }, { label: 'Banana', value: 'banana' }]} placeholder=\"Select fruit...\" />"
+      },
+      {
+        "name": "composable-combobox",
+        "description": "Full control over input, content, and item rendering",
+        "composition": "<Combobox>\n  <ComboboxInput placeholder=\"Search...\" showTrigger showClear />\n  <ComboboxContent>\n    <ComboboxList>\n      <ComboboxItem value=\"apple\">Apple</ComboboxItem>\n      <ComboboxItem value=\"banana\">Banana</ComboboxItem>\n    </ComboboxList>\n    <ComboboxEmpty>No results found.</ComboboxEmpty>\n  </ComboboxContent>\n</Combobox>"
+      },
+      {
+        "name": "grouped-combobox",
+        "description": "Options organized by category with labels and separators",
+        "composition": "<Combobox>\n  <ComboboxInput placeholder=\"Search...\" />\n  <ComboboxContent>\n    <ComboboxList>\n      <ComboboxGroup>\n        <ComboboxLabel>Fruits</ComboboxLabel>\n        <ComboboxItem value=\"apple\">Apple</ComboboxItem>\n      </ComboboxGroup>\n      <ComboboxSeparator />\n      <ComboboxGroup>\n        <ComboboxLabel>Vegetables</ComboboxLabel>\n        <ComboboxItem value=\"carrot\">Carrot</ComboboxItem>\n      </ComboboxGroup>\n    </ComboboxList>\n  </ComboboxContent>\n</Combobox>"
+      },
+      {
+        "name": "multi-select-with-chips",
+        "description": "Multiple selections displayed as removable chips",
+        "composition": "<Combobox multiple>\n  <ComboboxChips>\n    <ComboboxChip>Apple</ComboboxChip>\n    <ComboboxChipsInput placeholder=\"Add more...\" />\n  </ComboboxChips>\n  <ComboboxContent anchor={anchorRef}>\n    <ComboboxList>\n      <ComboboxItem value=\"apple\">Apple</ComboboxItem>\n      <ComboboxItem value=\"banana\">Banana</ComboboxItem>\n    </ComboboxList>\n  </ComboboxContent>\n</Combobox>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Options are few and easily recognizable",
+        "reason": "Combobox adds unnecessary interaction cost for small, known option sets",
+        "alternative": "Use Select for short, static lists"
+      },
+      {
+        "scenario": "Simple selection without search",
+        "reason": "Search adds complexity when options can be scanned at a glance",
+        "alternative": "Use Select or RadioGroup"
+      },
+      {
+        "scenario": "A closed, static list is preferred",
+        "reason": "Combobox implies dynamic filtering; static lists are better served by Select",
+        "alternative": "Use Select for fixed option sets"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "children": "ComboboxInput, ComboboxContent, ComboboxChips — or use options prop for simple mode"
+    },
+    "nestedComponents": [
+      "ComboboxInput",
+      "ComboboxContent",
+      "ComboboxList",
+      "ComboboxItem",
+      "ComboboxGroup",
+      "ComboboxLabel",
+      "ComboboxEmpty",
+      "ComboboxSeparator",
+      "ComboboxChips",
+      "ComboboxChip",
+      "ComboboxChipsInput",
+      "ComboboxTrigger",
+      "ComboboxValue",
+      "ComboboxCollection",
+      "ComboboxClear"
+    ],
+    "commonPartners": ["Field", "FieldLabel", "FieldDescription", "FieldError", "InputGroup"],
+    "parentConstraints": ["Should be wrapped in a Field component when used in forms"],
+    "subComponents": {
+      "ComboboxInput": "Search input with optional trigger chevron and clear button; wraps InputGroup internally",
+      "ComboboxContent": "Floating popup positioned relative to the input; renders via Portal",
+      "ComboboxList": "Scrollable list container for items",
+      "ComboboxItem": "Selectable option with check indicator",
+      "ComboboxGroup": "Logical grouping of related items",
+      "ComboboxLabel": "Non-selectable heading for a group",
+      "ComboboxEmpty": "Displayed when no options match the search query",
+      "ComboboxSeparator": "Visual divider between groups",
+      "ComboboxChips": "Container for multi-select chip display; serves as anchor for the popup",
+      "ComboboxChip": "Individual removable selection chip",
+      "ComboboxChipsInput": "Inline input within the chips container for adding more selections",
+      "ComboboxTrigger": "Toggle button for opening/closing the popup",
+      "ComboboxValue": "Displays the currently selected value",
+      "ComboboxCollection": "Virtual collection for large data sets",
+      "ComboboxClear": "Button to clear the current selection"
+    }
+  },
+
+  "behavior": {
+    "states": ["idle", "open", "filtering", "empty", "selected", "disabled"],
+    "interactions": {
+      "type": "Filters the visible options as the user types",
+      "select": "Selects an item, closes the popup (single mode), or adds a chip (multi mode)",
+      "clear": "Removes the current selection and resets the input",
+      "chipRemove": "Removes a single chip in multi-select mode"
+    },
+    "responsive": {
+      "mobile": "Popup width matches anchor width; touch targets use pointer-coarse sizing",
+      "desktop": "Popup may extend beyond anchor width based on content"
+    }
+  },
+
+  "accessibility": {
+    "role": "combobox",
+    "keyboardSupport": "Arrow keys to navigate options; Enter to select; Escape to close; typing filters results",
+    "screenReader": "Announces selected value, number of options, and filtering state",
+    "focusManagement": "Focus stays on input; highlighted item is managed via data-highlighted attribute",
+    "wcag": "AA"
+  },
+
   "rules": [
     "User input drives filtering or discovery",
     "Options update as the user types",
-    "May support single or multiple selection"
+    "May support single or multiple selection",
+    "Always provide a ComboboxEmpty message for no-results state",
+    "Use ComboboxChips for multi-select when selections should be visible"
   ],
-  "doNotUseWhen": [
-    "Options are few and easily recognizable",
-    "Simple selection without search is sufficient",
-    "A closed, static list is preferred"
-  ],
-  "alternatives": [
-    "Select",
-    "ToggleGroup"
-  ],
-  "aiHints": [
-    "Use Combobox when discovery matters more than recognition",
-    "Do not default to Combobox for simple selects",
-    "Combobox implies higher interaction cost than Select"
-  ]
+
+  "alternatives": ["Select", "ToggleGroup"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["combobox", "autocomplete", "search select", "typeahead", "multi-select", "chips", "tags", "filter", "lookup"],
+    "context": "Use Combobox when discovery matters more than recognition — when the user needs to search or filter through many options. Do not default to Combobox for simple selects with few options. Combobox implies higher interaction cost than Select. For simple use cases, pass the options prop directly; for complex layouts, compose with sub-components."
+  }
 }

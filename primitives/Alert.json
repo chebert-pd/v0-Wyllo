@@ -1,0 +1,123 @@
+{
+  "component": {
+    "name": "Alert",
+    "category": "molecules",
+    "description": "Display a prominent inline message for contextual feedback or important notices.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Form validation summaries",
+      "Success or error feedback after an action",
+      "Informational banners within page content",
+      "Warning notices about destructive or irreversible operations",
+      "System status messages"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "info-alert",
+        "description": "Informational notice with icon, title, and description",
+        "composition": "<Alert variant=\"info\">\n  <InfoIcon />\n  <AlertTitle>New update available</AlertTitle>\n  <AlertDescription>Version 2.0 includes performance improvements.</AlertDescription>\n</Alert>"
+      },
+      {
+        "name": "destructive-alert",
+        "description": "Error feedback with action button",
+        "composition": "<Alert variant=\"destructive\">\n  <AlertCircle />\n  <AlertTitle>Something went wrong</AlertTitle>\n  <AlertDescription>Please try again or contact support.</AlertDescription>\n  <AlertAction><Button variant=\"outline\" size=\"xs\">Retry</Button></AlertAction>\n</Alert>"
+      },
+      {
+        "name": "success-alert",
+        "description": "Confirmation of a completed action",
+        "composition": "<Alert variant=\"success\">\n  <CheckCircle />\n  <AlertTitle>Changes saved</AlertTitle>\n  <AlertDescription>Your preferences have been updated.</AlertDescription>\n</Alert>"
+      },
+      {
+        "name": "warning-alert",
+        "description": "Cautionary notice before a potentially destructive action",
+        "composition": "<Alert variant=\"warning\">\n  <TriangleAlert />\n  <AlertTitle>Caution</AlertTitle>\n  <AlertDescription>This action cannot be undone.</AlertDescription>\n</Alert>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Alert for toast-style ephemeral notifications",
+        "reason": "Alerts are static inline elements; ephemeral feedback should use a toast system",
+        "alternative": "Use a Toast or Sonner component for transient messages"
+      },
+      {
+        "scenario": "Using Alert for confirmation dialogs",
+        "reason": "Alerts are non-blocking; confirmations require user acknowledgment",
+        "alternative": "Use AlertDialog for blocking confirmations"
+      },
+      {
+        "scenario": "Stacking multiple alerts of the same type",
+        "reason": "Creates visual noise and reduces the impact of each message",
+        "alternative": "Consolidate messages into a single alert or use a list inside AlertDescription"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["default", "destructive", "success", "warning", "info"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "default": "Neutral informational message on standard background",
+        "destructive": "Error or failure state requiring attention",
+        "success": "Confirmation that an action completed successfully",
+        "warning": "Cautionary notice about potential consequences",
+        "info": "General informational or helper message"
+      }
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "icon": "SVG icon rendered in the first grid column (optional; triggers two-column layout)",
+      "title": "AlertTitle for the heading text",
+      "description": "AlertDescription for the body text",
+      "action": "AlertAction for an absolutely positioned action element (e.g., close button)"
+    },
+    "nestedComponents": ["AlertTitle", "AlertDescription", "AlertAction"],
+    "commonPartners": ["Button", "AlertDialog"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["default"],
+    "interactions": {
+      "static": "Alert is a non-interactive display element by default",
+      "action": "Optional AlertAction slot supports interactive dismiss or retry buttons"
+    },
+    "responsive": {
+      "mobile": "Full-width block display with text wrapping",
+      "desktop": "Full-width block display"
+    }
+  },
+
+  "accessibility": {
+    "role": "alert",
+    "keyboardSupport": "Not directly keyboard-interactive; action buttons within are tabbable",
+    "screenReader": "Announced as an alert region; title and description are read sequentially",
+    "focusManagement": "No focus trapping; action buttons follow standard tab order",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always include an AlertTitle for screen reader clarity",
+    "Match variant to semantic meaning: destructive for errors, success for confirmations, warning for cautions",
+    "Include an icon as the first child to activate the two-column grid layout",
+    "AlertAction is absolutely positioned in the top-right corner; suitable for small action buttons or close icons"
+  ],
+
+  "alternatives": ["AlertDialog", "Badge"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["alert", "notification", "message", "error", "success", "warning", "info", "banner", "notice", "feedback"],
+    "context": "Use for static inline feedback messages that persist on the page. Choose variant based on semantic meaning. For blocking confirmations, use AlertDialog instead. For ephemeral notifications, use a toast system."
+  }
+}

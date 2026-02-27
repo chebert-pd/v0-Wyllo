@@ -1,34 +1,162 @@
 {
-  "name": "DropdownMenu",
-  "type": "primitive",
-  "purpose": "Present a discoverable list of actions or choices triggered by a button.",
-  "useWhen": [
-    "User needs to choose an action from a short list",
-    "Actions are related to the trigger",
-    "Menu should be easily discoverable"
-  ],
+  "component": {
+    "name": "DropdownMenu",
+    "category": "molecules",
+    "description": "Present a discoverable list of actions or choices triggered by a button.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "User needs to choose an action from a short list",
+      "Actions are contextually related to the trigger",
+      "Overflow actions that do not fit in the primary UI",
+      "Settings or preferences with checkbox/radio items"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "basic-dropdown",
+        "description": "Simple action menu triggered by a button",
+        "composition": "<DropdownMenu>\n  <DropdownMenuTrigger asChild>\n    <Button variant=\"outline\">Options</Button>\n  </DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuItem>Edit</DropdownMenuItem>\n    <DropdownMenuItem>Duplicate</DropdownMenuItem>\n    <DropdownMenuSeparator />\n    <DropdownMenuItem variant=\"destructive\">Delete</DropdownMenuItem>\n  </DropdownMenuContent>\n</DropdownMenu>"
+      },
+      {
+        "name": "grouped-with-labels",
+        "description": "Items organized into labeled groups",
+        "composition": "<DropdownMenu>\n  <DropdownMenuTrigger asChild>\n    <Button variant=\"outline\">Actions</Button>\n  </DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuLabel>Account</DropdownMenuLabel>\n    <DropdownMenuGroup>\n      <DropdownMenuItem>Profile</DropdownMenuItem>\n      <DropdownMenuItem>Settings</DropdownMenuItem>\n    </DropdownMenuGroup>\n    <DropdownMenuSeparator />\n    <DropdownMenuItem>Log out</DropdownMenuItem>\n  </DropdownMenuContent>\n</DropdownMenu>"
+      },
+      {
+        "name": "checkbox-items",
+        "description": "Toggle multiple options on/off within the menu",
+        "composition": "<DropdownMenu>\n  <DropdownMenuTrigger asChild>\n    <Button variant=\"outline\">View</Button>\n  </DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuCheckboxItem checked={showToolbar} onCheckedChange={setShowToolbar}>Toolbar</DropdownMenuCheckboxItem>\n    <DropdownMenuCheckboxItem checked={showSidebar} onCheckedChange={setShowSidebar}>Sidebar</DropdownMenuCheckboxItem>\n  </DropdownMenuContent>\n</DropdownMenu>"
+      },
+      {
+        "name": "radio-items",
+        "description": "Select one option from a group within the menu",
+        "composition": "<DropdownMenu>\n  <DropdownMenuTrigger asChild>\n    <Button variant=\"outline\">Sort</Button>\n  </DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuRadioGroup value={sort} onValueChange={setSort}>\n      <DropdownMenuRadioItem value=\"name\">Name</DropdownMenuRadioItem>\n      <DropdownMenuRadioItem value=\"date\">Date</DropdownMenuRadioItem>\n    </DropdownMenuRadioGroup>\n  </DropdownMenuContent>\n</DropdownMenu>"
+      },
+      {
+        "name": "with-submenu",
+        "description": "Nested submenu for hierarchical actions",
+        "composition": "<DropdownMenu>\n  <DropdownMenuTrigger asChild>\n    <Button variant=\"outline\">More</Button>\n  </DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuSub>\n      <DropdownMenuSubTrigger>Share</DropdownMenuSubTrigger>\n      <DropdownMenuSubContent>\n        <DropdownMenuItem>Email</DropdownMenuItem>\n        <DropdownMenuItem>Slack</DropdownMenuItem>\n      </DropdownMenuSubContent>\n    </DropdownMenuSub>\n  </DropdownMenuContent>\n</DropdownMenu>"
+      },
+      {
+        "name": "with-shortcuts",
+        "description": "Menu items showing keyboard shortcut hints",
+        "composition": "<DropdownMenuItem>\n  Undo\n  <DropdownMenuShortcut>Ctrl+Z</DropdownMenuShortcut>\n</DropdownMenuItem>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Placing form fields inside a DropdownMenu",
+        "reason": "DropdownMenu is for choosing actions, not configuring settings with inputs",
+        "alternative": "Use Popover for interactive, form-based content"
+      },
+      {
+        "scenario": "Triggered by right-click",
+        "reason": "DropdownMenu is button-triggered; right-click has its own primitive",
+        "alternative": "Use ContextMenu for right-click interactions"
+      },
+      {
+        "scenario": "Confirmation or multi-step flows",
+        "reason": "Menu closes after selection; it cannot manage multi-step interactions",
+        "alternative": "Use AlertDialog or Modal for confirmation flows"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    },
+    "itemVariant": {
+      "options": ["default", "destructive"],
+      "default": "default",
+      "semanticMeaning": {
+        "default": "Standard menu action",
+        "destructive": "Dangerous or irreversible action; renders in destructive color"
+      }
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [
+      "DropdownMenuTrigger",
+      "DropdownMenuContent",
+      "DropdownMenuItem",
+      "DropdownMenuCheckboxItem",
+      "DropdownMenuRadioGroup",
+      "DropdownMenuRadioItem",
+      "DropdownMenuLabel",
+      "DropdownMenuSeparator",
+      "DropdownMenuShortcut",
+      "DropdownMenuGroup",
+      "DropdownMenuSub",
+      "DropdownMenuSubTrigger",
+      "DropdownMenuSubContent",
+      "DropdownMenuPortal"
+    ],
+    "commonPartners": ["Button", "ButtonGroup"],
+    "parentConstraints": [],
+    "subComponents": {
+      "DropdownMenuTrigger": "Button or element that opens the menu; supports asChild",
+      "DropdownMenuContent": "Floating panel rendered via Portal with animation; positioned relative to trigger",
+      "DropdownMenuItem": "Single actionable item; supports inset and destructive variant",
+      "DropdownMenuCheckboxItem": "Toggleable item with check indicator",
+      "DropdownMenuRadioGroup": "Container for mutually exclusive radio items",
+      "DropdownMenuRadioItem": "Selectable radio item with circle indicator",
+      "DropdownMenuLabel": "Non-interactive section heading; supports inset",
+      "DropdownMenuSeparator": "Visual divider between groups of items",
+      "DropdownMenuShortcut": "Right-aligned keyboard shortcut hint text",
+      "DropdownMenuGroup": "Logical grouping of related items",
+      "DropdownMenuSub": "Container for a nested submenu",
+      "DropdownMenuSubTrigger": "Item that opens a submenu on hover/focus; shows chevron indicator",
+      "DropdownMenuSubContent": "Floating panel for submenu items"
+    }
+  },
+
+  "behavior": {
+    "states": ["closed", "open"],
+    "interactions": {
+      "click": "Opens the menu from trigger; selects and closes from items",
+      "hover": "Highlights items; opens submenus on hover",
+      "escape": "Closes the menu and returns focus to trigger"
+    },
+    "responsive": {
+      "mobile": "Menu renders as a floating panel; min-width 8rem",
+      "desktop": "Same floating behavior with keyboard navigation"
+    }
+  },
+
+  "accessibility": {
+    "role": "menu (content), menuitem/menuitemcheckbox/menuitemradio (items)",
+    "keyboardSupport": "Arrow keys to navigate items; Enter/Space to select; Escape to close; right arrow opens submenu; left arrow closes submenu",
+    "screenReader": "Announces menu role, item labels, checked state for checkbox/radio items, and keyboard shortcuts",
+    "focusManagement": "Focus trapped within open menu; returns to trigger on close",
+    "wcag": "AA"
+  },
+
   "rules": [
-    "Triggered by a button",
+    "Triggered by a button — never opens automatically",
     "Each item performs a single action or selection",
-    "Menu closes after selection"
-  ],
-  "allowedContent": [
-    "Menu items",
-    "Checkbox menu items",
-    "Radio menu items",
-    "Submenus"
-  ],
-  "doNotUseWhen": [
-    "Inputs or complex layouts are required (use Popover)",
-    "Triggered by right-click (use ContextMenu)",
-    "Confirmation or multi-step flows are needed (use Modal)"
-  ],
-  "alternatives": [
-    "Popover",
-    "ContextMenu"
-  ],
-  "aiHints": [
+    "Menu closes after selection",
     "DropdownMenu is for choosing actions, not configuring settings",
-    "Do not place form fields inside a DropdownMenu"
-  ]
+    "Do not place form fields inside a DropdownMenu",
+    "Use destructive variant on DropdownMenuItem for dangerous actions"
+  ],
+
+  "alternatives": ["Popover", "ContextMenu"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["dropdown", "menu", "actions", "overflow", "context actions", "more menu", "options menu", "submenu", "kebab menu"],
+    "context": "Use DropdownMenu for discoverable action lists triggered by a button. It is for choosing actions, not configuring settings — use Popover for that. Do not place form fields inside a DropdownMenu. Use ContextMenu when triggered by right-click. For split-button patterns, pair DropdownMenu with ButtonGroup."
+  }
 }
