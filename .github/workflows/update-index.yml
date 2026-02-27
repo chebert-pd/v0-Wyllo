@@ -1,16 +1,14 @@
 name: Update Codebase Index
 
-# Runs automatically when you push to main and any of these files changed:
-# - a component file in my-app/components/ui/
-# - a metadata file in primitives/ or patterns/
+# Runs automatically when you push to main and any component or metadata file changes.
+# All component files (.tsx) and metadata files (.metadata.json) live together in:
+# my-app/components/ui/
 # Can also be triggered manually from the GitHub Actions tab.
 on:
   push:
     branches: [main]
     paths:
       - "my-app/components/ui/**"
-      - "my-app/primitives/**"
-      - "my-app/patterns/**"
   workflow_dispatch: # enables the "Run workflow" button on GitHub
 
 jobs:
