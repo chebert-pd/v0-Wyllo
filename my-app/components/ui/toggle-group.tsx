@@ -8,10 +8,13 @@ import { cn } from "@/lib/utils"
 import { toggleVariants } from "@/components/ui/toggle"
 
 const ToggleGroupContext = React.createContext<
-  Pick<VariantProps<typeof toggleVariants>, "size" | "variant">
+  Pick<VariantProps<typeof toggleVariants>, "size" | "variant"> & {
+    isMultiple: boolean
+  }
 >({
   size: "default",
   variant: "outline",
+  isMultiple: false,
 })
 
 function ToggleGroup({
@@ -22,6 +25,10 @@ function ToggleGroup({
   ...props
 }: React.ComponentProps<typeof ToggleGroupPrimitive.Root> &
   VariantProps<typeof toggleVariants>) {
+  // Read type from props without removing it so it still spreads to the primitive
+  const isMultiple =
+    (props as { type?: "single" | "multiple" }).type === "multiple"
+
   return (
     <ToggleGroupPrimitive.Root
       data-slot="toggle-group"
@@ -29,11 +36,13 @@ function ToggleGroup({
       data-size={size}
       className={cn(
         "group/toggle-group inline-flex w-fit items-center rounded-md",
+        // single → connected strip (gap-0), multiple → spaced pills (gap-1)
+        isMultiple ? "gap-1" : "gap-0",
         className
       )}
       {...props}
     >
-      <ToggleGroupContext.Provider value={{ variant: "outline", size }}>
+      <ToggleGroupContext.Provider value={{ variant: "outline", size, isMultiple }}>
         {children}
       </ToggleGroupContext.Provider>
     </ToggleGroupPrimitive.Root>
@@ -61,8 +70,11 @@ function ToggleGroupItem({
           size: context.size || size,
         }),
         "w-auto min-w-0 shrink-0 focus:z-10 focus-visible:z-10",
-        "rounded-none first:rounded-l-md last:rounded-r-md",
-        "border-l-0 first:border-l",
+        context.isMultiple
+          ? // Multiple: each item is a standalone pill with full rounding + border
+            "rounded-md"
+          : // Single: connected strip — collapse shared borders, round only the ends
+            "rounded-none first:rounded-l-md last:rounded-r-md border-l-0 first:border-l",
         className
       )}
       {...props}
