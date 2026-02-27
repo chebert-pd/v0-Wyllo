@@ -61,6 +61,7 @@ export default function GalleryLayout({
               <a href="/gallery/tables" className="block hover:text-primary">Tables</a>
               <a href="/gallery/data-table" className="block hover:text-primary">Data Table</a>
               <a href="/gallery/tabs" className="block hover:text-primary">Tabs</a>
+              <a href="/gallery/toggle" className="block hover:text-primary">Toggle</a>
               <a href="/gallery/accordions" className="block hover:text-primary">Accordions</a>
               <a href="/gallery/command-palette" className="block hover:text-primary">Command Palette</a>
               <a href="/gallery/sidebar" className="block hover:text-primary">Sidebar</a>
@@ -133,6 +134,7 @@ export default function GalleryLayout({
                 <a href="/gallery/tables" className="block" onClick={() => setMobileOpen(false)}>Tables</a>
                 <a href="/gallery/data-table" className="block" onClick={() => setMobileOpen(false)}>Data Table</a>
                 <a href="/gallery/tabs" className="block" onClick={() => setMobileOpen(false)}>Tabs</a>
+                <a href="/gallery/toggle" className="block" onClick={() => setMobileOpen(false)}>Toggle</a>
                 <a href="/gallery/accordions" className="block" onClick={() => setMobileOpen(false)}>Accordions</a>
                 <a href="/gallery/command-palette" className="block" onClick={() => setMobileOpen(false)}>Command Palette</a>
                 <a href="/gallery/sidebar" className="block" onClick={() => setMobileOpen(false)}>Sidebar</a>
