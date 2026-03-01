@@ -118,6 +118,7 @@
   /* Lightness-based scale */
   /* ===================== */
   --gray-99: oklch(0.99 0.01 286.45);
+  --gray-98: oklch(0.9824 0.0013 288);
   --gray-96: oklch(0.97 0.01 286.45);
   --gray-94: oklch(0.94 0.01 286.45);
   --gray-91: oklch(0.91 0.01 286.45);
@@ -144,7 +145,7 @@
   --violet-38: oklch(0.3868 0.157 286.45);
   --violet-31: oklch(0.3093 0.126 286.45);
   --violet-24: oklch(0.2418 0.100 286.45);
-  --background: var(--gray-96);
+  --background: var(--gray-98);
   --foreground: var(--gray-12);
 
   --card: oklch(1 0 0);
@@ -156,7 +157,7 @@
   --primary: var(--violet-64);
   --primary-foreground: var(--violet-95);
 
-  --secondary: var(--gray-96);
+  --secondary: var(--gray-98);
   --secondary-foreground: var(--gray-25);
 
   --muted: var(--gray-91);

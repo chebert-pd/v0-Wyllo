@@ -57,7 +57,8 @@ export default function GalleryLayout({
               <a href="/gallery/buttons" className="block hover:text-primary">Buttons</a>
               <a href="/gallery/badge" className="block hover:text-primary">Badges</a>
               <a href="/gallery/forms" className="block hover:text-primary">Forms</a>
-              <a href="/gallery/date-range-picker" className="block hover:text-primary">Date Range Picker</a>
+              <a href="/gallery/date-picker" className="block hover:text-primary">Date Picker</a>
+              <a href="/gallery/date-range-picker" className="block hover:text-primary text-muted-foreground text-xs pl-2">↳ Range (legacy)</a>
               <a href="/gallery/tables" className="block hover:text-primary">Tables</a>
               <a href="/gallery/data-table" className="block hover:text-primary">Data Table</a>
               <a href="/gallery/tabs" className="block hover:text-primary">Tabs</a>
@@ -130,7 +131,8 @@ export default function GalleryLayout({
                 <a href="/gallery/buttons" className="block" onClick={() => setMobileOpen(false)}>Buttons</a>
                 <a href="/gallery/badge" className="block" onClick={() => setMobileOpen(false)}>Badges</a>
                 <a href="/gallery/forms" className="block" onClick={() => setMobileOpen(false)}>Forms</a>
-                <a href="/gallery/date-range-picker" className="block" onClick={() => setMobileOpen(false)}>Date Range Picker</a>
+                <a href="/gallery/date-picker" className="block" onClick={() => setMobileOpen(false)}>Date Picker</a>
+                <a href="/gallery/date-range-picker" className="block text-muted-foreground text-xs pl-2" onClick={() => setMobileOpen(false)}>↳ Range (legacy)</a>
                 <a href="/gallery/tables" className="block" onClick={() => setMobileOpen(false)}>Tables</a>
                 <a href="/gallery/data-table" className="block" onClick={() => setMobileOpen(false)}>Data Table</a>
                 <a href="/gallery/tabs" className="block" onClick={() => setMobileOpen(false)}>Tabs</a>
