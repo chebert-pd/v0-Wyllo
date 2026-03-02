@@ -1,0 +1,150 @@
+{
+  "component": {
+    "name": "DatePicker",
+    "category": "molecules",
+    "description": "Versatile date picker with six variants: basic single-date, date-of-birth (dropdown nav), input (text entry + calendar), time (date + time), natural-language (free-text parsing), and range (two-month calendar with optional quick presets).",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Selecting a single date for scheduling or filtering",
+      "Collecting a date of birth with easy decade navigation",
+      "Accepting date input via text entry (input variant)",
+      "Picking a date and time together (time variant)",
+      "Natural language date entry like 'tomorrow' or 'in 3 days'",
+      "Selecting a date range for analytics, reporting, or data filtering"
+    ],
+    "requiredProps": ["onChange"],
+    "commonPatterns": [
+      {
+        "name": "basic",
+        "description": "Simple single-date picker",
+        "composition": "<DatePicker value={date} onChange={setDate} onClear={() => setDate(undefined)} />"
+      },
+      {
+        "name": "date-of-birth",
+        "description": "Date of birth with dropdown month/year navigation",
+        "composition": "<DatePicker variant=\"date-of-birth\" value={dob} onChange={setDob} />"
+      },
+      {
+        "name": "input",
+        "description": "Editable text input that opens a calendar popover",
+        "composition": "<DatePicker variant=\"input\" value={date} onChange={setDate} placeholder=\"MM/DD/YYYY\" />"
+      },
+      {
+        "name": "time",
+        "description": "Date picker with an inline time input below the calendar",
+        "composition": "<DatePicker variant=\"time\" value={dateTime} onChange={setDateTime} onClear={() => setDateTime(undefined)} />"
+      },
+      {
+        "name": "natural-language",
+        "description": "Free-text input with date parsing (today, tomorrow, in 3 days, next monday, etc.)",
+        "composition": "<DatePicker variant=\"natural-language\" value={date} onChange={setDate} />"
+      },
+      {
+        "name": "range",
+        "description": "Date range picker with optional quick presets",
+        "composition": "<DatePicker variant=\"range\" value={range} onChange={setRange} onClear={() => setRange(undefined)} showPresets />"
+      },
+      {
+        "name": "range-no-presets",
+        "description": "Date range picker without quick preset buttons",
+        "composition": "<DatePicker variant=\"range\" value={range} onChange={setRange} showPresets={false} />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using variant=\"range\" for a single date",
+        "reason": "Range variant requires from/to and has different value type",
+        "alternative": "Use the default basic variant or another single-date variant"
+      },
+      {
+        "scenario": "Passing showPresets to non-range variants",
+        "reason": "showPresets is only supported on variant=\"range\"",
+        "alternative": "showPresets is ignored on all other variants"
+      },
+      {
+        "scenario": "Using DateRangePicker directly in new code",
+        "reason": "DateRangePicker is a legacy wrapper; prefer DatePicker with variant=\"range\"",
+        "alternative": "<DatePicker variant=\"range\" value={range} onChange={setRange} />"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["basic", "date-of-birth", "input", "time", "natural-language", "range"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "basic": "Default single-date popover picker",
+        "date-of-birth": "Single-date picker with dropdown month/year for easy backward navigation",
+        "input": "Editable text field with calendar popover trigger",
+        "time": "Single-date picker extended with an inline HH:MM time input",
+        "natural-language": "Free-text input that parses natural language expressions into dates",
+        "range": "Two-month date range picker with optional quick-select presets"
+      }
+    },
+    "size": { "options": [], "default": "" },
+    "align": {
+      "options": ["start", "center", "end"],
+      "default": "start (end for range variant)"
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": ["Popover", "PopoverTrigger", "PopoverContent", "Calendar", "Button", "Input"],
+    "commonPartners": ["Field", "FieldLabel", "DataTable", "Header", "Button"],
+    "parentConstraints": ["Wrap in Field + FieldLabel when used inside a form"]
+  },
+
+  "behavior": {
+    "states": ["closed", "open", "selected", "cleared"],
+    "interactions": {
+      "basic/date-of-birth/time": "Click trigger to open calendar popover; click a date to select and close",
+      "input": "Type a date (MM/DD/YYYY) directly in the input field, or click the calendar icon to open popover",
+      "time": "Select date from calendar, then adjust time via the inline time input; popover stays open until dismissed",
+      "natural-language": "Type expressions like 'tomorrow', 'next monday', 'in 3 days'; resolved date shown as hint below input",
+      "range/presets": "Click 'Last 7 days', 'Last 30 days', or 'Last 90 days' to instantly apply and close",
+      "range/calendar": "Click start date then end date; footer shows day count",
+      "range/apply": "Click Apply to confirm selection and close (only active with full from–to range)",
+      "clear": "Click × on trigger (onClear provided) or Clear button in footer (range)"
+    },
+    "responsive": {
+      "mobile": "Popover aligns to trigger; range calendar scrolls vertically on narrow viewports",
+      "desktop": "Range variant shows two months side by side"
+    }
+  },
+
+  "accessibility": {
+    "role": "dialog (via Popover) for popover variants; textbox for input and natural-language variants",
+    "keyboardSupport": "Tab/Shift+Tab navigate between interactive elements; Enter/Space select dates; Escape closes popover",
+    "screenReader": "Trigger button announces selected date or placeholder; clear button has aria-label",
+    "focusManagement": "Focus moves into popover on open; returns to trigger on close",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always provide an onChange handler",
+    "showPresets is only applicable to variant=\"range\" — ignored on other variants",
+    "The range Apply button is disabled until both from and to dates are selected",
+    "For date-of-birth, future dates are restricted to today",
+    "For range, dates after today are disabled by default",
+    "onClear shows the inline × button on the trigger (all variants except natural-language which has its own clear button)",
+    "Wrap in Field + FieldLabel when used in a form context",
+    "Do not use DateRangePicker in new code — use DatePicker variant=\"range\" instead"
+  ],
+
+  "alternatives": ["Calendar", "Popover", "DateRangePicker (legacy)"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": [
+      "date", "picker", "calendar", "time", "range", "dob", "birthday", "natural language",
+      "from", "to", "period", "filter", "schedule", "input", "tomorrow", "next week",
+      "last 7 days", "last 30 days", "date of birth"
+    ],
+    "context": "Use DatePicker with the appropriate variant based on the use case: 'basic' for simple date selection, 'date-of-birth' for birthday fields (easy year navigation), 'input' when users may prefer typing, 'time' when you need date+time, 'natural-language' for flexible/friendly input, and 'range' for analytics or filtering by period. All variants share the same import path."
+  }
+}
