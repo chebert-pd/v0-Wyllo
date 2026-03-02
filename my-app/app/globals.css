@@ -177,8 +177,8 @@
   --accent-halo: 0 0 0 2px color-mix(in oklch, var(--primary) 40%, transparent);
 
   /* Borders */
-  --border: var(--gray-94);
-  --border-subtle: var(--gray-88);
+  --border: var(--gray-88);
+  --border-subtle: var(--gray-94);
   --border-primary: var(--primary);
   --border-primary-subtle: color-mix(in oklch, var(--primary) 40%, transparent);
   --input: var(--gray-88);
@@ -328,9 +328,9 @@
   --destructive-solid-foreground: oklch(0.98 0.01 10);
 
   /* Structural */
-  /* Subtle must always be lighter than structural border */
-  --border: var(--gray-33);
-  --border-subtle: var(--gray-55);
+  /* Subtle must always be less prominent than structural border */
+  --border: var(--gray-55);
+  --border-subtle: var(--gray-33);
   --border-primary: var(--primary);
   --border-primary-subtle: color-mix(in oklch, var(--primary) 40%, transparent);
 
