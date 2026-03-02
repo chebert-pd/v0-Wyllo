@@ -1,10 +1,12 @@
 import "./globals.css"
-import { Inter } from "next/font/google"
+import localFont from "next/font/local"
+import { SmoothCornersInit } from "./smooth-corners-init"
 
-const inter = Inter({
-  subsets: ["latin"],
+const inter = localFont({
+  src: "../public/fonts/InterVariable.woff2",
   variable: "--font-sans",
   display: "swap",
+  weight: "100 900",
 })
 
 export const metadata = {
@@ -20,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
+        <SmoothCornersInit />
         {children}
       </body>
     </html>

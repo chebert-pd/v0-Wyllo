@@ -4,8 +4,8 @@ import React from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
 const grayScale = [
-  "gray-99","gray-96","gray-94","gray-91","gray-89",
-  "gray-86","gray-63","gray-50","gray-38","gray-25","gray-12"
+  "gray-98","gray-94","gray-91","gray-88","gray-83",
+  "gray-73","gray-64","gray-55","gray-33","gray-19"
 ]
 
 const violetScale = [
@@ -18,43 +18,43 @@ const semanticTokens = [
     token: "background",
     label: "background",
     description: "The canvas background (level 0).",
-    lightPrimitive: "gray-96",
-    darkPrimitive: "gray-12",
+    lightPrimitive: "gray-98",
+    darkPrimitive: "gray-19",
   },
   {
     token: "foreground",
     label: "foreground",
     description: "Default foreground text color.",
-    lightPrimitive: "gray-12",
-    darkPrimitive: "gray-96",
+    lightPrimitive: "gray-19",
+    darkPrimitive: "gray-98",
   },
   {
     token: "card",
     label: "card",
     description: "Primary surface background (level 1).",
     lightPrimitive: "white",
-    darkPrimitive: "gray-25",
+    darkPrimitive: "gray-33",
   },
   {
     token: "card-foreground",
     label: "card-foreground",
     description: "Text on card surfaces.",
-    lightPrimitive: "gray-12",
-    darkPrimitive: "gray-96",
+    lightPrimitive: "gray-19",
+    darkPrimitive: "gray-98",
   },
   {
     token: "popover",
     label: "popover",
     description: "Popover / floating surface background.",
     lightPrimitive: "white",
-    darkPrimitive: "gray-25",
+    darkPrimitive: "gray-33",
   },
   {
     token: "popover-foreground",
     label: "popover-foreground",
     description: "Text on popovers.",
-    lightPrimitive: "gray-25",
-    darkPrimitive: "gray-96",
+    lightPrimitive: "gray-33",
+    darkPrimitive: "gray-98",
   },
   {
     token: "primary",
@@ -74,29 +74,29 @@ const semanticTokens = [
     token: "secondary",
     label: "secondary",
     description: "Secondary surface (often matches canvas tone).",
-    lightPrimitive: "gray-96",
-    darkPrimitive: "gray-12",
+    lightPrimitive: "gray-98",
+    darkPrimitive: "gray-19",
   },
   {
     token: "secondary-foreground",
     label: "secondary-foreground",
     description: "Text on secondary surfaces.",
-    lightPrimitive: "gray-25",
-    darkPrimitive: "gray-96",
+    lightPrimitive: "gray-33",
+    darkPrimitive: "gray-98",
   },
   {
     token: "muted",
     label: "muted",
     description: "Subtle surface for quiet sections.",
-    lightPrimitive: "gray-91",
-    darkPrimitive: "gray-38",
+    lightPrimitive: "gray-94",
+    darkPrimitive: "gray-33",
   },
   {
     token: "muted-foreground",
     label: "muted-foreground",
     description: "Muted text.",
-    lightPrimitive: "gray-50",
-    darkPrimitive: "gray-63",
+    lightPrimitive: "gray-55",
+    darkPrimitive: "gray-64",
   },
   {
     token: "accent",
@@ -116,36 +116,36 @@ const semanticTokens = [
     token: "border",
     label: "border",
     description: "Primary border.",
-    lightPrimitive: "gray-86",
-    darkPrimitive: "gray-38",
+    lightPrimitive: "gray-94",
+    darkPrimitive: "gray-33",
   },
   {
     token: "input",
     label: "input",
     description: "Input border.",
-    lightPrimitive: "gray-89",
-    darkPrimitive: "gray-38",
+    lightPrimitive: "gray-88",
+    darkPrimitive: "gray-33",
   },
   {
     token: "ring",
     label: "ring",
     description: "Focus ring.",
-    lightPrimitive: "violet-64",
-    darkPrimitive: "violet-64",
+    lightPrimitive: "primary",
+    darkPrimitive: "primary",
   },
   {
     token: "border-subtle",
     label: "border-subtle",
     description: "Low-emphasis border for nested surfaces.",
-    lightPrimitive: "gray-94",
-    darkPrimitive: "gray-50",
+    lightPrimitive: "gray-88",
+    darkPrimitive: "gray-55",
   },
   {
     token: "border-primary",
     label: "border-primary",
     description: "Primary emphasis border (selected states, active surfaces).",
-    lightPrimitive: "violet-64",
-    darkPrimitive: "violet-47",
+    lightPrimitive: "primary",
+    darkPrimitive: "primary",
   },
   {
     token: "accent-halo",
@@ -327,8 +327,8 @@ export default function FoundationsPage() {
             <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
               {grayScale.map((color) => {
                 const lightness = parseInt(color.split("-")[1])
-                const isLight = lightness >= 86
-                const textColor = isLight ? "var(--gray-12)" : "var(--gray-99)"
+                const isLight = lightness >= 83
+                const textColor = isLight ? "var(--gray-19)" : "var(--gray-98)"
                 return (
                   <div
                     key={color}
@@ -401,7 +401,7 @@ export default function FoundationsPage() {
                     <div
                       key={level}
                       className={`rounded-md border p-3 bg-${family.name}-${level} ${
-                        level === "50" ? "text-gray-12" : "text-white"
+                        level === "50" ? "text-foreground" : "text-white"
                       }`}
                     >
                       <div className="p-sm">

@@ -28,7 +28,7 @@ export default function Page() {
             <li>Tailwind families for semantic states (emerald, amber, cyan, rose)</li>
           </ul>
           <p className="p text-muted-foreground">
-            Primitives are named by lightness (e.g., <code>--gray-96</code>,{" "}
+            Primitives are named by lightness (e.g., <code>--gray-98</code>,{" "}
             <code>--violet-64</code>) to keep them perceptually predictable.
           </p>
         </div>
