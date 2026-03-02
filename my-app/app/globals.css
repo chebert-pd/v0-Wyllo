@@ -286,12 +286,12 @@
   --popover: var(--gray-33);
   --popover-foreground: var(--gray-98);
 
-  /* Primary = previous accent tone (calmer) */
-  --primary: var(--violet-38);
+  /* Primary = visible brand violet for text, borders, active states */
+  --primary: var(--violet-68);
   --primary-foreground: var(--violet-95);
 
-  /* Accent = darker interaction violet */
-  --accent: var(--violet-24);
+  /* Accent = subtle hover lift — slightly lighter than card surface */
+  --accent: var(--violet-38);
   --accent-foreground: var(--violet-95);
 
   /* Link — brighter for dark mode */
@@ -336,8 +336,8 @@
   --border-primary: var(--primary);
   --border-primary-subtle: color-mix(in oklch, var(--primary) 40%, transparent);
 
-  /* Input slightly more prominent than border (lighter in dark mode = more visible) */
-  --input: var(--gray-64);
+  /* Input border matches structural border — visible without overpowering */
+  --input: var(--gray-55);
 
   --ring: var(--primary);
 
