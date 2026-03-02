@@ -12,7 +12,7 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
     >
       <table
         data-slot="table"
-        className={cn("w-full min-w-max caption-bottom", className)}
+        className={cn("w-full caption-bottom", className)}
         {...props}
       />
     </div>
@@ -23,7 +23,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   return (
     <thead
       data-slot="table-header"
-      className={cn("[&_tr]:border-b [&_tr]:border-[var(--color-border-subtle)]", className)}
+      className={cn("[&_tr]:border-b [&_tr]:border-[var(--border-subtle)]", className)}
       {...props}
     />
   )
@@ -44,7 +44,7 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
     <tfoot
       data-slot="table-footer"
       className={cn(
-        "border-t border-[var(--color-border-subtle)] [&>tr]:last:border-b-0",
+        "border-t border-[var(--border-subtle)] [&>tr]:last:border-b-0",
         className
       )}
       {...props}
@@ -57,7 +57,7 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
     <tr
       data-slot="table-row"
       className={cn(
-        "border-b border-[var(--color-border-subtle)] transition-colors",
+        "border-b border-[var(--border-subtle)] transition-colors",
         className
       )}
       {...props}
@@ -65,12 +65,19 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
   )
 }
 
-function TableHead({ className, ...props }: React.ComponentProps<"th">) {
+function TableHead({
+  className,
+  size = "default",
+  ...props
+}: React.ComponentProps<"th"> & { size?: "default" | "sm" }) {
   return (
     <th
       data-slot="table-head"
       className={cn(
-        "label-md h-10 px-4 text-left align-middle whitespace-nowrap bg-transparent [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        size === "sm"
+          ? "label-sm h-8"
+          : "label-md h-10",
+        "px-4 text-left align-middle whitespace-nowrap bg-transparent [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
       {...props}

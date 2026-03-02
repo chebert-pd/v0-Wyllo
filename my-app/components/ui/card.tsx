@@ -35,14 +35,14 @@ function Card({
       data-tone={computedTone}
       data-border-tone={computedBorderTone}
       className={cn(
-        "group/card flex flex-col rounded-[var(--radius-md)] border overflow-hidden text-card-foreground",
+        "group/card flex flex-col rounded-xl border overflow-hidden text-card-foreground",
         hasElevation && "shadow-[var(--elevation-surface)]",
         // Surface tone
         "data-[tone=primary]:bg-card",
         "data-[tone=secondary]:bg-secondary",
         // Border tone
-        "data-[border-tone=primary]:border-border",
-        "data-[border-tone=subtle]:border-muted",
+        "data-[border-tone=primary]:border-[var(--border)]",
+        "data-[border-tone=subtle]:border-[var(--border-subtle)]",
         className
       )}
       {...props}
@@ -55,7 +55,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-header"
       className={cn(
-        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1 px-5 pt-5 pb-0 has-data-[slot=card-action]:grid-cols-[1fr_auto] group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:pt-4 data-[divider=true]:border-b data-[divider=true]:border-border data-[divider=true]:pb-5 group-data-[size=sm]/card:data-[divider=true]:pb-4",
+        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1 px-5 pt-5 pb-0 has-data-[slot=card-action]:grid-cols-[1fr_auto] group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:pt-4 data-[divider=true]:border-b data-[divider=true]:border-[var(--border)] data-[divider=true]:pb-5 group-data-[size=sm]/card:data-[divider=true]:pb-4",
         className
       )}
       {...props}
@@ -120,7 +120,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-footer"
       className={cn(
-        "flex items-center px-5 py-4 bg-accent/70 dark:bg-accent/40 text-accent-foreground group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:py-3 data-[divider=true]:border-t data-[divider=true]:border-border",
+        "flex items-center px-5 py-4 bg-accent/70 dark:bg-accent/40 text-accent-foreground group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:py-3 data-[divider=true]:border-t data-[divider=true]:border-[var(--border)]",
         className
       )}
       {...props}

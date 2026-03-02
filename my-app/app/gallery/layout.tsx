@@ -40,7 +40,7 @@ export default function GalleryLayout({
   return (
     <div className="min-h-screen flex bg-background text-foreground">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex w-64 border-r border-border bg-card sticky top-0 h-screen flex-col p-6">
+      <aside className="hidden lg:flex w-64 border-r border-[var(--border)] bg-card sticky top-0 h-screen flex-col p-6">
         <div className="space-y-6">
           <div className="h3">Design System</div>
 
@@ -111,7 +111,7 @@ export default function GalleryLayout({
           />
 
           {/* drawer */}
-          <aside className="absolute left-0 top-0 h-full w-64 bg-card border-r border-border p-6 shadow-[var(--elevation-overlay)]">
+          <aside className="absolute left-0 top-0 h-full w-64 bg-card border-r border-[var(--border)] p-6 shadow-[var(--elevation-overlay)]">
             <div className="flex items-center justify-between mb-6">
               <div className="h3">Design System</div>
               <button onClick={() => setMobileOpen(false)}>
@@ -162,7 +162,7 @@ export default function GalleryLayout({
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile Header */}
-        <header className="lg:hidden flex items-center justify-between border-b bg-background px-4 py-3">
+        <header className="lg:hidden sticky top-0 z-30 flex items-center justify-between border-b border-[var(--border)] bg-background px-4 py-3">
           <button onClick={() => setMobileOpen(true)}>
             <Menu size={20} />
           </button>
