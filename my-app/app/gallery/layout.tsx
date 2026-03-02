@@ -47,6 +47,7 @@ export default function GalleryLayout({
           <nav className="space-y-2 p-sm">
             <div className="space-y-1">
               <div className="label-sm text-muted-foreground">Primitives</div>
+              <a href="/gallery/tokens" className="block hover:text-primary">Tokens</a>
               <a href="/gallery/foundations" className="block hover:text-primary">Foundations</a>
               <a href="/gallery/logic" className="block hover:text-primary">Logic</a>
             </div>
@@ -120,6 +121,7 @@ export default function GalleryLayout({
             <nav className="space-y-2 p-sm">
               <div className="space-y-1">
                 <div className="label-sm text-muted-foreground">Primitives</div>
+                <a href="/gallery/tokens" className="block" onClick={() => setMobileOpen(false)}>Tokens</a>
                 <a href="/gallery/foundations" className="block" onClick={() => setMobileOpen(false)}>Foundations</a>
                 <a href="/gallery/logic" className="block" onClick={() => setMobileOpen(false)}>Logic</a>
               </div>

@@ -1,0 +1,945 @@
+"use client"
+
+import React from "react"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+
+/* ─────────────────────────────────────────────
+ * DATA
+ * ───────────────────────────────────────────── */
+
+const grayScale = [
+  { name: "gray-98", oklch: "oklch(0.9824 0.0013 288)", hex: "#F9F9FA" },
+  { name: "gray-94", oklch: "oklch(0.9412 0.0053 288)", hex: "#EBEBEF" },
+  { name: "gray-91", oklch: "oklch(0.9179 0.0094 288)", hex: "#E3E3EA" },
+  { name: "gray-88", oklch: "oklch(0.8818 0.0123 288)", hex: "#D7D7E0" },
+  { name: "gray-83", oklch: "oklch(0.8304 0.0138 288)", hex: "#C7C6D0" },
+  { name: "gray-73", oklch: "oklch(0.7395 0.0214 288)", hex: "#AAA9B8" },
+  { name: "gray-64", oklch: "oklch(0.6498 0.0281 288)", hex: "#8E8DA0" },
+  { name: "gray-55", oklch: "oklch(0.5557 0.0308 288)", hex: "#727185" },
+  { name: "gray-33", oklch: "oklch(0.3334 0.0192 288)", hex: "#353540" },
+  { name: "gray-19", oklch: "oklch(0.1975 0.008 288)",  hex: "#151519" },
+]
+
+const violetScale = [
+  { name: "violet-99", oklch: "oklch(0.9867 0.012 286.45)" },
+  { name: "violet-95", oklch: "oklch(0.9518 0.039 286.45)" },
+  { name: "violet-88", oklch: "oklch(0.8843 0.082 286.45)" },
+  { name: "violet-78", oklch: "oklch(0.7868 0.144 286.45)" },
+  { name: "violet-68", oklch: "oklch(0.6843 0.198 286.45)" },
+  { name: "violet-64", oklch: "oklch(0.6418 0.239 286.45)" },
+  { name: "violet-59", oklch: "oklch(0.5918 0.235 286.45)" },
+  { name: "violet-47", oklch: "oklch(0.4693 0.188 286.45)" },
+  { name: "violet-38", oklch: "oklch(0.3868 0.157 286.45)" },
+  { name: "violet-31", oklch: "oklch(0.3093 0.126 286.45)" },
+  { name: "violet-24", oklch: "oklch(0.2418 0.100 286.45)" },
+]
+
+const semanticColors: {
+  section: string
+  tokens: {
+    token: string
+    description: string
+    lightValue: string
+    darkValue: string
+  }[]
+}[] = [
+  {
+    section: "Surfaces",
+    tokens: [
+      { token: "background", description: "Canvas background (level 0)", lightValue: "--gray-98", darkValue: "--gray-19" },
+      { token: "foreground", description: "Default text color", lightValue: "--gray-19", darkValue: "--gray-98" },
+      { token: "card", description: "Primary surface (level 1)", lightValue: "oklch(1 0 0)", darkValue: "--gray-33" },
+      { token: "card-foreground", description: "Text on card surfaces", lightValue: "--gray-19", darkValue: "--gray-98" },
+      { token: "popover", description: "Popover / floating surface", lightValue: "oklch(1 0 0)", darkValue: "--gray-33" },
+      { token: "popover-foreground", description: "Text on popovers", lightValue: "--gray-33", darkValue: "--gray-98" },
+      { token: "secondary", description: "Secondary surface (canvas tone)", lightValue: "--gray-98", darkValue: "--gray-19" },
+      { token: "secondary-foreground", description: "Text on secondary", lightValue: "--gray-33", darkValue: "--gray-98" },
+      { token: "muted", description: "Subtle / quiet surface", lightValue: "--gray-94", darkValue: "--gray-33" },
+      { token: "muted-foreground", description: "Muted text", lightValue: "--gray-55", darkValue: "--gray-64" },
+    ],
+  },
+  {
+    section: "Brand",
+    tokens: [
+      { token: "primary", description: "Primary brand / action", lightValue: "--violet-64", darkValue: "--violet-38" },
+      { token: "primary-foreground", description: "Text on primary", lightValue: "--violet-95", darkValue: "--violet-95" },
+      { token: "accent", description: "Accent / hover surface", lightValue: "--violet-95", darkValue: "--violet-24" },
+      { token: "accent-foreground", description: "Text on accent", lightValue: "--violet-38", darkValue: "--violet-95" },
+      { token: "link", description: "Link color", lightValue: "--primary", darkValue: "--violet-78" },
+      { token: "link-hover", description: "Link hover color", lightValue: "--primary", darkValue: "--violet-68" },
+    ],
+  },
+  {
+    section: "Borders",
+    tokens: [
+      { token: "border", description: "Primary structural border", lightValue: "--gray-94", darkValue: "--gray-33" },
+      { token: "border-subtle", description: "Subtle / nested border", lightValue: "--gray-88", darkValue: "--gray-55" },
+      { token: "border-primary", description: "Brand emphasis border", lightValue: "--primary", darkValue: "--primary" },
+      { token: "input", description: "Input field border", lightValue: "--gray-88", darkValue: "--gray-33" },
+      { token: "ring", description: "Focus ring", lightValue: "--primary", darkValue: "--primary" },
+    ],
+  },
+  {
+    section: "Feedback",
+    tokens: [
+      { token: "success", description: "Success background", lightValue: "oklch(0.95 0.03 155)", darkValue: "oklch(0.20 0.05 155)" },
+      { token: "success-border", description: "Success border", lightValue: "oklch(0.88 0.06 155)", darkValue: "oklch(0.32 0.10 155)" },
+      { token: "success-foreground", description: "Success text", lightValue: "oklch(0.53 0.18 155)", darkValue: "oklch(0.75 0.20 155)" },
+      { token: "warning", description: "Warning background", lightValue: "oklch(0.97 0.03 85)", darkValue: "oklch(0.20 0.05 85)" },
+      { token: "warning-border", description: "Warning border", lightValue: "oklch(0.89 0.08 85)", darkValue: "oklch(0.32 0.10 85)" },
+      { token: "warning-foreground", description: "Warning text", lightValue: "oklch(0.62 0.16 85)", darkValue: "oklch(0.78 0.18 85)" },
+      { token: "info", description: "Info background", lightValue: "--card", darkValue: "oklch(0.20 0.05 210)" },
+      { token: "info-border", description: "Info border", lightValue: "--border", darkValue: "oklch(0.32 0.10 210)" },
+      { token: "info-foreground", description: "Info text", lightValue: "--gray-33", darkValue: "oklch(0.78 0.18 210)" },
+      { token: "destructive", description: "Destructive background", lightValue: "oklch(0.96 0.03 10)", darkValue: "oklch(0.20 0.09 10)" },
+      { token: "destructive-border", description: "Destructive border", lightValue: "oklch(0.89 0.06 10)", darkValue: "oklch(0.38 0.16 10)" },
+      { token: "destructive-foreground", description: "Destructive text", lightValue: "oklch(0.55 0.22 10)", darkValue: "oklch(0.90 0.20 10)" },
+    ],
+  },
+  {
+    section: "Charts",
+    tokens: [
+      { token: "chart-1", description: "Chart color 1", lightValue: "--violet-78", darkValue: "--violet-78" },
+      { token: "chart-2", description: "Chart color 2", lightValue: "--violet-68", darkValue: "--violet-68" },
+      { token: "chart-3", description: "Chart color 3", lightValue: "--violet-64", darkValue: "--violet-64" },
+      { token: "chart-4", description: "Chart color 4", lightValue: "--violet-59", darkValue: "--violet-59" },
+      { token: "chart-5", description: "Chart color 5", lightValue: "--violet-47", darkValue: "--violet-47" },
+    ],
+  },
+  {
+    section: "Sidebar",
+    tokens: [
+      { token: "sidebar", description: "Sidebar background", lightValue: "--gray-94", darkValue: "--gray-33" },
+      { token: "sidebar-foreground", description: "Sidebar text", lightValue: "--gray-33", darkValue: "--gray-98" },
+      { token: "sidebar-primary", description: "Sidebar primary", lightValue: "--primary", darkValue: "--primary" },
+      { token: "sidebar-accent", description: "Sidebar accent", lightValue: "--accent", darkValue: "--accent" },
+    ],
+  },
+]
+
+const typographyTokens = [
+  { class: ".h1", size: "text-2xl (24px)", weight: "650", usage: "Page title" },
+  { class: ".h2", size: "text-base (16px)", weight: "650", usage: "Section title" },
+  { class: ".h3", size: "text-sm (14px)", weight: "650", usage: "Subsection title" },
+  { class: ".h4", size: "text-xs (12px)", weight: "650", usage: "Minor heading" },
+  { class: ".p-lg", size: "text-base (16px)", weight: "425", usage: "Large body text" },
+  { class: ".p", size: "text-sm (14px)", weight: "425", usage: "Default body text" },
+  { class: ".p-sm", size: "text-xs (12px)", weight: "425", usage: "Small / caption text" },
+  { class: ".label-lg", size: "text-base (16px)", weight: "525", usage: "Large label / UI" },
+  { class: ".label-md", size: "text-sm (14px)", weight: "525", usage: "Default label / UI" },
+  { class: ".label-sm", size: "text-xs (12px)", weight: "525", usage: "Small label / UI" },
+  { class: ".form-label", size: "text-sm (14px)", weight: "425", usage: "Form field label (muted)" },
+  { class: ".form-control", size: "text-sm (14px)", weight: "425", usage: "Form input value" },
+  { class: ".form-data", size: "text-sm (14px)", weight: "525", usage: "Form displayed data" },
+  { class: ".data-lg", size: "text-3xl (30px)", weight: "650", usage: "Hero metric" },
+  { class: ".data-md", size: "text-xl (20px)", weight: "650", usage: "Metric value" },
+  { class: ".data-sm", size: "text-base (16px)", weight: "650", usage: "Compact metric value" },
+]
+
+const radiusTokens = [
+  { name: "--radius", value: "0.125rem", computed: "2px", description: "Base radius" },
+  { name: "--radius-sm", value: "calc(--radius * 0.5)", computed: "1px", description: "Small" },
+  { name: "--radius-md", value: "var(--radius)", computed: "2px", description: "Medium (same as base)" },
+  { name: "--radius-lg", value: "calc(--radius * 2)", computed: "4px", description: "Large" },
+  { name: "--radius-xl", value: "calc(--radius * 4)", computed: "8px", description: "Extra large" },
+  { name: "--radius-2xl", value: "calc(--radius * 6)", computed: "12px", description: "2XL" },
+  { name: "--radius-3xl", value: "calc(--radius * 8)", computed: "16px", description: "3XL" },
+  { name: "--radius-4xl", value: "calc(--radius * 10)", computed: "20px", description: "4XL" },
+]
+
+const elevationTokens = [
+  {
+    name: "elevation-surface",
+    primitive: "--shadow-y1",
+    lightValue: "0 1px 1px oklch(0.55 0.02 286.45 / 0.08)",
+    usage: "Cards, panels, standard content containers",
+  },
+  {
+    name: "elevation-floating",
+    primitive: "--shadow-y2",
+    lightValue: "0 2px 6px oklch(0.50 0.03 286.45 / 0.10)",
+    usage: "Dropdowns, hover panels, toolbars",
+  },
+  {
+    name: "elevation-overlay",
+    primitive: "--shadow-y6",
+    lightValue: "0 6px 16px oklch(0.45 0.04 286.45 / 0.14)",
+    usage: "Dialogs, sheets, drawers",
+  },
+  {
+    name: "elevation-popover",
+    primitive: "--shadow-y16",
+    lightValue: "0 16px 32px oklch(0.40 0.05 286.45 / 0.18)",
+    usage: "Tooltips, command palettes, popovers",
+  },
+]
+
+/* ─────────────────────────────────────────────
+ * PAGE
+ * ───────────────────────────────────────────── */
+
+export default function TokensPage() {
+  return (
+    <div className="space-y-12">
+      {/* Page header */}
+      <div className="space-y-2">
+        <div className="h1">Tokens</div>
+        <p className="p-lg text-muted-foreground">
+          A complete reference of every design token in the system — color
+          primitives, semantic mappings, typography, corner radius, elevation,
+          and surface rules.
+        </p>
+      </div>
+
+
+      {/* ═══════════════════════════════════════
+       * 1. TYPOGRAPHY
+       * ═══════════════════════════════════════ */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="label-lg">Typography</CardTitle>
+          <CardDescription className="p">
+            Utility classes for the type system. Font: Inter variable.
+            Feature settings: tnum, dlig, frac, ccmp, ss03, cv01–cv05, cv08, cv09, cv11–cv13. calt off.
+            Font optical sizing: auto.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Live preview */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card level={2}>
+              <CardContent className="space-y-3">
+                <div className="label-sm text-muted-foreground">Headings</div>
+                <div className="h1">h1 — 24px / 650</div>
+                <div className="h2">h2 — 16px / 650</div>
+                <div className="h3">h3 — 14px / 650</div>
+                <div className="h4">h4 — 12px / 650</div>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-3">
+                <div className="label-sm text-muted-foreground">Body</div>
+                <p className="p-lg">p-lg — 16px / 425</p>
+                <p className="p">p — 14px / 425</p>
+                <p className="p-sm">p-sm — 12px / 425</p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-3">
+                <div className="label-sm text-muted-foreground">Labels</div>
+                <div className="label-lg">label-lg — 16px / 525</div>
+                <div className="label-md">label-md — 14px / 525</div>
+                <div className="label-sm">label-sm — 12px / 525</div>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-3">
+                <div className="label-sm text-muted-foreground">Data</div>
+                <div className="data-lg">data-lg — 30px / 650</div>
+                <div className="data-md">data-md — 20px / 650</div>
+                <div className="data-sm">data-sm — 16px / 650</div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b">
+                  <th className="label-sm text-muted-foreground pb-2 pr-4">Class</th>
+                  <th className="label-sm text-muted-foreground pb-2 pr-4">Size</th>
+                  <th className="label-sm text-muted-foreground pb-2 pr-4">Weight</th>
+                  <th className="label-sm text-muted-foreground pb-2">Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                {typographyTokens.map((t) => (
+                  <tr key={t.class} className="border-b border-border-subtle">
+                    <td className="py-2 pr-4">
+                      <code className="p-sm font-mono">{t.class}</code>
+                    </td>
+                    <td className="py-2 pr-4">
+                      <span className="p-sm">{t.size}</span>
+                    </td>
+                    <td className="py-2 pr-4">
+                      <span className="p-sm">{t.weight}</span>
+                    </td>
+                    <td className="py-2">
+                      <span className="p-sm text-muted-foreground">{t.usage}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ═══════════════════════════════════════
+       * 2. FONT SETTINGS
+       * ═══════════════════════════════════════ */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="label-lg">Font Configuration</CardTitle>
+          <CardDescription className="p">
+            Inter variable — our primary typeface. We use Inter with a deliberately curated set of
+            OpenType features for data clarity, character disambiguation, and brand personality.
+            Inter has become ubiquitous in AI tools, which has given it an association with "AI slop."
+            By using custom values on the weight axis and customizing the features—such as enabling
+            specific character variants and stylistic sets—we preserve Inter&apos;s clarity and
+            approachability while establishing our own typographic identity.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-10">
+
+          {/* Base metadata */}
+          <div className="grid grid-cols-[auto_1fr] gap-x-8 gap-y-2">
+            <span className="p-sm text-muted-foreground">Family</span>
+            <span className="p-sm">Inter (variable)</span>
+            <span className="p-sm text-muted-foreground">Base weight</span>
+            <span className="p-sm">425</span>
+            <span className="p-sm text-muted-foreground">Optical sizing</span>
+            <span className="p-sm">auto</span>
+            <span className="p-sm text-muted-foreground">calt</span>
+            <span className="p-sm text-muted-foreground">off — contextual alternates disabled to prevent unintended substitutions in UI text</span>
+          </div>
+
+          <div className="h-px bg-border-subtle" />
+
+          {/* NUMBERS & DATA */}
+          <div className="space-y-4">
+            <div>
+              <p className="label-md">Numbers &amp; Data</p>
+              <p className="p-sm text-muted-foreground mt-0.5">Alternate digit forms and numeric layout features that reduce ambiguity and improve precision in data-heavy UI.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+
+              {/* tnum */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"tnum" 0', fontSize: 28, lineHeight: 1.4 }}>
+                        <div>1111</div>
+                        <div>8888</div>
+                      </div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground self-center">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"tnum" 1', fontSize: 28, lineHeight: 1.4 }}>
+                        <div>1111</div>
+                        <div>8888</div>
+                      </div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">tnum</code>
+                    <span className="label-sm">Tabular Numbers</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Every digit takes the same horizontal space. Numbers in tables and dashboards stay perfectly column-aligned — essential for any product where users scan and compare numeric data.</p>
+                </CardContent>
+              </Card>
+
+              {/* cv01 */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv01" 0', fontSize: 48, lineHeight: 1 }}>1</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv01" 1', fontSize: 48, lineHeight: 1 }}>1</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">cv01</code>
+                    <span className="label-sm">Alternate One</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Adds a horizontal serif foot to the digit 1, clearly distinguishing it from lowercase l and capital I. In codes, IDs, and alphanumeric strings, this single change eliminates the most common misread in sans-serif type.</p>
+                </CardContent>
+              </Card>
+
+              {/* cv09 */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv09" 0', fontSize: 48, lineHeight: 1 }}>3</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv09" 1', fontSize: 48, lineHeight: 1 }}>3</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">cv09</code>
+                    <span className="label-sm">Flat-top Three</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Replaces the curved top of 3 with a flat horizontal stroke. In data-dense UI, the flat top reads more crisply and reduces split-second confusion with 8 — especially at small label and table cell sizes.</p>
+                </CardContent>
+              </Card>
+
+              {/* cv02 */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv02" 0', fontSize: 48, lineHeight: 1 }}>4</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv02" 1', fontSize: 48, lineHeight: 1 }}>4</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">cv02</code>
+                    <span className="label-sm">Open Four</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Opens the enclosed counter of the 4, giving the numeral a more open aperture. Significantly more legible at small sizes — axis labels, table cells, footnotes — where the default closed form can look like a filled shape.</p>
+                </CardContent>
+              </Card>
+
+              {/* cv03 */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv03" 0', fontSize: 48, lineHeight: 1 }}>6</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv03" 1', fontSize: 48, lineHeight: 1 }}>6</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">cv03</code>
+                    <span className="label-sm">Open Six</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">A more open aperture at the top of 6. The humanist form reads comfortably at every scale — from a 12px table cell to a 48px hero metric — without ambiguity with 0 or 8.</p>
+                </CardContent>
+              </Card>
+
+              {/* cv04 */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv04" 0', fontSize: 48, lineHeight: 1 }}>9</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv04" 1', fontSize: 48, lineHeight: 1 }}>9</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">cv04</code>
+                    <span className="label-sm">Open Nine</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Mirrors the open six with a wider aperture at the bottom of 9. The two variants form a matched pair — consistent visual rhythm across the digit set, and faster recognition in dense numeric sequences.</p>
+                </CardContent>
+              </Card>
+
+              {/* frac */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"frac" 0', fontSize: 40, lineHeight: 1 }}>1/4</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"frac" 1', fontSize: 40, lineHeight: 1 }}>1/4</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">frac</code>
+                    <span className="label-sm">Fractions</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Automatically typesets number/slash/number sequences as proper fractions. Elevates measurements, ratios, and data annotations from crude slash-separated text to precise, professional typographic values.</p>
+                </CardContent>
+              </Card>
+
+            </div>
+          </div>
+
+          <div className="h-px bg-border-subtle" />
+
+          {/* DISAMBIGUATION */}
+          <div className="space-y-4">
+            <div>
+              <p className="label-md">Disambiguation</p>
+              <p className="p-sm text-muted-foreground mt-0.5">Alternate letterforms that solve the I/l/1 problem — the most persistent legibility failure in sans-serif typefaces.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+              {/* cv08 */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv08" 0', fontSize: 48, lineHeight: 1, letterSpacing: "0.05em" }}>I l 1</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv08" 1', fontSize: 48, lineHeight: 1, letterSpacing: "0.05em" }}>I l 1</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">cv08</code>
+                    <span className="label-sm">Capital I with Serifs</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Serifs on uppercase I immediately set it apart from lowercase l and digit 1. In a product where users read serial numbers, handles, codes, and keys, this isn&apos;t a stylistic choice — it&apos;s a safety feature.</p>
+                </CardContent>
+              </Card>
+
+              {/* cv05 */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv05" 0', fontSize: 48, lineHeight: 1, letterSpacing: "0.05em" }}>l I 1</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv05" 1', fontSize: 48, lineHeight: 1, letterSpacing: "0.05em" }}>l I 1</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">cv05</code>
+                    <span className="label-sm">Lowercase l with Tail</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">A curved upswing tail gives lowercase l a unique baseline anchor. Combined with cv08 (I with serifs) and cv01 (1 with foot), all three visually similar characters become individually distinct at every size.</p>
+                </CardContent>
+              </Card>
+
+            </div>
+          </div>
+
+          <div className="h-px bg-border-subtle" />
+
+          {/* STYLE & PERSONALITY */}
+          <div className="space-y-4">
+            <div>
+              <p className="label-md">Style &amp; Personality</p>
+              <p className="p-sm text-muted-foreground mt-0.5">Letterform choices that shape tone — contemporary, approachable, and distinctly ours.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+
+              {/* cv11 */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv11" 0', fontSize: 48, lineHeight: 1 }}>a</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv11" 1', fontSize: 48, lineHeight: 1 }}>a</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">cv11</code>
+                    <span className="label-sm">Single-story a</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">The single-bowl a matches handwritten letterforms — open, friendly, modern. Where the double-story default reads formal and mechanical, the single-story form reads contemporary and human. One character shifts Inter&apos;s entire tone.</p>
+                </CardContent>
+              </Card>
+
+              {/* cv12 */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv12" 0', fontSize: 48, lineHeight: 1 }}>f</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv12" 1', fontSize: 48, lineHeight: 1 }}>f</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">cv12</code>
+                    <span className="label-sm">Compact f</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Reduces the overhang of the f ascender, creating a cleaner silhouette in body text. A detail most readers won&apos;t consciously notice — but combined with cv13, it makes the overall text texture calmer and more even.</p>
+                </CardContent>
+              </Card>
+
+              {/* cv13 */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv13" 0', fontSize: 48, lineHeight: 1 }}>t</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"cv13" 1', fontSize: 48, lineHeight: 1 }}>t</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">cv13</code>
+                    <span className="label-sm">Compact t</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Tightens the t crossbar, reducing visual noise at text sizes. Pairs with cv12 to create a consistent compact aesthetic across the most visually complex letterforms in the Latin alphabet.</p>
+                </CardContent>
+              </Card>
+
+              {/* ss03 */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"ss03" 0', fontSize: 36, lineHeight: 1 }}>{"\u201CHi,\u201D"}</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"ss03" 1', fontSize: 36, lineHeight: 1 }}>{"\u201CHi,\u201D"}</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">ss03</code>
+                    <span className="label-sm">Round Quotes &amp; Commas</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Replaces angular quotation marks and commas with softer, rounder forms. Adds warmth to UI copy, tooltips, empty states, and error messages — anywhere the product speaks directly to the user.</p>
+                </CardContent>
+              </Card>
+
+            </div>
+          </div>
+
+          <div className="h-px bg-border-subtle" />
+
+          {/* TYPOGRAPHIC POLISH */}
+          <div className="space-y-4">
+            <div>
+              <p className="label-md">Typographic Polish</p>
+              <p className="p-sm text-muted-foreground mt-0.5">Low-level rendering improvements for text texture, ligatures, and international support.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+              {/* dlig */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div className="flex gap-6 items-end">
+                    <div>
+                      <div style={{ fontFeatureSettings: '"dlig" 0', fontSize: 40, lineHeight: 1, letterSpacing: "0.02em" }}>fi fl fj</div>
+                      <div className="label-sm text-muted-foreground mt-1">default</div>
+                    </div>
+                    <div className="text-muted-foreground mb-2">→</div>
+                    <div>
+                      <div style={{ fontFeatureSettings: '"dlig" 1', fontSize: 40, lineHeight: 1, letterSpacing: "0.02em" }}>fi fl fj</div>
+                      <div className="label-sm text-muted-foreground mt-1">active</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">dlig</code>
+                    <span className="label-sm">Discretionary Ligatures</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Merges fi, fl, and fj into single optimized glyphs — the f&apos;s hook no longer collides with the adjacent character. Creates a smoother, more cohesive text texture, most noticeable in headings and display sizes.</p>
+                </CardContent>
+              </Card>
+
+              {/* ccmp */}
+              <Card level={2}>
+                <CardContent className="pt-4 space-y-3">
+                  <div>
+                    <div style={{ fontFeatureSettings: '"ccmp" 1', fontSize: 40, lineHeight: 1, letterSpacing: "0.05em" }}>é ü ñ</div>
+                    <div className="label-sm text-muted-foreground mt-1">active</div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="label-sm font-mono bg-muted px-1.5 py-0.5 rounded-sm">ccmp</code>
+                    <span className="label-sm">Glyph Composition</span>
+                  </div>
+                  <p className="p-sm text-muted-foreground">Ensures composite glyphs — accented characters, diacritical marks — are rendered with precisely positioned components. Foundational for multilingual UI: without it, diacritics can collide or misalign across browsers and rendering contexts.</p>
+                </CardContent>
+              </Card>
+
+            </div>
+          </div>
+
+        </CardContent>
+      </Card>
+
+      {/* ═══════════════════════════════════════
+       * 3. COLOR PRIMITIVES
+       * ═══════════════════════════════════════ */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="label-lg">Color Primitives</CardTitle>
+          <CardDescription className="p">
+            Base color scales in OKLCH. Designed for accessibility and perceptual uniformity.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-8">
+
+          {/* Gray Scale */}
+          <div className="space-y-3">
+            <div className="label-md">Gray Scale</div>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+              {grayScale.map((color) => (
+                <div
+                  key={color.name}
+                  className="h-20 rounded-md border p-2 flex flex-col justify-between"
+                  style={{
+                    backgroundColor: color.hex,
+                    color: parseInt(color.name.split("-")[1]) >= 83 ? "var(--gray-19)" : "var(--gray-98)",
+                  }}
+                >
+                  <div className="p-sm font-[500]">{color.name}</div>
+                  <div className="space-y-0.5">
+                    <div className="p-sm opacity-75 text-xs">{color.oklch}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Violet Scale */}
+          <div className="space-y-3">
+            <div className="label-md">Violet Scale (Brand)</div>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+              {violetScale.map((color) => (
+                <div
+                  key={color.name}
+                  className="h-20 rounded-md border p-2 flex flex-col justify-between"
+                  style={{
+                    backgroundColor: color.oklch,
+                    color: color.name.includes("99") || color.name.includes("95") || color.name.includes("88") ? "var(--gray-19)" : "var(--gray-98)",
+                  }}
+                >
+                  <div className="p-sm font-[500]">{color.name}</div>
+                  <div className="space-y-0.5">
+                    <div className="p-sm opacity-75 text-xs">{color.oklch}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </CardContent>
+      </Card>
+
+      {/* ═══════════════════════════════════════
+       * 4. SEMANTIC COLOR TOKENS
+       * ═══════════════════════════════════════ */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="label-lg">Semantic Color Tokens</CardTitle>
+          <CardDescription className="p">
+            Semantic tokens mapped to primitives, with light and dark mode values shown as CSS variables and OKLCH.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-8">
+          {semanticColors.map((section) => (
+            <div key={section.section} className="space-y-4">
+              <div className="label-md">{section.section}</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {section.tokens.map((token) => (
+                  <Card key={token.token} level={2}>
+                    <CardContent className="space-y-2">
+                      <div className="space-y-1">
+                        <div className="label-sm">{token.token}</div>
+                        <p className="p-sm text-muted-foreground">{token.description}</p>
+                      </div>
+                      <div className="space-y-1 text-xs">
+                        <div className="p-sm">
+                          <span className="text-muted-foreground">Light:</span> <code className="font-mono">{token.lightValue}</code>
+                        </div>
+                        <div className="p-sm">
+                          <span className="text-muted-foreground">Dark:</span> <code className="font-mono">{token.darkValue}</code>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+
+      {/* ═══════════════════════════════════════
+       * 5. CORNER RADIUS
+       * ═══════════════════════════════════════ */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="label-lg">Corner Radius</CardTitle>
+          <CardDescription className="p">
+            Base radius is 0.125rem (2px). The scale multiplies from the base.
+            Corner smoothing is set to 60% (Figma-style continuous curvature),
+            applied via the <code className="font-mono">.smooth-corners</code>{" "}
+            utility class using a CSS Houdini paint worklet (Chromium only,
+            graceful fallback in other browsers).
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Token table */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b">
+                  <th className="label-sm text-muted-foreground pb-2 pr-4">Preview</th>
+                  <th className="label-sm text-muted-foreground pb-2 pr-4">Token</th>
+                  <th className="label-sm text-muted-foreground pb-2 pr-4">Formula</th>
+                  <th className="label-sm text-muted-foreground pb-2 pr-4">Computed</th>
+                  <th className="label-sm text-muted-foreground pb-2">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {radiusTokens.map((t) => (
+                  <tr key={t.name} className="border-b border-border-subtle">
+                    <td className="py-2 pr-4">
+                      <div
+                        className="size-10 bg-primary/20 border border-primary/40"
+                        style={{ borderRadius: `var(${t.name})` }}
+                      />
+                    </td>
+                    <td className="py-2 pr-4">
+                      <code className="p-sm font-mono">{t.name}</code>
+                    </td>
+                    <td className="py-2 pr-4">
+                      <code className="p-sm font-mono text-muted-foreground">{t.value}</code>
+                    </td>
+                    <td className="py-2 pr-4">
+                      <span className="p-sm">{t.computed}</span>
+                    </td>
+                    <td className="py-2">
+                      <span className="p-sm text-muted-foreground">{t.description}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Corner smoothing note */}
+          <Card level={2}>
+            <CardContent className="space-y-2">
+              <div className="label-md">Corner Smoothing</div>
+              <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1">
+                <span className="p-sm text-muted-foreground">Token</span>
+                <code className="p-sm font-mono">--corner-smoothing: 60</code>
+                <span className="p-sm text-muted-foreground">Method</span>
+                <span className="p-sm">CSS Houdini paint worklet (progressive enhancement)</span>
+                <span className="p-sm text-muted-foreground">CSS class</span>
+                <code className="p-sm font-mono">.smooth-corners</code>
+                <span className="p-sm text-muted-foreground">Browser support</span>
+                <span className="p-sm">Chromium (Chrome, Edge, Opera, Arc). Falls back to standard <code className="font-mono">border-radius</code> elsewhere.</span>
+              </div>
+            </CardContent>
+          </Card>
+        </CardContent>
+      </Card>
+
+      {/* ═══════════════════════════════════════
+       * 6. ELEVATION / SHADOWS
+       * ═══════════════════════════════════════ */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="label-lg">Elevation</CardTitle>
+          <CardDescription className="p">
+            Y-axis shadow primitives mapped to semantic elevation tiers.
+            Dark mode uses ring+shadow combos for visibility against dark surfaces.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Live preview */}
+          <div className="space-y-6">
+            {elevationTokens.map((e) => (
+              <div
+                key={e.name}
+                className="rounded-md bg-card p-5"
+                style={{ boxShadow: `var(--${e.name})` }}
+              >
+                <div className="label-md">{e.name}</div>
+                <p className="p-sm text-muted-foreground mt-1">{e.usage}</p>
+                <code className="p-sm font-mono text-muted-foreground mt-2 block">
+                  {e.primitive}: {e.lightValue}
+                </code>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ═══════════════════════════════════════
+       * 7. OVERLAY & GLASS
+       * ═══════════════════════════════════════ */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="label-lg">Overlay &amp; Glass</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b">
+                  <th className="label-sm text-muted-foreground pb-2 pr-4">Token</th>
+                  <th className="label-sm text-muted-foreground pb-2 pr-4">Light</th>
+                  <th className="label-sm text-muted-foreground pb-2">Dark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-border-subtle">
+                  <td className="py-2 pr-4"><code className="p-sm font-mono">--overlay-bg</code></td>
+                  <td className="py-2 pr-4"><span className="p-sm">color-mix(in oklch, background 60%, transparent)</span></td>
+                  <td className="py-2"><span className="p-sm">same formula</span></td>
+                </tr>
+                <tr className="border-b border-border-subtle">
+                  <td className="py-2 pr-4"><code className="p-sm font-mono">--overlay-blur</code></td>
+                  <td className="py-2 pr-4"><span className="p-sm">4px</span></td>
+                  <td className="py-2"><span className="p-sm">4px</span></td>
+                </tr>
+                <tr className="border-b border-border-subtle">
+                  <td className="py-2 pr-4"><code className="p-sm font-mono">--glass-bg</code></td>
+                  <td className="py-2 pr-4"><span className="p-sm">color-mix(in oklch, background 25%, transparent)</span></td>
+                  <td className="py-2"><span className="p-sm">color-mix(in oklch, background 20%, transparent)</span></td>
+                </tr>
+                <tr className="border-b border-border-subtle">
+                  <td className="py-2 pr-4"><code className="p-sm font-mono">--glass-blur</code></td>
+                  <td className="py-2 pr-4"><span className="p-sm">8px</span></td>
+                  <td className="py-2"><span className="p-sm">8px</span></td>
+                </tr>
+                <tr className="border-b border-border-subtle">
+                  <td className="py-2 pr-4"><code className="p-sm font-mono">--glass-border</code></td>
+                  <td className="py-2 pr-4"><span className="p-sm">color-mix(in oklch, white 40%, transparent)</span></td>
+                  <td className="py-2"><span className="p-sm">color-mix(in oklch, white 20%, transparent)</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
