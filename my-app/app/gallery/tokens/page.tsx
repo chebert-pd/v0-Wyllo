@@ -279,10 +279,10 @@ export default function TokensPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-muted-foreground">Class</TableHead>
-                <TableHead className="text-muted-foreground">Size</TableHead>
-                <TableHead className="text-muted-foreground">Weight</TableHead>
-                <TableHead className="text-muted-foreground">Usage</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">Class</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">Size</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">Weight</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">Usage</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -789,11 +789,11 @@ export default function TokensPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-10 text-muted-foreground" />
-                    <TableHead className="text-muted-foreground">Token</TableHead>
-                    <TableHead className="text-muted-foreground">Description</TableHead>
-                    <TableHead className="text-muted-foreground">Light</TableHead>
-                    <TableHead className="text-muted-foreground">Dark</TableHead>
+                    <TableHead size="sm" className="w-10 text-muted-foreground" />
+                    <TableHead size="sm" className="text-muted-foreground">Token</TableHead>
+                    <TableHead size="sm" className="text-muted-foreground">Description</TableHead>
+                    <TableHead size="sm" className="text-muted-foreground">Light</TableHead>
+                    <TableHead size="sm" className="text-muted-foreground">Dark</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -839,11 +839,11 @@ export default function TokensPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-muted-foreground">Preview</TableHead>
-                <TableHead className="text-muted-foreground">Tailwind class</TableHead>
-                <TableHead className="text-muted-foreground">CSS token</TableHead>
-                <TableHead className="text-muted-foreground">Value</TableHead>
-                <TableHead className="text-muted-foreground">Usage</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">Preview</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">Tailwind class</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">CSS token</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">Value</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">Usage</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -933,9 +933,9 @@ export default function TokensPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-muted-foreground">Token</TableHead>
-                <TableHead className="text-muted-foreground">Light</TableHead>
-                <TableHead className="text-muted-foreground">Dark</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">Token</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">Light</TableHead>
+                <TableHead size="sm" className="text-muted-foreground">Dark</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
