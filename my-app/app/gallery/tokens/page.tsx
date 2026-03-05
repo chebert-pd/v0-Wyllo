@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table"
 
@@ -218,6 +218,72 @@ const elevationTokens = [
  * ───────────────────────────────────────────── */
 
 export default function TokensPage() {
+  const [liveValues, setLiveValues] = useState<Record<string, string>>({})
+
+  useEffect(() => {
+    const read = () => {
+      const isDark = document.documentElement.classList.contains("dark")
+      const isBlack = document.documentElement.getAttribute("data-theme") === "black"
+
+      // Build the set of selectors that apply in the current theme + mode.
+      // Order matters — later entries win (mirrors CSS cascade).
+      const activeSelectors: string[] = [":root"]
+      if (isDark) activeSelectors.push(".dark")
+      if (isBlack) activeSelectors.push('[data-theme="black"]')
+      if (isBlack && isDark) activeSelectors.push('[data-theme="black"].dark')
+
+      // Read raw authored values directly from stylesheet rules.
+      // This avoids @property / getComputedStyle resolving var() references
+      // to their computed hex/oklch color before we can read the name.
+      const merged: Record<string, string> = {}
+
+      const scanRules = (rules: CSSRuleList) => {
+        for (const rule of Array.from(rules)) {
+          if (rule instanceof CSSStyleRule) {
+            const sel = rule.selectorText.trim()
+            // Normalise quote style for attribute selectors
+            const selNorm = sel.replace(/'/g, '"')
+            if (activeSelectors.includes(sel) || activeSelectors.includes(selNorm)) {
+              for (let i = 0; i < rule.style.length; i++) {
+                const prop = rule.style[i]
+                if (prop.startsWith("--")) {
+                  merged[prop] = rule.style.getPropertyValue(prop).trim()
+                }
+              }
+            }
+          }
+          // Recurse into @layer, @media, @supports, etc.
+          if ("cssRules" in rule) {
+            try { scanRules((rule as CSSGroupingRule).cssRules) } catch { /* cross-origin */ }
+          }
+        }
+      }
+
+      for (const sheet of Array.from(document.styleSheets)) {
+        try { scanRules(sheet.cssRules) } catch { /* cross-origin */ }
+      }
+
+      const values: Record<string, string> = {}
+      semanticColors.forEach((section) => {
+        section.tokens.forEach((token) => {
+          const raw = merged[`--${token.token}`] ?? ""
+          values[token.token] = raw.startsWith("var(") ? raw.slice(4, -1) : raw
+        })
+      })
+      setLiveValues(values)
+    }
+
+    read()
+
+    const observer = new MutationObserver(read)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "class"],
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div className="space-y-12">
       {/* Page header */}
@@ -784,8 +850,8 @@ export default function TokensPage() {
         <CardHeader>
           <CardTitle className="label-lg">Semantic Color Tokens</CardTitle>
           <CardDescription className="p">
-            Semantic tokens mapped to primitives. Color swatches reflect the live
-            value in the current mode.
+            Semantic tokens mapped to primitives. Color swatches and values reflect
+            the live token in the active theme and mode.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
@@ -798,8 +864,7 @@ export default function TokensPage() {
                     <TableHead size="sm" className="w-10 text-muted-foreground" />
                     <TableHead size="sm" className="text-muted-foreground">Token</TableHead>
                     <TableHead size="sm" className="text-muted-foreground">Description</TableHead>
-                    <TableHead size="sm" className="text-muted-foreground">Light</TableHead>
-                    <TableHead size="sm" className="text-muted-foreground">Dark</TableHead>
+                    <TableHead size="sm" className="text-muted-foreground">Value</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -813,8 +878,7 @@ export default function TokensPage() {
                       </TableCell>
                       <TableCell><code className="p-sm font-mono">{token.token}</code></TableCell>
                       <TableCell><span className="p-sm text-muted-foreground">{token.description}</span></TableCell>
-                      <TableCell><code className="p-sm font-mono text-muted-foreground">{token.lightValue}</code></TableCell>
-                      <TableCell><code className="p-sm font-mono text-muted-foreground">{token.darkValue}</code></TableCell>
+                      <TableCell><code className="p-sm font-mono text-muted-foreground">{liveValues[token.token] ?? token.lightValue}</code></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
