@@ -42,7 +42,9 @@ export default function GalleryLayout({
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex w-64 border-r border-[var(--border)] bg-card sticky top-0 h-screen flex-col">
         <div className="px-6 pt-6 pb-4 shrink-0">
-          <div className="h3">Design System</div>
+          <a href="/gallery">
+            <img src="/logo.png" alt="Wyllo" className="h-8 w-auto" />
+          </a>
         </div>
 
         <div className="flex-1 overflow-y-auto px-6">
@@ -50,8 +52,7 @@ export default function GalleryLayout({
             <div className="space-y-1">
               <div className="label-sm text-muted-foreground">Primitives</div>
               <a href="/gallery/tokens" className="block hover:text-primary">Tokens</a>
-              <a href="/gallery/foundations" className="block hover:text-primary">Foundations</a>
-              <a href="/gallery/logic" className="block hover:text-primary">Logic</a>
+              <a href="/gallery/logic" className="block hover:text-primary">System Logic</a>
             </div>
 
             <div className="pt-4 space-y-1">
@@ -117,7 +118,9 @@ export default function GalleryLayout({
           {/* drawer */}
           <aside className="absolute left-0 top-0 h-full w-64 bg-card border-r border-[var(--border)] shadow-[var(--elevation-overlay)] flex flex-col">
             <div className="flex items-center justify-between px-6 pt-6 pb-4 shrink-0">
-              <div className="h3">Design System</div>
+              <a href="/gallery" onClick={() => setMobileOpen(false)}>
+                <img src="/logo.png" alt="Wyllo" className="h-8 w-auto" />
+              </a>
               <button onClick={() => setMobileOpen(false)}>
                 <X size={20} />
               </button>
@@ -128,8 +131,7 @@ export default function GalleryLayout({
                 <div className="space-y-1">
                   <div className="label-sm text-muted-foreground">Primitives</div>
                   <a href="/gallery/tokens" className="block" onClick={() => setMobileOpen(false)}>Tokens</a>
-                  <a href="/gallery/foundations" className="block" onClick={() => setMobileOpen(false)}>Foundations</a>
-                  <a href="/gallery/logic" className="block" onClick={() => setMobileOpen(false)}>Logic</a>
+                  <a href="/gallery/logic" className="block" onClick={() => setMobileOpen(false)}>System Logic</a>
                 </div>
 
                 <div className="pt-4 space-y-1">
@@ -172,10 +174,12 @@ export default function GalleryLayout({
           <button onClick={() => setMobileOpen(true)}>
             <Menu size={20} />
           </button>
-          <div className="label-md">Design System</div>
+          <a href="/gallery">
+            <img src="/logo.png" alt="Wyllo" className="h-7 w-auto" />
+          </a>
         </header>
 
-        <main className="flex-1 p-6 md:p-10 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 p-6 md:p-10 overflow-x-clip">
           {children}
         </main>
       </div>
