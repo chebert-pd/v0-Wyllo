@@ -40,16 +40,19 @@ export default function GalleryLayout({
   return (
     <div className="min-h-screen flex bg-background text-foreground">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex w-64 border-r border-[var(--border)] bg-card sticky top-0 h-screen flex-col p-6">
-        <div className="space-y-6">
-          <div className="h3">Design System</div>
+      <aside className="hidden lg:flex w-64 border-r border-[var(--border)] bg-card sticky top-0 h-screen flex-col">
+        <div className="px-6 pt-6 pb-4 shrink-0">
+          <a href="/gallery">
+            <img src="/logo.png" alt="Wyllo" className="h-8 w-auto" />
+          </a>
+        </div>
 
-          <nav className="space-y-2 p-sm">
+        <div className="flex-1 overflow-y-auto px-6">
+          <nav className="space-y-2 p-sm pb-4">
             <div className="space-y-1">
               <div className="label-sm text-muted-foreground">Primitives</div>
               <a href="/gallery/tokens" className="block hover:text-primary">Tokens</a>
-              <a href="/gallery/foundations" className="block hover:text-primary">Foundations</a>
-              <a href="/gallery/logic" className="block hover:text-primary">Logic</a>
+              <a href="/gallery/logic" className="block hover:text-primary">System Logic</a>
             </div>
 
             <div className="pt-4 space-y-1">
@@ -80,7 +83,9 @@ export default function GalleryLayout({
               <a href="/gallery/empty-state" className="block hover:text-primary">Empty State</a>
             </div>
           </nav>
+        </div>
 
+        <div className="px-6 py-4 shrink-0 border-t border-[var(--border)]">
           <ToggleGroup
             variant="outline"
             type="single"
@@ -111,50 +116,53 @@ export default function GalleryLayout({
           />
 
           {/* drawer */}
-          <aside className="absolute left-0 top-0 h-full w-64 bg-card border-r border-[var(--border)] p-6 shadow-[var(--elevation-overlay)]">
-            <div className="flex items-center justify-between mb-6">
-              <div className="h3">Design System</div>
+          <aside className="absolute left-0 top-0 h-full w-64 bg-card border-r border-[var(--border)] shadow-[var(--elevation-overlay)] flex flex-col">
+            <div className="flex items-center justify-between px-6 pt-6 pb-4 shrink-0">
+              <a href="/gallery" onClick={() => setMobileOpen(false)}>
+                <img src="/logo.png" alt="Wyllo" className="h-8 w-auto" />
+              </a>
               <button onClick={() => setMobileOpen(false)}>
                 <X size={20} />
               </button>
             </div>
 
-            <nav className="space-y-2 p-sm">
-              <div className="space-y-1">
-                <div className="label-sm text-muted-foreground">Primitives</div>
-                <a href="/gallery/tokens" className="block" onClick={() => setMobileOpen(false)}>Tokens</a>
-                <a href="/gallery/foundations" className="block" onClick={() => setMobileOpen(false)}>Foundations</a>
-                <a href="/gallery/logic" className="block" onClick={() => setMobileOpen(false)}>Logic</a>
-              </div>
+            <div className="flex-1 overflow-y-auto px-6">
+              <nav className="space-y-2 p-sm pb-4">
+                <div className="space-y-1">
+                  <div className="label-sm text-muted-foreground">Primitives</div>
+                  <a href="/gallery/tokens" className="block" onClick={() => setMobileOpen(false)}>Tokens</a>
+                  <a href="/gallery/logic" className="block" onClick={() => setMobileOpen(false)}>System Logic</a>
+                </div>
 
-              <div className="pt-4 space-y-1">
-                <div className="label-sm text-muted-foreground">Components</div>
-                <a href="/gallery/core" className="block" onClick={() => setMobileOpen(false)}>Core</a>
-                <a href="/gallery/buttons" className="block" onClick={() => setMobileOpen(false)}>Buttons</a>
-                <a href="/gallery/badge" className="block" onClick={() => setMobileOpen(false)}>Badges</a>
-                <a href="/gallery/forms" className="block" onClick={() => setMobileOpen(false)}>Forms</a>
-                <a href="/gallery/date-picker" className="block" onClick={() => setMobileOpen(false)}>Date Picker</a>
-                <a href="/gallery/date-range-picker" className="block text-muted-foreground text-xs pl-2" onClick={() => setMobileOpen(false)}>↳ Range (legacy)</a>
-                <a href="/gallery/tables" className="block" onClick={() => setMobileOpen(false)}>Tables</a>
-                <a href="/gallery/data-table" className="block" onClick={() => setMobileOpen(false)}>Data Table</a>
-                <a href="/gallery/tabs" className="block" onClick={() => setMobileOpen(false)}>Tabs</a>
-                <a href="/gallery/toggle" className="block" onClick={() => setMobileOpen(false)}>Toggle</a>
-                <a href="/gallery/accordions" className="block" onClick={() => setMobileOpen(false)}>Accordions</a>
-                <a href="/gallery/command-palette" className="block" onClick={() => setMobileOpen(false)}>Command Palette</a>
-                <a href="/gallery/sidebar" className="block" onClick={() => setMobileOpen(false)}>Sidebar</a>
-                <a href="/gallery/header" className="block" onClick={() => setMobileOpen(false)}>Header</a>
-                <a href="/gallery/stats" className="block" onClick={() => setMobileOpen(false)}>Stats</a>
-                <a href="/gallery/overlays/background" className="block" onClick={() => setMobileOpen(false)}>Overlay Background</a>
-                <a href="/gallery/overlays/dialog" className="block" onClick={() => setMobileOpen(false)}>Dialog</a>
-                <a href="/gallery/overlays/sheet" className="block" onClick={() => setMobileOpen(false)}>Sheet</a>
-              </div>
+                <div className="pt-4 space-y-1">
+                  <div className="label-sm text-muted-foreground">Components</div>
+                  <a href="/gallery/core" className="block" onClick={() => setMobileOpen(false)}>Core</a>
+                  <a href="/gallery/buttons" className="block" onClick={() => setMobileOpen(false)}>Buttons</a>
+                  <a href="/gallery/badge" className="block" onClick={() => setMobileOpen(false)}>Badges</a>
+                  <a href="/gallery/forms" className="block" onClick={() => setMobileOpen(false)}>Forms</a>
+                  <a href="/gallery/date-picker" className="block" onClick={() => setMobileOpen(false)}>Date Picker</a>
+                  <a href="/gallery/date-range-picker" className="block text-muted-foreground text-xs pl-2" onClick={() => setMobileOpen(false)}>↳ Range (legacy)</a>
+                  <a href="/gallery/tables" className="block" onClick={() => setMobileOpen(false)}>Tables</a>
+                  <a href="/gallery/data-table" className="block" onClick={() => setMobileOpen(false)}>Data Table</a>
+                  <a href="/gallery/tabs" className="block" onClick={() => setMobileOpen(false)}>Tabs</a>
+                  <a href="/gallery/toggle" className="block" onClick={() => setMobileOpen(false)}>Toggle</a>
+                  <a href="/gallery/accordions" className="block" onClick={() => setMobileOpen(false)}>Accordions</a>
+                  <a href="/gallery/command-palette" className="block" onClick={() => setMobileOpen(false)}>Command Palette</a>
+                  <a href="/gallery/sidebar" className="block" onClick={() => setMobileOpen(false)}>Sidebar</a>
+                  <a href="/gallery/header" className="block" onClick={() => setMobileOpen(false)}>Header</a>
+                  <a href="/gallery/stats" className="block" onClick={() => setMobileOpen(false)}>Stats</a>
+                  <a href="/gallery/overlays/background" className="block" onClick={() => setMobileOpen(false)}>Overlay Background</a>
+                  <a href="/gallery/overlays/dialog" className="block" onClick={() => setMobileOpen(false)}>Dialog</a>
+                  <a href="/gallery/overlays/sheet" className="block" onClick={() => setMobileOpen(false)}>Sheet</a>
+                </div>
 
-              <div className="pt-4 space-y-1">
-                <div className="label-sm text-muted-foreground">Composed Patterns</div>
-                <a href="/gallery/modules/metric-panel" className="block" onClick={() => setMobileOpen(false)}>Metric Panel</a>
-                <a href="/gallery/empty-state" className="block" onClick={() => setMobileOpen(false)}>Empty State</a>
-              </div>
-            </nav>
+                <div className="pt-4 space-y-1">
+                  <div className="label-sm text-muted-foreground">Composed Patterns</div>
+                  <a href="/gallery/modules/metric-panel" className="block" onClick={() => setMobileOpen(false)}>Metric Panel</a>
+                  <a href="/gallery/empty-state" className="block" onClick={() => setMobileOpen(false)}>Empty State</a>
+                </div>
+              </nav>
+            </div>
           </aside>
         </div>
       )}
@@ -166,10 +174,12 @@ export default function GalleryLayout({
           <button onClick={() => setMobileOpen(true)}>
             <Menu size={20} />
           </button>
-          <div className="label-md">Design System</div>
+          <a href="/gallery">
+            <img src="/logo.png" alt="Wyllo" className="h-7 w-auto" />
+          </a>
         </header>
 
-        <main className="flex-1 p-6 md:p-10 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 p-6 md:p-10 overflow-x-clip">
           {children}
         </main>
       </div>
