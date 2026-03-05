@@ -10,6 +10,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@
 
 const grayScale = [
   { name: "gray-98", oklch: "oklch(0.9824 0.0013 288)" },
+  { name: "gray-96", oklch: "oklch(0.9677 0.0027 288)" },
   { name: "gray-94", oklch: "oklch(0.9412 0.0053 288)" },
   { name: "gray-91", oklch: "oklch(0.9179 0.0094 288)" },
   { name: "gray-88", oklch: "oklch(0.8818 0.0123 288)" },
@@ -25,17 +26,19 @@ const grayScale = [
 ]
 
 const violetScale = [
-  { name: "violet-99", oklch: "oklch(0.9867 0.012 286.45)" },
-  { name: "violet-95", oklch: "oklch(0.9518 0.039 286.45)" },
-  { name: "violet-88", oklch: "oklch(0.8843 0.082 286.45)" },
-  { name: "violet-78", oklch: "oklch(0.7868 0.144 286.45)" },
-  { name: "violet-68", oklch: "oklch(0.6843 0.198 286.45)" },
-  { name: "violet-64", oklch: "oklch(0.6418 0.239 286.45)" },
-  { name: "violet-59", oklch: "oklch(0.5918 0.235 286.45)" },
-  { name: "violet-47", oklch: "oklch(0.4693 0.188 286.45)" },
-  { name: "violet-38", oklch: "oklch(0.3868 0.157 286.45)" },
-  { name: "violet-31", oklch: "oklch(0.3093 0.126 286.45)" },
-  { name: "violet-24", oklch: "oklch(0.2418 0.100 286.45)" },
+  { name: "violet-99", oklch: "oklch(0.9867 0.012 298.61)" },
+  { name: "violet-97", oklch: "oklch(0.9753 0.0136 299.8)" },
+  { name: "violet-95", oklch: "oklch(0.9552 0.0245 298.61)" },
+  { name: "violet-89", oklch: "oklch(0.8943 0.058 296.12)" },
+  { name: "violet-80", oklch: "oklch(0.8099 0.1073 295.38)" },
+  { name: "violet-72", oklch: "oklch(0.7247 0.1585 293.67)" },
+  { name: "violet-64", oklch: "oklch(0.6478 0.204954 291.1021)" },
+  { name: "violet-58", oklch: "oklch(0.5803 0.2448 287.66)" },
+  { name: "violet-51", oklch: "oklch(0.5165 0.2153 288)" },
+  { name: "violet-45", oklch: "oklch(0.4538 0.1861 288)" },
+  { name: "violet-39", oklch: "oklch(0.39 0.1556 288.5)" },
+  { name: "violet-33", oklch: "oklch(0.3342 0.1287 288.4)" },
+  { name: "violet-20", oklch: "oklch(0.2099 0.1211 288)" },
 ]
 
 const semanticColors: {
@@ -65,12 +68,12 @@ const semanticColors: {
   {
     section: "Brand",
     tokens: [
-      { token: "primary", description: "Primary brand / action", lightValue: "--violet-64", darkValue: "--violet-68" },
+      { token: "primary", description: "Primary brand / action", lightValue: "--violet-58", darkValue: "--violet-72" },
       { token: "primary-foreground", description: "Text on primary", lightValue: "--violet-95", darkValue: "--violet-95" },
-      { token: "accent", description: "Accent / hover surface", lightValue: "--violet-95", darkValue: "--violet-38" },
-      { token: "accent-foreground", description: "Text on accent", lightValue: "--violet-38", darkValue: "--violet-95" },
-      { token: "link", description: "Link color", lightValue: "--primary", darkValue: "--violet-78" },
-      { token: "link-hover", description: "Link hover color", lightValue: "--primary", darkValue: "--violet-68" },
+      { token: "accent", description: "Accent / hover surface", lightValue: "--violet-95", darkValue: "--violet-39" },
+      { token: "accent-foreground", description: "Text on accent", lightValue: "--violet-39", darkValue: "--violet-95" },
+      { token: "link", description: "Link color", lightValue: "--primary", darkValue: "--violet-80" },
+      { token: "link-hover", description: "Link hover color", lightValue: "--primary", darkValue: "--violet-72" },
     ],
   },
   {
@@ -103,11 +106,11 @@ const semanticColors: {
   {
     section: "Charts",
     tokens: [
-      { token: "chart-1", description: "Chart color 1", lightValue: "--violet-78", darkValue: "--violet-78" },
-      { token: "chart-2", description: "Chart color 2", lightValue: "--violet-68", darkValue: "--violet-68" },
+      { token: "chart-1", description: "Chart color 1", lightValue: "--violet-80", darkValue: "--violet-80" },
+      { token: "chart-2", description: "Chart color 2", lightValue: "--violet-72", darkValue: "--violet-72" },
       { token: "chart-3", description: "Chart color 3", lightValue: "--violet-64", darkValue: "--violet-64" },
-      { token: "chart-4", description: "Chart color 4", lightValue: "--violet-59", darkValue: "--violet-59" },
-      { token: "chart-5", description: "Chart color 5", lightValue: "--violet-47", darkValue: "--violet-47" },
+      { token: "chart-4", description: "Chart color 4", lightValue: "--violet-51", darkValue: "--violet-51" },
+      { token: "chart-5", description: "Chart color 5", lightValue: "--violet-45", darkValue: "--violet-45" },
     ],
   },
   {
@@ -759,7 +762,7 @@ export default function TokensPage() {
                   className="h-20 rounded-md border p-2 flex flex-col justify-between"
                   style={{
                     backgroundColor: color.oklch,
-                    color: color.name.includes("99") || color.name.includes("95") || color.name.includes("88") ? "var(--gray-19)" : "var(--gray-98)",
+                    color: parseInt(color.name.split("-")[1]) >= 80 ? "var(--gray-19)" : "var(--gray-98)",
                   }}
                 >
                   <div className="p-sm font-[500]">{color.name}</div>
