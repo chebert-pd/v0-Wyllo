@@ -16,7 +16,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write # needed to commit the updated index back
+      contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout repository
@@ -32,10 +33,24 @@ jobs:
       - name: Run codebase indexer
         run: python my-app/scripts/index_codebase.py my-app
 
-      - name: Commit updated index (if anything changed)
+      - name: Create PR if index changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add my-app/components/.ai/
-          git diff --staged --quiet || git commit -m "chore: update codebase index [skip ci]"
-          git push
+
+          # Check if there are any staged changes
+          if ! git diff --staged --quiet; then
+            # Create a new branch for this update
+            BRANCH="chore/update-index-$(date +%s)"
+            git checkout -b "$BRANCH"
+            git commit -m "chore: update codebase index"
+            git push origin "$BRANCH"
+
+            # Create a PR
+            gh pr create \
+              --title "chore: update codebase index" \
+              --body "Automated codebase index update from workflow" \
+              --base main \
+              --head "$BRANCH"
+          fi
